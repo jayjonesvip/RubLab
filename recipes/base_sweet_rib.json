@@ -1,0 +1,16 @@
+{
+  "id": "base_sweet_rib",
+  "name": "Sweet Rib Rub",
+  "base": true,
+  "author": "RubLab",
+  "notes": "",
+  "createdAt": 2,
+  "items": {
+    "brownSugar": 35,
+    "paprika": 20,
+    "kosherSalt": 15,
+    "garlicPowder": 10,
+    "chiliPowder": 10,
+    "blackPepper": 10
+  }
+}

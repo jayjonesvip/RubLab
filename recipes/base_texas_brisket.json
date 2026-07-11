@@ -1,0 +1,15 @@
+{
+  "id": "base_texas_brisket",
+  "name": "Texas Brisket",
+  "base": true,
+  "author": "RubLab",
+  "notes": "",
+  "createdAt": 1,
+  "items": {
+    "kosherSalt": 30,
+    "blackPepper": 40,
+    "garlicPowder": 15,
+    "onionPowder": 10,
+    "cayennePepper": 5
+  }
+}

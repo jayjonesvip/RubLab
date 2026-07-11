@@ -1,0 +1,18 @@
+{
+  "id": "base_spicy_chicken",
+  "name": "Spicy Chicken",
+  "base": true,
+  "author": "RubLab",
+  "notes": "",
+  "createdAt": 3,
+  "items": {
+    "kosherSalt": 15,
+    "garlicPowder": 20,
+    "onionPowder": 10,
+    "paprika": 15,
+    "cayennePepper": 15,
+    "oregano": 10,
+    "thyme": 10,
+    "blackPepper": 5
+  }
+}

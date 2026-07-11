@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===================== Primary SEO ===================== -->
+<title>RubLab — Free BBQ Rub Builder & Flavor Profile Calculator</title>
+<meta name="description" content="Build custom BBQ rubs online for free. Dial in ingredient percentages and instantly see heat, salt, sweetness, bark & smoke scores, meat pairings, BBQ style match, batch weights, and a printable recipe card. No signup required.">
+<meta name="keywords" content="bbq rub builder, custom bbq rub recipe, dry rub calculator, spice rub calculator, bbq rub flavor profile, homemade bbq rub recipe, rib rub recipe, brisket rub calculator, pork rub recipe, seasoning blend calculator, rub recipe generator">
+<meta name="author" content="RubLab">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#1a1a1a">
+<!-- Update to your live domain once deployed -->
+<link rel="canonical" href="https://rublab.app/">
+
+<!-- ===================== Open Graph / Facebook ===================== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RubLab">
+<meta property="og:title" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+<meta property="og:description" content="Design custom BBQ rubs with live flavor, heat, and bark scoring. Get meat pairings, a BBQ style match, batch weights, and a printable recipe card — free, no signup.">
+<meta property="og:url" content="https://rublab.app/">
+<meta property="og:locale" content="en_US">
+<!-- Add a 1200x630 social preview image at this path when you deploy -->
+<meta property="og:image" content="https://rublab.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+
+<!-- ===================== Twitter Card ===================== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+<meta name="twitter:description" content="Design custom BBQ rubs with live flavor, heat, and bark scoring. Meat pairings, BBQ style match, batch weights, and a printable recipe card — free, no signup.">
+<meta name="twitter:image" content="https://rublab.app/og-image.png">
+
+<!-- ===================== Favicon (inline, no external file needed) ===================== -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Crect x='22' y='22' width='56' height='56' fill='%23d95e16'/%3E%3C/svg%3E">
+
+<!-- ===================== Structured data ===================== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "RubLab",
+  "url": "https://rublab.app/",
+  "description": "Free browser-based BBQ rub builder. Design custom dry rubs by ingredient percentage and get live flavor profile scoring, meat pairings, BBQ style matching, batch weight calculations, and a printable recipe card.",
+  "applicationCategory": "LifestyleApplication",
+  "operatingSystem": "Any (web browser)",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "featureList": [
+    "Live flavor profile scoring (salt, sweet, heat, smoke, bark, color and more)",
+    "Meat pairing recommendations",
+    "BBQ regional style matching",
+    "Batch weight and volume calculator",
+    "Printable recipe cards",
+    "Save, export, and import custom rub recipes",
+    "Community recipe sharing"
+  ]
+}
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg:#1a1a1a;
+  --bg-2:#141414;
+  --card:#212121;
+  --card-2:#262626;
+  --border:#3a3a3a;
+  --border-soft:#2c2c2c;
+  --accent:#d95e16;
+  --accent-deep:#b84a0f;
+  --accent-light:#f3762a;
+  --accent-glow:rgba(217,94,22,.22);
+  --text:#ffffff;
+  --text-dim:#b3b3b3;
+  --text-faint:#808080;
+  --good:#5cd68a;
+  --warn:#f2b23d;
+  --bad:#e8503f;
+  --radius:4px;
+  --radius-sm:2px;
+  --shadow: 0 10px 28px rgba(0,0,0,.5);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,sans-serif;
+  line-height:1.5;
+  min-height:100vh;
+}
+
+h1,h2,h3,.display{
+  font-family:'Oswald',system-ui,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  font-weight:600;
+  margin:0;
+}
+
+a{color:inherit;}
+button{font-family:inherit;}
+
+/* ---------- Layout shells ---------- */
+.wrap{max-width:1320px;margin:0 auto;padding:0 24px 80px;}
+.skip-link{position:absolute;left:-9999px;}
+.skip-link:focus{left:12px;top:12px;background:var(--accent);color:#141414;padding:8px 14px;border-radius:var(--radius-sm);z-index:999;}
+
+/* ---------- Header ---------- */
+header.site-header{
+  padding:36px 24px 28px;
+  border-bottom:1px solid var(--border-soft);
+  background:var(--bg-2);
+}
+.header-inner{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;}
+.logo-block{display:flex;flex-direction:column;gap:10px;max-width:640px;}
+.logo{
+  margin:0;
+  font-size:clamp(2.2rem,5vw,3.2rem);
+  display:flex;align-items:center;gap:12px;
+  letter-spacing:.02em;
+}
+.logo .rub{color:var(--text);}
+.logo .lab{color:var(--accent);}
+.logo .mark{
+  width:34px;height:34px;
+  background:var(--accent);
+  flex-shrink:0;
+}
+.tagline{font-size:1.05rem;color:var(--text-dim);font-weight:500;}
+.subdesc{font-size:.92rem;color:var(--text-faint);max-width:520px;}
+.header-actions{display:flex;gap:10px;flex-wrap:wrap;}
+
+/* ---------- Buttons ---------- */
+.btn{
+  border:1px solid var(--border);
+  background:var(--card-2);
+  color:var(--text);
+  padding:10px 18px;
+  border-radius:var(--radius-sm);
+  font-size:.82rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  cursor:pointer;
+  transition:border-color .15s ease, background .15s ease, color .15s ease;
+  white-space:nowrap;
+}
+.btn:hover{border-color:var(--accent);}
+.btn:active{transform:translateY(1px);}
+.btn:focus-visible, a:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+  outline:2px solid var(--accent); outline-offset:2px;
+}
+.btn-primary{
+  background:var(--accent);
+  border-color:var(--accent);color:#181008;
+}
+.btn-primary:hover{background:var(--accent-light);border-color:var(--accent-light);}
+.btn-ember{
+  background:transparent;
+  border-color:var(--accent);color:var(--accent);
+}
+.btn-ember:hover{background:var(--accent);color:#181008;}
+.btn-ghost{background:transparent;}
+.btn-danger{border-color:var(--bad);color:var(--bad);background:transparent;}
+.btn-danger:hover{background:rgba(232,80,63,.12);}
+.btn-sm{padding:6px 12px;font-size:.72rem;}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+/* ---------- Presets bar ---------- */
+.presets{
+  max-width:1320px;margin:0 auto;padding:20px 24px 0;
+  display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+}
+.presets .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-faint);font-weight:700;margin-right:4px;}
+.preset-btn{
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:var(--radius-sm);
+  padding:9px 16px;
+  font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;
+  cursor:pointer;color:var(--text);
+  display:flex;align-items:center;gap:8px;
+  transition:border-color .15s ease, background .15s ease;
+}
+.preset-btn:hover{border-color:var(--accent);background:var(--card-2);}
+.preset-dot{width:7px;height:7px;background:var(--accent);}
+
+/* ---------- Main grid ---------- */
+.main-grid{
+  display:grid;
+  grid-template-columns:1.05fr 1fr;
+  gap:24px;
+  margin-top:24px;
+  align-items:start;
+}
+@media (max-width:980px){ .main-grid{grid-template-columns:1fr;} }
+
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-top:24px;
+}
+@media (max-width:820px){ .bottom-grid{grid-template-columns:1fr;} }
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+.card + .card{margin-top:20px;}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.card-head h2{font-size:1.15rem;}
+.card-head .hint{font-size:.78rem;color:var(--text-faint);font-weight:500;text-transform:none;letter-spacing:0;}
+.card-head-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+
+/* ---------- Ingredient search / add ---------- */
+.search-row{display:flex;gap:10px;margin-bottom:12px;}
+.search-row input[type="text"]{
+  flex:1;background:var(--bg-2);border:1px solid var(--border);
+  color:var(--text);padding:11px 14px;border-radius:var(--radius-sm);font-size:.92rem;
+}
+.search-row input[type="text"]:focus-visible{outline:2px solid var(--accent);outline-offset:1px;}
+
+.ingredient-picker-list{
+  max-height:260px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:6px;
+  border-top:1px solid var(--border-soft);padding-top:10px;
+}
+.picker-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:9px 12px;border-radius:var(--radius-sm);background:var(--bg-2);
+  border:1px solid transparent;
+}
+.picker-row:hover{border-color:var(--border);}
+.picker-info{display:flex;flex-direction:column;gap:2px;}
+.picker-info .pname{font-weight:600;font-size:.9rem;}
+.picker-info .pcat{font-size:.72rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:.06em;}
+.picker-add{
+  border:1px solid var(--accent);color:var(--accent);background:transparent;
+  border-radius:var(--radius-sm);padding:5px 12px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;cursor:pointer;
+}
+.picker-add:hover{background:var(--accent);color:#181008;}
+.picker-add:disabled{border-color:var(--border);color:var(--text-faint);cursor:default;}
+.picker-empty{color:var(--text-faint);font-size:.85rem;padding:12px 4px;}
+
+/* ---------- Total indicator ---------- */
+.total-indicator{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px 20px;border-radius:var(--radius-sm);
+  background:var(--bg-2);border:1px solid var(--border);
+  margin-bottom:18px;
+}
+.total-num{font-family:'Oswald';font-size:2.3rem;line-height:1;}
+.total-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-faint);font-weight:700;}
+.total-track{flex:1;height:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.06);overflow:hidden;position:relative;margin:0 16px;}
+.total-fill{height:100%;transition:width .25s ease, background .25s ease;}
+.total-ok .total-fill,.total-ok .total-num{color:var(--good);}
+.total-ok .total-fill{background:var(--good);}
+.total-low .total-fill,.total-low .total-num{color:var(--warn);}
+.total-low .total-fill{background:var(--warn);}
+.total-high .total-fill,.total-high .total-num{color:var(--bad);}
+.total-high .total-fill{background:var(--bad);}
+
+/* ---------- Active ingredient rows ---------- */
+.active-list{display:flex;flex-direction:column;gap:12px;}
+.ing-row{
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;
+  background:var(--bg-2);
+}
+.ing-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;}
+.ing-name-wrap{display:flex;flex-direction:column;gap:2px;}
+.ing-name{font-weight:700;font-size:.98rem;}
+.ing-desc{font-size:.78rem;color:var(--text-faint);max-width:46ch;}
+.ing-cat-badge{
+  font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;
+  color:var(--accent);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:2px 8px;
+  white-space:nowrap;
+}
+.ing-remove{
+  border:none;background:transparent;color:var(--text-faint);cursor:pointer;
+  font-size:1.1rem;line-height:1;padding:4px 6px;border-radius:var(--radius-sm);
+}
+.ing-remove:hover{color:var(--bad);background:rgba(232,80,63,.12);}
+.ing-controls{display:flex;align-items:center;gap:14px;}
+.ing-controls input[type="range"]{flex:1;accent-color:var(--accent);height:6px;}
+.ing-num{
+  width:78px;background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:7px 8px;border-radius:var(--radius-sm);font-size:.9rem;text-align:right;font-weight:600;
+}
+.ing-pct-sign{color:var(--text-faint);font-size:.85rem;}
+.empty-state{color:var(--text-faint);font-size:.9rem;padding:20px 6px;text-align:center;border:1px dashed var(--border);border-radius:var(--radius-sm);}
+
+/* ---------- Flavor profile ---------- */
+.profile-layout{display:grid;grid-template-columns:210px 1fr;gap:22px;align-items:center;}
+@media (max-width:640px){.profile-layout{grid-template-columns:1fr;}}
+.radar-wrap{display:flex;justify-content:center;}
+.bars{display:flex;flex-direction:column;gap:9px;}
+.bar-row{display:grid;grid-template-columns:96px 1fr 32px;align-items:center;gap:10px;}
+.bar-label{font-size:.78rem;color:var(--text-dim);font-weight:600;}
+.bar-track{height:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.06);overflow:hidden;}
+.bar-fill{height:100%;background:var(--accent);transition:width .3s ease;}
+.bar-val{font-size:.78rem;color:var(--text-faint);text-align:right;font-variant-numeric:tabular-nums;}
+
+/* ---------- Summary / warnings ---------- */
+.summary-text{font-size:1.02rem;line-height:1.65;color:var(--text);}
+.style-match{display:flex;align-items:center;gap:14px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border-soft);}
+.style-badge{
+  font-family:'Oswald';font-size:1.15rem;text-transform:uppercase;letter-spacing:.03em;
+  padding:8px 16px;border-radius:var(--radius-sm);
+  background:var(--accent);color:#181008;
+  flex-shrink:0;
+}
+.style-explain{font-size:.85rem;color:var(--text-dim);}
+
+.feedback-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media (max-width:640px){.feedback-grid{grid-template-columns:1fr;}}
+.feedback-col h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-faint);margin-bottom:10px;}
+.feedback-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.feedback-list li{
+  font-size:.85rem;padding:9px 12px;border-radius:var(--radius-sm);line-height:1.4;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.feedback-list.warnings li{background:rgba(232,80,63,.1);border:1px solid rgba(232,80,63,.3);color:#f5b8b0;}
+.feedback-list.suggestions li{background:rgba(217,94,22,.1);border:1px solid rgba(217,94,22,.3);color:#f0c19f;}
+.feedback-empty{font-size:.82rem;color:var(--text-faint);font-style:italic;}
+
+/* ---------- Meat recommendations ---------- */
+.meat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;}
+@media (max-width:640px){.meat-grid{grid-template-columns:1fr;}}
+.meat-row{display:grid;grid-template-columns:88px 1fr 40px;align-items:center;gap:10px;}
+.meat-row.top .meat-name{color:var(--accent);}
+.meat-name{font-size:.82rem;font-weight:700;display:flex;align-items:center;gap:6px;}
+.meat-track{height:8px;border-radius:var(--radius-sm);background:rgba(255,255,255,.06);overflow:hidden;}
+.meat-fill{height:100%;background:var(--accent);}
+.meat-score{font-size:.78rem;color:var(--text-faint);text-align:right;}
+.crown{font-size:.7rem;}
+
+/* ---------- Batch calculator ---------- */
+.batch-controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;}
+.batch-opt{
+  border:1px solid var(--border);background:var(--bg-2);color:var(--text);
+  padding:9px 16px;border-radius:var(--radius-sm);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;cursor:pointer;
+}
+.batch-opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-glow);color:var(--accent-light);}
+.batch-custom{display:flex;align-items:center;gap:8px;}
+.batch-custom input{width:100px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:var(--radius-sm);}
+.batch-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:6px;}
+.batch-table th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);padding:6px 8px;border-bottom:1px solid var(--border-soft);}
+.batch-table td{padding:8px;border-bottom:1px solid var(--border-soft);}
+.batch-note{font-size:.72rem;color:var(--text-faint);margin-top:10px;}
+
+/* ---------- Saved blends ---------- */
+.save-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.save-row input[type="text"]{
+  flex:1;min-width:180px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);
+  padding:10px 14px;border-radius:var(--radius-sm);font-size:.9rem;
+}
+.saved-list{display:flex;flex-direction:column;gap:10px;}
+.saved-item{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:12px 14px;border-radius:var(--radius-sm);background:var(--bg-2);border:1px solid var(--border-soft);
+}
+.saved-name{font-weight:700;font-size:.92rem;}
+.saved-meta{font-size:.72rem;color:var(--text-faint);}
+.saved-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.import-export{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+input[type="file"]{display:none;}
+
+/* ---------- Recipe card ---------- */
+.recipe-card{border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:20px;background:var(--bg-2);}
+.recipe-card h3{font-size:1.4rem;margin-bottom:4px;}
+.recipe-sub{font-size:.8rem;color:var(--text-faint);margin-bottom:14px;}
+.recipe-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px;}
+.recipe-table td{padding:5px 4px;border-bottom:1px solid var(--border-soft);}
+.notes-field{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:10px;font-family:inherit;font-size:.85rem;min-height:70px;resize:vertical;}
+.recipe-actions{display:flex;justify-content:flex-end;margin-top:14px;}
+
+/* ---------- Toasts ---------- */
+.toast-container{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:10px;z-index:1000;}
+.toast{
+  background:var(--card-2);border:1px solid var(--accent);color:var(--text);
+  padding:12px 18px;border-radius:var(--radius-sm);font-size:.85rem;box-shadow:var(--shadow);
+  animation:toastIn .25s ease;max-width:320px;
+}
+.toast.error{border-color:var(--bad);}
+@keyframes toastIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.toast.leaving{animation:toastOut .25s ease forwards;}
+@keyframes toastOut{to{opacity:0;transform:translateY(10px);}}
+
+footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;padding:40px 24px 20px;}
+
+/* ---------- Tooltips ---------- */
+[data-tip]{position:relative;}
+[data-tip]:hover::after,[data-tip]:focus-visible::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:#0d0d0d;color:var(--text);font-size:.72rem;padding:6px 10px;border-radius:var(--radius-sm);
+  white-space:nowrap;border:1px solid var(--border);z-index:50;pointer-events:none;
+}
+
+/* ---------- Print ---------- */
+@media print{
+  body *{visibility:hidden;}
+  #recipeCardPrintArea, #recipeCardPrintArea *{visibility:visible;}
+  #recipeCardPrintArea{position:absolute;top:0;left:0;width:100%;background:#fff;color:#111;padding:20px;}
+  #recipeCardPrintArea .recipe-card{border:none;background:#fff;}
+  #recipeCardPrintArea .notes-field{border:1px solid #999;}
+  #recipeCardPrintArea .recipe-actions{display:none;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.001s !important;transition-duration:.001s !important;}
+}
+</style>
+</head>
+<body>
+<a href="#builder" class="skip-link">Skip to blend builder</a>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="logo-block">
+      <h1 class="logo"><span class="mark" aria-hidden="true"></span><span class="rub">Rub</span><span class="lab">Lab</span></h1>
+      <p class="tagline">Build your perfect BBQ rub.</p>
+      <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-danger" id="resetBtn" data-tip="Clear the blend back to empty">Reset Blend</button>
+    </div>
+  </div>
+</header>
+
+<div class="presets">
+  <span class="label">Base recipes — load one, then tweak every slider:</span>
+  <div id="baseRecipeBar" class="preset-bar-inner" style="display:contents;"></div>
+</div>
+
+<main class="wrap" id="builder">
+  <div class="main-grid">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-left">
+
+      <section class="card" aria-labelledby="builderHeading">
+        <div class="card-head">
+          <h2 id="builderHeading">Blend Builder</h2>
+          <span class="hint">Percentages are by weight</span>
+        </div>
+
+        <div id="totalIndicator" class="total-indicator total-ok" role="status" aria-live="polite">
+          <div>
+            <div class="total-label">Total</div>
+            <div class="total-num" id="totalNum">0%</div>
+          </div>
+          <div class="total-track"><div class="total-fill" id="totalFill" style="width:0%"></div></div>
+          <button class="btn btn-sm" id="autoBalanceBtn" data-tip="Proportionally scale ingredients to 100%">Auto Balance</button>
+        </div>
+
+        <div class="active-list" id="activeList"></div>
+
+        <div style="margin-top:18px;">
+          <div class="card-head" style="margin-bottom:10px;">
+            <h2 style="font-size:1rem;">Add Ingredient</h2>
+          </div>
+          <div class="search-row">
+            <label for="ingredientSearch" class="skip-link">Search ingredients</label>
+            <input type="text" id="ingredientSearch" placeholder="Search 25 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+          </div>
+          <div class="ingredient-picker-list" id="pickerList"></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="batchHeading">
+        <div class="card-head">
+          <h2 id="batchHeading">Batch Calculator</h2>
+          <span class="hint">Weigh out your finished blend</span>
+        </div>
+        <div class="batch-controls" id="batchControls" role="group" aria-label="Batch size"></div>
+        <div class="batch-custom" id="customGramsWrap" style="display:none;">
+          <label for="customGrams" style="font-size:.82rem;color:var(--text-dim);">Custom grams:</label>
+          <input type="number" id="customGrams" min="1" value="200">
+        </div>
+        <table class="batch-table" id="batchTable">
+          <thead><tr><th>Ingredient</th><th>Grams</th><th>Approx. Volume</th></tr></thead>
+          <tbody id="batchBody"></tbody>
+        </table>
+        <p class="batch-note">Volume measurements are estimates — actual scoop size varies by ingredient density, brand, and grind. Weigh on a scale for best accuracy.</p>
+      </section>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-right">
+
+      <section class="card" aria-labelledby="profileHeading">
+        <div class="card-head">
+          <h2 id="profileHeading">Flavor Profile</h2>
+          <span class="hint">Live, weighted by percentage</span>
+        </div>
+        <div class="profile-layout">
+          <div class="radar-wrap"><svg id="radarChart" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Radar chart of flavor profile"></svg></div>
+          <div class="bars" id="barsList"></div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="summaryHeading">
+        <div class="card-head"><h2 id="summaryHeading">Flavor Summary</h2></div>
+        <p class="summary-text" id="summaryText"></p>
+        <div class="style-match">
+          <div class="style-badge" id="styleBadge">—</div>
+          <p class="style-explain" id="styleExplain"></p>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="feedbackHeading">
+        <div class="card-head"><h2 id="feedbackHeading">Warnings &amp; Suggestions</h2></div>
+        <div class="feedback-grid">
+          <div class="feedback-col">
+            <h3>Warnings</h3>
+            <ul class="feedback-list warnings" id="warningsList"></ul>
+          </div>
+          <div class="feedback-col">
+            <h3>Suggestions</h3>
+            <ul class="feedback-list suggestions" id="suggestionsList"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="meatHeading">
+        <div class="card-head">
+          <h2 id="meatHeading">Meat Compatibility</h2>
+          <span class="hint">Top 3 highlighted</span>
+        </div>
+        <div class="meat-grid" id="meatGrid"></div>
+      </section>
+
+      <section class="card" aria-labelledby="recipeHeading">
+        <div class="card-head">
+          <h2 id="recipeHeading">Recipe Card</h2>
+          <span class="hint">Printable</span>
+        </div>
+        <div id="recipeCardPrintArea">
+          <div class="recipe-card" id="recipeCard">
+            <h3 id="rcName">Untitled Blend</h3>
+            <p class="recipe-sub" id="rcSub"></p>
+            <table class="recipe-table" id="rcTable"></table>
+            <p class="summary-text" id="rcSummary"></p>
+            <p class="recipe-sub" id="rcMeats"></p>
+            <p class="recipe-sub" id="rcStyle"></p>
+            <label for="rcNotes" style="font-size:.78rem;color:var(--text-faint);display:block;margin-bottom:6px;">Notes</label>
+            <textarea class="notes-field" id="rcNotes" placeholder="Cook notes, wood pairing, rest time…"></textarea>
+          </div>
+        </div>
+        <div class="recipe-actions">
+          <button class="btn btn-primary" id="printBtn" data-tip="Open the browser print dialog">🖨 Print Recipe</button>
+        </div>
+      </section>
+
+
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+    <section class="card" aria-labelledby="savedHeading">
+      <div class="card-head">
+        <h2 id="savedHeading">Saved Blends</h2>
+        <span class="hint">Private — stored only on this device</span>
+      </div>
+      <div class="save-row">
+        <input type="text" id="blendNameInput" placeholder="Name this blend…">
+        <button class="btn btn-primary" id="saveBlendBtn">Save Blend</button>
+      </div>
+      <div class="saved-list" id="savedList"></div>
+      <div class="import-export">
+        <button class="btn btn-sm" id="exportBtn">Export JSON</button>
+        <button class="btn btn-sm" id="importBtn">Import JSON</button>
+        <input type="file" id="importFile" accept="application/json">
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="communityHeading">
+      <div class="card-head">
+        <h2 id="communityHeading">Community Recipes</h2>
+        <span class="hint" id="communityModeHint">Visible to everyone using this app</span>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-faint);margin:-6px 0 14px;">Load someone else's blend, "doctor" it with your own tweaks, then share your version back — it's saved as a new recipe so the original stays intact.</p>
+      <div class="save-row">
+        <input type="text" id="communityNameInput" placeholder="Recipe name…">
+        <input type="text" id="communityAuthorInput" placeholder="Your name (optional)" style="max-width:180px;">
+        <button class="btn btn-ember" id="shareBlendBtn">Share This Blend</button>
+      </div>
+      <div class="saved-list" id="communityList"></div>
+    </section>
+  </div>
+</main>
+
+<footer class="site-footer">RubLab — experiment with confidence before you mix. All calculations run locally in your browser; nothing leaves your device.</footer>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* =========================================================
+   DATA: Ingredient library
+   Flavor values are 0–10 "at 100% weight share" intensities.
+   Final blend scores are percentage-weighted averages of these.
+========================================================= */
+const INGREDIENTS = {
+  kosherSalt:     { name:"Kosher Salt",      category:"Base / Salt",   desc:"Pure salty backbone; sharpens every other flavor.", density:15,
+    flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
+  blackPepper:    { name:"Black Pepper",     category:"Pepper",        desc:"Sharp, woody bite with mild background heat.", density:6,
+    flavor:{salt:0,sweet:0,heat:3,pepper:10,garlic:0,smoke:0,savory:2,herb:0,earthy:2,bark:3,color:2} },
+  garlicPowder:   { name:"Garlic Powder",    category:"Aromatic",      desc:"Concentrated savory, roasted garlic depth.", density:9,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:10,smoke:0,savory:6,herb:1,earthy:1,bark:1,color:1} },
+  onionPowder:    { name:"Onion Powder",     category:"Aromatic",      desc:"Sweet, savory allium base note.", density:8,
+    flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:3,smoke:0,savory:6,herb:0,earthy:1,bark:1,color:1} },
+  paprika:        { name:"Paprika",          category:"Color / Mild",  desc:"Gentle sweetness with vivid red color.", density:7,
+    flavor:{salt:0,sweet:2,heat:1,pepper:0,garlic:0,smoke:1,savory:2,herb:0,earthy:2,bark:3,color:7} },
+  smokedPaprika:  { name:"Smoked Paprika",   category:"Smoke / Color", desc:"Deep wood-smoke aroma and dark red hue.", density:7,
+    flavor:{salt:0,sweet:1,heat:1,pepper:0,garlic:0,smoke:8,savory:2,herb:0,earthy:3,bark:4,color:7} },
+  cayennePepper:  { name:"Cayenne Pepper",   category:"Heat",          desc:"Sharp, straightforward capsaicin heat.", density:6,
+    flavor:{salt:0,sweet:0,heat:10,pepper:2,garlic:0,smoke:0,savory:1,herb:0,earthy:1,bark:2,color:3} },
+  chiliPowder:    { name:"Chili Powder",     category:"Heat / Color",  desc:"Blended warmth with earthy, dusty color.", density:8,
+    flavor:{salt:1,sweet:2,heat:5,pepper:1,garlic:2,smoke:2,savory:3,herb:1,earthy:3,bark:3,color:5} },
+  chipotlePowder: { name:"Chipotle Powder",  category:"Heat / Smoke",  desc:"Smoky, dried-chile heat with lingering depth.", density:7,
+    flavor:{salt:0,sweet:1,heat:6,pepper:0,garlic:0,smoke:8,savory:2,herb:0,earthy:4,bark:4,color:5} },
+  brownSugar:     { name:"Brown Sugar",      category:"Sweetener",     desc:"Molasses sweetness; drives caramelized bark.", density:12,
+    flavor:{salt:0,sweet:10,heat:0,pepper:0,garlic:0,smoke:0,savory:0,herb:0,earthy:1,bark:6,color:2} },
+  whiteSugar:     { name:"White Sugar",      category:"Sweetener",     desc:"Clean, direct sweetness with fast caramelization.", density:12,
+    flavor:{salt:0,sweet:9,heat:0,pepper:0,garlic:0,smoke:0,savory:0,herb:0,earthy:0,bark:4,color:0} },
+  mustardPowder:  { name:"Mustard Powder",   category:"Tangy",         desc:"Sharp, tangy warmth — a Carolina signature.", density:6,
+    flavor:{salt:0,sweet:0,heat:3,pepper:1,garlic:0,smoke:0,savory:3,herb:0,earthy:2,bark:2,color:1} },
+  cumin:          { name:"Cumin",            category:"Earthy Spice",  desc:"Warm, earthy, slightly smoky — Southwest staple.", density:6,
+    flavor:{salt:0,sweet:0,heat:1,pepper:0,garlic:0,smoke:1,savory:3,herb:1,earthy:7,bark:2,color:2} },
+  coriander:      { name:"Coriander",        category:"Citrusy Spice", desc:"Light citrus-floral note that lifts a blend.", density:5,
+    flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:2,earthy:4,bark:1,color:1} },
+  oregano:        { name:"Oregano",          category:"Herb",          desc:"Peppery, slightly bitter dried herb.", density:3,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:1,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
+  thyme:          { name:"Thyme",            category:"Herb",          desc:"Earthy, minty-woody herb note.", density:3,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
+  parsley:        { name:"Parsley",          category:"Herb",          desc:"Fresh, mild green herb — mostly visual pop.", density:2,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:0,bark:0,color:2} },
+  rosemary:       { name:"Rosemary",         category:"Herb",          desc:"Piney, resinous, assertive herb.", density:3,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:2,bark:0,color:0} },
+  celerySeed:     { name:"Celery Seed",      category:"Savory",        desc:"Bitter-savory, classic BBQ-rub backbone.", density:6,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:5,herb:2,earthy:3,bark:1,color:0} },
+  groundCoffee:   { name:"Ground Coffee",    category:"Roast / Earthy",desc:"Bitter, roasted depth that deepens bark.", density:6,
+    flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:2,savory:3,herb:0,earthy:9,bark:7,color:6} },
+  cocoaPowder:    { name:"Cocoa Powder",     category:"Roast / Earthy",desc:"Dark, bittersweet, mole-adjacent depth.", density:5,
+    flavor:{salt:0,sweet:2,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:0,earthy:6,bark:5,color:6} },
+  cinnamon:       { name:"Cinnamon",         category:"Warm Spice",    desc:"Sweet-warm baking spice; used sparingly.", density:8,
+    flavor:{salt:0,sweet:4,heat:0,pepper:0,garlic:0,smoke:0,savory:0,herb:0,earthy:3,bark:3,color:2} },
+  ginger:         { name:"Ginger",           category:"Warm Spice",    desc:"Bright, peppery warmth with a citrus edge.", density:5,
+    flavor:{salt:0,sweet:2,heat:3,pepper:0,garlic:0,smoke:0,savory:2,herb:1,earthy:3,bark:1,color:1} },
+  turmeric:       { name:"Turmeric",         category:"Color / Earthy",desc:"Earthy bitterness and a bold golden color.", density:7,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:0,earthy:5,bark:1,color:8} },
+  msg:            { name:"MSG",              category:"Umami",         desc:"Pure savoriness; amplifies everything around it.", density:6,
+    flavor:{salt:2,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:10,herb:0,earthy:0,bark:0,color:0} }
+};
+
+const FLAVOR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb","earthy","bark","color"];
+const DIM_LABELS = {salt:"Salt",sweet:"Sweet",heat:"Heat",pepper:"Pepper",garlic:"Garlic",smoke:"Smoke",savory:"Savory",herb:"Herb",earthy:"Earthy",bark:"Bark",color:"Color"};
+const RADAR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb"];
+
+/* Offline fallback seed data — used only when /recipes/*.json can't be
+   fetched (opened via file://, or running inside a sandboxed Artifact).
+   On a real static host, fetchRecipeFolder() reads the actual JSON files
+   in /recipes instead, so the base recipes live as real external data
+   files rather than being hardcoded into the app. Shape matches exactly
+   what a user's submitted recipe looks like (see submitCommunityRecipe) —
+   the only difference is base:true. */
+const SEED_BASE_RECIPES = [
+  { id:"base_starter",       name:"Starter Blend", base:true, author:"RubLab", notes:"", createdAt:0,
+    items:{ kosherSalt:25, blackPepper:25, garlicPowder:25, cayennePepper:10, parsley:15 } },
+  { id:"base_texas_brisket", name:"Texas Brisket", base:true, author:"RubLab", notes:"", createdAt:1,
+    items:{ kosherSalt:30, blackPepper:40, garlicPowder:15, onionPowder:10, cayennePepper:5 } },
+  { id:"base_sweet_rib",     name:"Sweet Rib Rub", base:true, author:"RubLab", notes:"", createdAt:2,
+    items:{ brownSugar:35, paprika:20, kosherSalt:15, garlicPowder:10, chiliPowder:10, blackPepper:10 } },
+  { id:"base_spicy_chicken", name:"Spicy Chicken", base:true, author:"RubLab", notes:"", createdAt:3,
+    items:{ kosherSalt:15, garlicPowder:20, onionPowder:10, paprika:15, cayennePepper:15, oregano:10, thyme:10, blackPepper:5 } }
+];
+
+const MEAT_WEIGHTS = {
+  brisket:     {salt:.9, sweet:.1, heat:.4, pepper:1.0, garlic:.6, smoke:.8, savory:.6, herb:-.1, earthy:.5, bark:.7, color:.2},
+  beefRibs:    {salt:.8, sweet:.2, heat:.4, pepper:1.0, garlic:.6, smoke:.7, savory:.6, herb:-.1, earthy:.5, bark:.6, color:.2},
+  porkRibs:    {salt:.5, sweet:.9, heat:.3, pepper:.4,  garlic:.4, smoke:.5, savory:.4, herb:.2,  earthy:.3, bark:.7, color:.6},
+  porkShoulder:{salt:.5, sweet:.8, heat:.4, pepper:.4,  garlic:.5, smoke:.6, savory:.5, herb:.2,  earthy:.3, bark:.7, color:.5},
+  chicken:     {salt:.4, sweet:.3, heat:-.5,pepper:.2,  garlic:.7, smoke:.3, savory:.5, herb:.9,  earthy:.1, bark:.1, color:.3},
+  turkey:      {salt:.4, sweet:.2, heat:-.5,pepper:.2,  garlic:.6, smoke:.2, savory:.5, herb:.9,  earthy:.1, bark:.1, color:.3},
+  burgers:     {salt:.6, sweet:.3, heat:.5,  pepper:.7,  garlic:.8, smoke:.4, savory:.8, herb:.3,  earthy:.3, bark:.3, color:.3},
+  steak:       {salt:.8, sweet:-.1,heat:.4,  pepper:1.0, garlic:.6, smoke:.3, savory:.6, herb:.2,  earthy:.4, bark:.2, color:.2},
+  seafood:     {salt:-.6,sweet:.1, heat:-.6, pepper:.2,  garlic:.6, smoke:-.3,savory:.4, herb:1.0, earthy:.0, bark:-.2,color:.2},
+  vegetables:  {salt:.2, sweet:.3, heat:.2,  pepper:.3,  garlic:.8, smoke:.3, savory:.6, herb:.9,  earthy:.3, bark:.1, color:.3}
+};
+const MEAT_LABELS = {brisket:"Brisket",beefRibs:"Beef Ribs",porkRibs:"Pork Ribs",porkShoulder:"Pork Shoulder",chicken:"Chicken",turkey:"Turkey",burgers:"Burgers",steak:"Steak",seafood:"Seafood",vegetables:"Vegetables"};
+
+const STYLE_CENTROIDS = {
+  texas:      { vec:{salt:7,sweet:1,heat:4,pepper:9,garlic:4,smoke:2,savory:4,herb:1,earthy:3,bark:4,color:3}, explain:"Heavy black pepper, salt, and garlic with minimal sweetness — the Central Texas brisket standard." },
+  memphis:    { vec:{salt:5,sweet:7,heat:3,pepper:3,garlic:4,smoke:3,savory:4,herb:2,earthy:2,bark:6,color:6}, explain:"Sweet and paprika-forward with moderate heat, built for a sticky, dark bark on ribs." },
+  kansasCity: { vec:{salt:4,sweet:8,heat:3,pepper:2,garlic:4,smoke:3,savory:4,herb:1,earthy:2,bark:7,color:7}, explain:"High sweetness and deep color for a glossy, caramelized crust — pairs with a sweet sauce." },
+  carolina:   { vec:{salt:5,sweet:3,heat:4,pepper:3,garlic:3,smoke:1,savory:4,herb:2,earthy:2,bark:3,color:3}, explain:"Tangy mustard-powder backbone with moderate heat — built for a vinegar-and-mustard finish." },
+  cajun:      { vec:{salt:6,sweet:1,heat:7,pepper:6,garlic:6,smoke:3,savory:6,herb:2,earthy:4,bark:4,color:5}, explain:"Aggressive heat, pepper, and garlic with strong savory backbone — Louisiana blackening territory." },
+  southwest:  { vec:{salt:5,sweet:3,heat:5,pepper:3,garlic:4,smoke:3,savory:5,herb:2,earthy:7,color:7,bark:4}, explain:"Cumin- and chile-driven earthiness with bold color — leans into chili-powder territory." },
+  competition:{ vec:{salt:5,sweet:6,heat:3,pepper:3,garlic:4,smoke:4,savory:5,herb:2,earthy:3,bark:7,color:7}, explain:"Balanced sweet, savory, and deep color — tuned for a crowd-pleasing, photogenic bite." },
+  allPurpose: { vec:{salt:5,sweet:4,heat:3,pepper:4,garlic:4,smoke:3,savory:4,herb:3,earthy:3,bark:4,color:4}, explain:"No single flavor dominates — a flexible everyday rub for almost anything on the grill." }
+};
+
+const BATCH_SIZES = [
+  {label:"4 oz", grams:113.4},
+  {label:"8 oz", grams:226.8},
+  {label:"12 oz", grams:340.2},
+  {label:"16 oz", grams:453.6},
+  {label:"Custom", grams:null}
+];
+
+/* =========================================================
+   STATE
+========================================================= */
+let blend = {};          // { ingredientKey: percent }
+let savedBlends = [];     // private, per-device — loaded from localStorage
+let allRecipes = [];      // base + community recipes, loaded from the recipe store
+let currentBatchIndex = 0;
+let customGrams = 200;
+let searchTerm = "";
+
+const STORAGE_KEY_CURRENT = "rublab_current_blend_v1";
+const STORAGE_KEY_SAVED = "rublab_saved_blends_v1";
+const STORAGE_KEY_LOCAL_RECIPES = "rublab_local_recipe_store_v1"; // fallback recipe folder when no shared storage is available
+const RECIPE_PREFIX = "recipe:";
+
+/* Whether the cross-user persistent storage API is available in this
+   environment (e.g. when running as a Claude Artifact). When it isn't
+   (a plain HTML file opened from disk), community recipes fall back to
+   this browser's own localStorage — still readable/writable, just not
+   shared with other people. */
+const hasCloudStorage = (typeof window !== "undefined" && !!window.storage);
+
+/* =========================================================
+   RECIPE STORE — acts like a shared "recipe" folder of JSON files.
+   Each recipe is one JSON object keyed as "recipe:<id>". Base recipes
+   carry base:true; anything a user submits is base:false.
+========================================================= */
+async function recipeStoreList(){
+  if(hasCloudStorage){
+    try{
+      const res = await window.storage.list(RECIPE_PREFIX, true);
+      return res && res.keys ? res.keys : [];
+    }catch(e){ return []; }
+  }
+  const local = readLocalRecipeStore();
+  return Object.keys(local).map(k => RECIPE_PREFIX + k);
+}
+
+async function recipeStoreGet(key){
+  if(hasCloudStorage){
+    try{
+      const res = await window.storage.get(key, true);
+      return res ? res.value : null;
+    }catch(e){ return null; }
+  }
+  const local = readLocalRecipeStore();
+  const id = key.slice(RECIPE_PREFIX.length);
+  return local[id] !== undefined ? JSON.stringify(local[id]) : null;
+}
+
+async function recipeStoreSet(key, value){
+  if(hasCloudStorage){
+    try{ await window.storage.set(key, value, true); return true; }
+    catch(e){ return false; }
+  }
+  const local = readLocalRecipeStore();
+  const id = key.slice(RECIPE_PREFIX.length);
+  local[id] = JSON.parse(value);
+  writeLocalRecipeStore(local);
+  return true;
+}
+
+async function recipeStoreDelete(key){
+  if(hasCloudStorage){
+    try{ await window.storage.delete(key, true); return true; }
+    catch(e){ return false; }
+  }
+  const local = readLocalRecipeStore();
+  const id = key.slice(RECIPE_PREFIX.length);
+  delete local[id];
+  writeLocalRecipeStore(local);
+  return true;
+}
+
+function readLocalRecipeStore(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY_LOCAL_RECIPES);
+    return raw ? JSON.parse(raw) : {};
+  }catch(e){ return {}; }
+}
+function writeLocalRecipeStore(obj){
+  try{ localStorage.setItem(STORAGE_KEY_LOCAL_RECIPES, JSON.stringify(obj)); }catch(e){ /* ignore */ }
+}
+
+async function fetchRecipeFolder(){
+  /* On a real static host (GitHub Pages, etc.) this reads the actual JSON
+     files in /recipes so the base recipes are true external data files,
+     not hardcoded JS. It silently returns null if fetch isn't usable —
+     e.g. opened directly from disk as file://, or running as a Claude
+     Artifact — and the caller falls back to SEED_BASE_RECIPES. */
+  if(typeof fetch !== "function") return null;
+  try{
+    const idxRes = await fetch("recipes/index.json");
+    if(!idxRes.ok) return null;
+    const filenames = await idxRes.json();
+    if(!Array.isArray(filenames) || filenames.length === 0) return null;
+    const recipes = [];
+    for(const filename of filenames){
+      try{
+        const res = await fetch("recipes/" + filename);
+        if(!res.ok) continue;
+        const recipe = await res.json();
+        if(recipe && recipe.id && recipe.items) recipes.push(recipe);
+      }catch(e){ /* skip unreadable file */ }
+    }
+    return recipes.length ? recipes : null;
+  }catch(e){
+    return null; // fetch blocked (file://) or folder missing
+  }
+}
+
+async function seedBaseRecipesIfNeeded(){
+  const folderRecipes = await fetchRecipeFolder();
+  const sourceRecipes = folderRecipes || SEED_BASE_RECIPES;
+  const keys = await recipeStoreList();
+  const existingIds = new Set(keys.map(k => k.slice(RECIPE_PREFIX.length)));
+  for(const recipe of sourceRecipes){
+    if(!existingIds.has(recipe.id)){
+      await recipeStoreSet(RECIPE_PREFIX + recipe.id, JSON.stringify(recipe));
+    }
+  }
+}
+
+async function loadAllRecipes(){
+  const keys = await recipeStoreList();
+  const loaded = [];
+  for(const key of keys){
+    const raw = await recipeStoreGet(key);
+    if(!raw) continue;
+    try{
+      const parsed = JSON.parse(raw);
+      if(parsed && parsed.items) loaded.push(parsed);
+    }catch(e){ /* skip malformed entries */ }
+  }
+  loaded.sort((a,b)=>{
+    if(!!a.base !== !!b.base) return a.base ? -1 : 1;
+    return (b.createdAt||0) - (a.createdAt||0);
+  });
+  allRecipes = loaded;
+}
+
+/* =========================================================
+   UTILITIES
+========================================================= */
+function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+function round1(v){ return Math.round(v*10)/10; }
+function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
+function fmtPct(v){ return (Math.round(v*10)/10).toString().replace(/\.0$/,""); }
+
+function showToast(message, type){
+  const container = document.getElementById("toastContainer");
+  const t = el("div", "toast" + (type==="error" ? " error" : ""), message);
+  container.appendChild(t);
+  setTimeout(()=>{
+    t.classList.add("leaving");
+    setTimeout(()=> t.remove(), 260);
+  }, 2600);
+}
+
+function activeKeys(){ return Object.keys(blend).filter(k => blend[k] !== undefined); }
+
+function totalPercent(){
+  return activeKeys().reduce((sum,k)=> sum + (Number(blend[k])||0), 0);
+}
+
+/* =========================================================
+   CALCULATIONS
+========================================================= */
+function computeFlavorProfile(){
+  const total = totalPercent();
+  const profile = {};
+  FLAVOR_DIMS.forEach(d => profile[d] = 0);
+  if(total <= 0) return profile;
+  activeKeys().forEach(key=>{
+    const ing = INGREDIENTS[key];
+    const pct = Number(blend[key]) || 0;
+    const weight = pct / 100; // weighted average uses share of the whole 100% blend
+    FLAVOR_DIMS.forEach(d=>{
+      profile[d] += (ing.flavor[d]||0) * weight;
+    });
+  });
+  FLAVOR_DIMS.forEach(d=> profile[d] = clamp(round1(profile[d]),0,10));
+  return profile;
+}
+
+function computeMeatScores(profile){
+  const scores = {};
+  Object.keys(MEAT_WEIGHTS).forEach(meat=>{
+    const w = MEAT_WEIGHTS[meat];
+    let raw = 0;
+    FLAVOR_DIMS.forEach(d=>{
+      const weight = w[d] || 0;
+      raw += weight * (profile[d]-5);
+    });
+    let score = 50 + raw*4.2;
+    scores[meat] = clamp(Math.round(score),0,100);
+  });
+  return scores;
+}
+
+function computeStyleMatch(profile){
+  // direct signature override: mustard powder heavy -> Carolina
+  const mustardPct = Number(blend.mustardPowder)||0;
+  const roastPct = (Number(blend.groundCoffee)||0) + (Number(blend.cocoaPowder)||0) + (Number(blend.turmeric)||0) + (Number(blend.cinnamon)||0) + (Number(blend.ginger)||0);
+
+  if(totalPercent() <= 0){
+    return {key:"allPurpose", label:"All-Purpose", explain:"Add ingredients to see a style match."};
+  }
+
+  if(mustardPct >= 8){
+    return {key:"carolina", label:"Carolina", explain: STYLE_CENTROIDS.carolina.explain};
+  }
+
+  let best = null, bestDist = Infinity;
+  Object.keys(STYLE_CENTROIDS).forEach(key=>{
+    const vec = STYLE_CENTROIDS[key].vec;
+    let dist = 0;
+    FLAVOR_DIMS.forEach(d=>{
+      const diff = (profile[d]||0) - (vec[d]||0);
+      dist += diff*diff;
+    });
+    dist = Math.sqrt(dist);
+    if(dist < bestDist){ bestDist = dist; best = key; }
+  });
+
+  if(roastPct >= 15 && bestDist > 4.5){
+    return {key:"experimental", label:"Experimental", explain:"Roasted, earthy ingredients like coffee, cocoa, or warm baking spices push this outside classic BBQ regions."};
+  }
+  if(bestDist > 7){
+    return {key:"experimental", label:"Experimental", explain:"This combination doesn't cleanly match a classic regional style — a genuinely original blend."};
+  }
+
+  const labelMap = {texas:"Texas",memphis:"Memphis",kansasCity:"Kansas City",carolina:"Carolina",cajun:"Cajun",southwest:"Southwest",competition:"Competition BBQ",allPurpose:"All-Purpose"};
+  return {key:best, label:labelMap[best]||best, explain:STYLE_CENTROIDS[best].explain};
+}
+
+function generateSummary(profile){
+  if(totalPercent() <= 0) return "Add ingredients to generate a flavor summary.";
+  const notes = [];
+  if(profile.salt >= 7) notes.push("bold and salty");
+  else if(profile.salt >= 4) notes.push("well-salted");
+  if(profile.garlic >= 6) notes.push("garlic-forward");
+  if(profile.pepper >= 6) notes.push("peppery");
+  if(profile.heat >= 7) notes.push("distinctly spicy");
+  else if(profile.heat >= 4) notes.push("with noticeable heat");
+  if(profile.sweet >= 6) notes.push("richly sweet");
+  else if(profile.sweet >= 3) notes.push("lightly sweet");
+  if(profile.smoke >= 5) notes.push("smoky");
+  if(profile.herb >= 6) notes.push("herbaceous");
+  if(profile.earthy >= 6) notes.push("earthy");
+
+  let opening = notes.length ? notes.slice(0,4).join(", ") : "mild and balanced";
+  opening = opening.charAt(0).toUpperCase() + opening.slice(1) + ".";
+
+  const crustBits = [];
+  if(profile.bark >= 6) crustBits.push("a deep, caramelized crust");
+  else if(profile.bark >= 3) crustBits.push("a moderate bark");
+  else crustBits.push("a light, thin crust");
+
+  if(profile.savory >= 6) crustBits.push("strong savory depth");
+  if(profile.heat >= 6) crustBits.push("real heat that carries through");
+  else if(profile.heat >= 3) crustBits.push("a gentle warmth");
+  if(profile.pepper >= 6) crustBits.push("strong black pepper flavor");
+
+  const second = "This blend should produce " + crustBits.join(", with ") + ".";
+  return opening + " " + second;
+}
+
+function generateFeedback(profile){
+  const warnings = [];
+  const suggestions = [];
+  const total = totalPercent();
+  if(total <= 0) return {warnings, suggestions};
+
+  if(profile.salt >= 8) warnings.push("This blend may be overly salty.");
+  if(profile.heat >= 7) warnings.push("Heat is likely to overpower poultry.");
+  if(profile.sweet >= 7) warnings.push("The sugar level may burn during high-temperature grilling.");
+  if(profile.bark <= 3) warnings.push("This blend has limited bark-building ingredients.");
+  if(profile.sweet <= 0.3) suggestions.push("This blend contains no sweetness — consider brown or white sugar for balance.");
+  if(profile.color <= 3) suggestions.push("Consider adding paprika for deeper color.");
+  if(profile.garlic >= 6 && profile.salt >= 6) suggestions.push("Strong garlic and salt levels make this better suited for beef.");
+  if(profile.salt >= 6) suggestions.push("Reduce salt before using this as an overnight dry brine.");
+
+  // dominant ingredient / visual dominance check
+  let topKey = null, topPct = 0;
+  activeKeys().forEach(k=>{
+    const pct = Number(blend[k])||0;
+    if(pct > topPct){ topPct = pct; topKey = k; }
+  });
+  if(topKey && topPct >= 30){
+    const ing = INGREDIENTS[topKey];
+    if(ing.flavor.herb >= 6){
+      warnings.push("The " + ing.name.toLowerCase() + " percentage may dominate the appearance.");
+    }
+  }
+
+  if(profile.smoke <= 1 && profile.bark <= 3){
+    suggestions.push("Add smoked paprika or chipotle powder for a deeper smoke character.");
+  }
+  if(profile.herb <= 1){
+    suggestions.push("A pinch of oregano or thyme can round out the aromatics.");
+  }
+
+  return {warnings, suggestions};
+}
+
+/* =========================================================
+   RENDERING
+========================================================= */
+function renderTotal(){
+  const total = round1(totalPercent());
+  const wrap = document.getElementById("totalIndicator");
+  const num = document.getElementById("totalNum");
+  const fill = document.getElementById("totalFill");
+  num.textContent = fmtPct(total) + "%";
+  fill.style.width = clamp(total,0,150) / 1.5 + "%";
+  wrap.classList.remove("total-ok","total-low","total-high");
+  if(Math.abs(total-100) < 0.05) wrap.classList.add("total-ok");
+  else if(total < 100) wrap.classList.add("total-low");
+  else wrap.classList.add("total-high");
+}
+
+function renderActiveList(){
+  const container = document.getElementById("activeList");
+  container.innerHTML = "";
+  const keys = activeKeys();
+  if(keys.length === 0){
+    container.appendChild(el("div","empty-state","No ingredients yet. Add some below or load a base recipe above."));
+    return;
+  }
+  keys.forEach(key=>{
+    const ing = INGREDIENTS[key];
+    const pct = Number(blend[key])||0;
+    const row = el("div","ing-row");
+    row.innerHTML =
+      '<div class="ing-top">'+
+        '<div class="ing-name-wrap">'+
+          '<span class="ing-name">'+ing.name+'</span>'+
+          '<span class="ing-desc">'+ing.desc+'</span>'+
+        '</div>'+
+        '<span class="ing-cat-badge">'+ing.category+'</span>'+
+        '<button class="ing-remove" data-remove="'+key+'" aria-label="Remove '+ing.name+'" data-tip="Remove">✕</button>'+
+      '</div>'+
+      '<div class="ing-controls">'+
+        '<label class="skip-link" for="range_'+key+'">'+ing.name+' percentage</label>'+
+        '<input type="range" id="range_'+key+'" min="0" max="100" step="0.5" value="'+pct+'" data-slider="'+key+'">'+
+        '<input type="number" class="ing-num" id="num_'+key+'" min="0" max="100" step="0.5" value="'+pct+'" data-numinput="'+key+'" aria-label="'+ing.name+' percentage value">'+
+        '<span class="ing-pct-sign">%</span>'+
+      '</div>';
+    container.appendChild(row);
+  });
+}
+
+function renderPicker(){
+  const list = document.getElementById("pickerList");
+  list.innerHTML = "";
+  const term = searchTerm.trim().toLowerCase();
+  const candidates = Object.keys(INGREDIENTS)
+    .filter(k => blend[k] === undefined)
+    .filter(k => !term || INGREDIENTS[k].name.toLowerCase().includes(term) || INGREDIENTS[k].category.toLowerCase().includes(term))
+    .sort((a,b)=> INGREDIENTS[a].name.localeCompare(INGREDIENTS[b].name));
+
+  if(candidates.length === 0){
+    list.appendChild(el("div","picker-empty", term ? "No ingredients match \u201c"+searchTerm+"\u201d." : "All ingredients are already in your blend."));
+    return;
+  }
+  candidates.forEach(key=>{
+    const ing = INGREDIENTS[key];
+    const row = el("div","picker-row");
+    row.innerHTML =
+      '<div class="picker-info"><span class="pname">'+ing.name+'</span><span class="pcat">'+ing.category+'</span></div>'+
+      '<button class="picker-add" data-add="'+key+'">+ Add</button>';
+    list.appendChild(row);
+  });
+}
+
+function renderRadar(profile){
+  const svg = document.getElementById("radarChart");
+  const size = 200, cx = size/2, cy = size/2, maxR = 78;
+  const n = RADAR_DIMS.length;
+  let rings = "";
+  [0.25,0.5,0.75,1].forEach(f=>{
+    let pts = "";
+    for(let i=0;i<n;i++){
+      const angle = -Math.PI/2 + i*(2*Math.PI/n);
+      const r = maxR*f;
+      pts += (cx + r*Math.cos(angle)) + "," + (cy + r*Math.sin(angle)) + " ";
+    }
+    rings += '<polygon points="'+pts.trim()+'" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+  });
+
+  let axisLines = "", labels = "";
+  for(let i=0;i<n;i++){
+    const angle = -Math.PI/2 + i*(2*Math.PI/n);
+    const x2 = cx + maxR*Math.cos(angle), y2 = cy + maxR*Math.sin(angle);
+    axisLines += '<line x1="'+cx+'" y1="'+cy+'" x2="'+x2+'" y2="'+y2+'" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+    const lx = cx + (maxR+16)*Math.cos(angle), ly = cy + (maxR+16)*Math.sin(angle);
+    labels += '<text x="'+lx+'" y="'+ly+'" font-size="9" fill="#b9a99b" text-anchor="middle" dominant-baseline="middle" font-family="Inter, sans-serif">'+DIM_LABELS[RADAR_DIMS[i]]+'</text>';
+  }
+
+  let dataPts = "";
+  for(let i=0;i<n;i++){
+    const angle = -Math.PI/2 + i*(2*Math.PI/n);
+    const val = clamp(profile[RADAR_DIMS[i]]||0,0,10);
+    const r = maxR*(val/10);
+    dataPts += (cx + r*Math.cos(angle)) + "," + (cy + r*Math.sin(angle)) + " ";
+  }
+
+  svg.innerHTML =
+    '<defs><linearGradient id="radarGrad" x1="0" y1="0" x2="1" y2="1">'+
+    '<stop offset="0%" stop-color="#d95e16" stop-opacity="0.6"/>'+
+    '<stop offset="100%" stop-color="#f3762a" stop-opacity="0.35"/>'+
+    '</linearGradient></defs>'+
+    rings + axisLines +
+    '<polygon points="'+dataPts.trim()+'" fill="url(#radarGrad)" stroke="#f3762a" stroke-width="1.5" stroke-linejoin="round"/>'+
+    labels;
+}
+
+function renderBars(profile){
+  const wrap = document.getElementById("barsList");
+  wrap.innerHTML = "";
+  FLAVOR_DIMS.forEach(d=>{
+    const val = profile[d]||0;
+    const row = el("div","bar-row");
+    row.innerHTML =
+      '<span class="bar-label">'+DIM_LABELS[d]+'</span>'+
+      '<div class="bar-track"><div class="bar-fill" style="width:'+(val*10)+'%"></div></div>'+
+      '<span class="bar-val">'+val.toFixed(1)+'</span>';
+    wrap.appendChild(row);
+  });
+}
+
+function renderSummaryAndStyle(profile){
+  document.getElementById("summaryText").textContent = generateSummary(profile);
+  const style = computeStyleMatch(profile);
+  document.getElementById("styleBadge").textContent = style.label;
+  document.getElementById("styleExplain").textContent = style.explain;
+}
+
+function renderFeedback(profile){
+  const {warnings, suggestions} = generateFeedback(profile);
+  const wList = document.getElementById("warningsList");
+  const sList = document.getElementById("suggestionsList");
+  wList.innerHTML = warnings.length ? warnings.map(w=>'<li>⚠ '+w+'</li>').join("") : '<li class="feedback-empty">No warnings — this blend looks solid.</li>';
+  sList.innerHTML = suggestions.length ? suggestions.map(s=>'<li>💡 '+s+'</li>').join("") : '<li class="feedback-empty">No additional suggestions.</li>';
+}
+
+function renderMeats(profile){
+  const scores = computeMeatScores(profile);
+  const sorted = Object.keys(scores).sort((a,b)=> scores[b]-scores[a]);
+  const top3 = sorted.slice(0,3);
+  const grid = document.getElementById("meatGrid");
+  grid.innerHTML = "";
+  Object.keys(MEAT_LABELS).forEach(meat=>{
+    const isTop = top3.includes(meat);
+    const row = el("div","meat-row"+(isTop?" top":""));
+    row.innerHTML =
+      '<span class="meat-name">'+(isTop?'<span class="crown">👑</span>':'')+MEAT_LABELS[meat]+'</span>'+
+      '<div class="meat-track"><div class="meat-fill" style="width:'+scores[meat]+'%"></div></div>'+
+      '<span class="meat-score">'+scores[meat]+'</span>';
+    grid.appendChild(row);
+  });
+  return {scores, top3};
+}
+
+function renderBatch(profile){
+  const controlsWrap = document.getElementById("batchControls");
+  controlsWrap.innerHTML = "";
+  BATCH_SIZES.forEach((size, idx)=>{
+    const btn = el("button","batch-opt", size.label);
+    btn.setAttribute("aria-pressed", idx===currentBatchIndex ? "true":"false");
+    btn.addEventListener("click", ()=>{
+      currentBatchIndex = idx;
+      document.getElementById("customGramsWrap").style.display = size.grams===null ? "flex":"none";
+      renderAll();
+    });
+    controlsWrap.appendChild(btn);
+  });
+  document.getElementById("customGramsWrap").style.display = BATCH_SIZES[currentBatchIndex].grams===null ? "flex":"none";
+
+  const totalGrams = BATCH_SIZES[currentBatchIndex].grams !== null ? BATCH_SIZES[currentBatchIndex].grams : customGrams;
+  const body = document.getElementById("batchBody");
+  body.innerHTML = "";
+  const keys = activeKeys();
+  if(keys.length===0){
+    body.innerHTML = '<tr><td colspan="3" style="color:var(--text-faint);">Add ingredients to see batch weights.</td></tr>';
+    return;
+  }
+  keys.forEach(key=>{
+    const ing = INGREDIENTS[key];
+    const pct = Number(blend[key])||0;
+    const grams = totalGrams * (pct/100);
+    const tbsp = grams / ing.density;
+    let volText;
+    if(tbsp >= 1){
+      volText = "≈ " + round1(tbsp) + " tbsp";
+    } else {
+      const tsp = tbsp*3;
+      volText = "≈ " + round1(tsp) + " tsp";
+    }
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>"+ing.name+"</td><td>"+round1(grams)+" g</td><td>"+volText+"</td>";
+    body.appendChild(tr);
+  });
+}
+
+function renderRecipeCard(profile, meatData){
+  const style = computeStyleMatch(profile);
+  const nameInput = document.getElementById("blendNameInput");
+  const name = (nameInput.value || "").trim() || "Untitled Blend";
+  document.getElementById("rcName").textContent = name;
+  document.getElementById("rcSub").textContent = new Date().toLocaleDateString() + " · " + fmtPct(round1(totalPercent())) + "% total";
+
+  const table = document.getElementById("rcTable");
+  table.innerHTML = "";
+  activeKeys().forEach(key=>{
+    const ing = INGREDIENTS[key];
+    const pct = Number(blend[key])||0;
+    const totalGrams = BATCH_SIZES[currentBatchIndex].grams !== null ? BATCH_SIZES[currentBatchIndex].grams : customGrams;
+    const grams = totalGrams*(pct/100);
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>"+ing.name+"</td><td>"+fmtPct(pct)+"%</td><td>"+round1(grams)+" g</td>";
+    table.appendChild(tr);
+  });
+
+  document.getElementById("rcSummary").textContent = generateSummary(profile);
+  const topNames = meatData.top3.map(m=>MEAT_LABELS[m]).join(", ");
+  document.getElementById("rcMeats").textContent = "Best paired with: " + (topNames || "—");
+  document.getElementById("rcStyle").textContent = "Style: " + style.label + " — " + style.explain;
+}
+
+function renderAll(){
+  renderTotal();
+  renderActiveList();
+  renderPicker();
+  const profile = computeFlavorProfile();
+  renderRadar(profile);
+  renderBars(profile);
+  renderSummaryAndStyle(profile);
+  renderFeedback(profile);
+  const meatData = renderMeats(profile);
+  renderBatch(profile);
+  renderRecipeCard(profile, meatData);
+  renderSavedList();
+  persistCurrent();
+}
+
+/* =========================================================
+   PERSISTENCE
+========================================================= */
+function persistCurrent(){
+  try{
+    localStorage.setItem(STORAGE_KEY_CURRENT, JSON.stringify({
+      blend, batchIndex: currentBatchIndex, customGrams,
+      name: document.getElementById("blendNameInput").value,
+      notes: document.getElementById("rcNotes").value
+    }));
+  }catch(e){ /* storage unavailable — silently skip */ }
+}
+
+function loadCurrent(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY_CURRENT);
+    if(!raw) return false;
+    const data = JSON.parse(raw);
+    if(data && data.blend && Object.keys(data.blend).length){
+      blend = data.blend;
+      currentBatchIndex = data.batchIndex || 0;
+      customGrams = data.customGrams || 200;
+      if(data.name) document.getElementById("blendNameInput").value = data.name;
+      if(data.notes) document.getElementById("rcNotes").value = data.notes;
+      return true;
+    }
+  }catch(e){ /* ignore corrupt storage */ }
+  return false;
+}
+
+function loadSavedBlends(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY_SAVED);
+    savedBlends = raw ? JSON.parse(raw) : [];
+  }catch(e){ savedBlends = []; }
+}
+
+function persistSavedBlends(){
+  try{ localStorage.setItem(STORAGE_KEY_SAVED, JSON.stringify(savedBlends)); }
+  catch(e){ showToast("Could not save — browser storage may be full.","error"); }
+}
+
+/* =========================================================
+   SAVED BLENDS UI
+========================================================= */
+function renderSavedList(){
+  const list = document.getElementById("savedList");
+  list.innerHTML = "";
+  if(savedBlends.length===0){
+    list.appendChild(el("div","picker-empty","No saved blends yet. Name your blend above and click Save."));
+    return;
+  }
+  savedBlends.forEach(sb=>{
+    const item = el("div","saved-item");
+    item.innerHTML =
+      '<div><div class="saved-name">'+sb.name+'</div><div class="saved-meta">'+Object.keys(sb.items).length+' ingredients · saved '+new Date(sb.createdAt).toLocaleDateString()+'</div></div>'+
+      '<div class="saved-actions">'+
+        '<button class="btn btn-sm" data-load="'+sb.id+'">Load</button>'+
+        '<button class="btn btn-sm" data-dup="'+sb.id+'">Duplicate</button>'+
+        '<button class="btn btn-sm btn-danger" data-del="'+sb.id+'">Delete</button>'+
+      '</div>';
+    list.appendChild(item);
+  });
+}
+
+function saveCurrentBlend(){
+  const nameInput = document.getElementById("blendNameInput");
+  const name = nameInput.value.trim();
+  if(!name){ showToast("Give your blend a name before saving.","error"); return; }
+  if(activeKeys().length===0){ showToast("Add at least one ingredient first.","error"); return; }
+  const record = { id: "b_"+Date.now(), name, items: JSON.parse(JSON.stringify(blend)), createdAt: Date.now(), notes: document.getElementById("rcNotes").value };
+  savedBlends.unshift(record);
+  persistSavedBlends();
+  renderSavedList();
+  showToast("Saved \u201c"+name+"\u201d.");
+}
+
+function loadBlendById(id){
+  const sb = savedBlends.find(b=>b.id===id);
+  if(!sb) return;
+  blend = JSON.parse(JSON.stringify(sb.items));
+  document.getElementById("blendNameInput").value = sb.name;
+  document.getElementById("rcNotes").value = sb.notes || "";
+  renderAll();
+  showToast("Loaded \u201c"+sb.name+"\u201d.");
+}
+
+function duplicateBlendById(id){
+  const sb = savedBlends.find(b=>b.id===id);
+  if(!sb) return;
+  const copy = { id:"b_"+Date.now(), name: sb.name+" (copy)", items: JSON.parse(JSON.stringify(sb.items)), createdAt: Date.now(), notes: sb.notes||"" };
+  savedBlends.unshift(copy);
+  persistSavedBlends();
+  renderSavedList();
+  showToast("Duplicated \u201c"+sb.name+"\u201d.");
+}
+
+function deleteBlendById(id){
+  const sb = savedBlends.find(b=>b.id===id);
+  savedBlends = savedBlends.filter(b=>b.id!==id);
+  persistSavedBlends();
+  renderSavedList();
+  if(sb) showToast("Deleted \u201c"+sb.name+"\u201d.");
+}
+
+/* =========================================================
+   BLEND MUTATION HELPERS
+========================================================= */
+function addIngredient(key){
+  if(blend[key] !== undefined) return;
+  blend[key] = 0;
+  renderAll();
+  showToast(INGREDIENTS[key].name + " added.");
+}
+
+function removeIngredient(key){
+  delete blend[key];
+  renderAll();
+}
+
+function setIngredientPct(key, value){
+  let v = Number(value);
+  if(isNaN(v) || v < 0) v = 0;
+  if(v > 100) v = 100;
+  blend[key] = Math.round(v*10)/10;
+  renderAll();
+}
+
+function autoBalance(){
+  const keys = activeKeys();
+  if(keys.length===0){ showToast("Add ingredients before auto-balancing.","error"); return; }
+  const total = totalPercent();
+  if(total <= 0){
+    const even = round1(100/keys.length);
+    keys.forEach((k,i)=> blend[k] = i===keys.length-1 ? round1(100 - even*(keys.length-1)) : even);
+  } else {
+    keys.forEach(k=>{
+      blend[k] = round1((Number(blend[k])||0) / total * 100);
+    });
+    // correct rounding drift on the last item
+    const newTotal = keys.reduce((s,k)=> s+blend[k],0);
+    const drift = round1(100-newTotal);
+    if(Math.abs(drift) >= 0.05){
+      blend[keys[keys.length-1]] = round1(blend[keys[keys.length-1]] + drift);
+    }
+  }
+  renderAll();
+  showToast("Blend auto-balanced to 100%.");
+}
+
+function resetBlend(){
+  blend = {};
+  document.getElementById("blendNameInput").value = "";
+  document.getElementById("rcNotes").value = "";
+  renderAll();
+  showToast("Blend reset.");
+}
+
+function loadRecipeById(id){
+  const recipe = allRecipes.find(r => r.id === id);
+  if(!recipe) return;
+  blend = JSON.parse(JSON.stringify(recipe.items));
+  document.getElementById("blendNameInput").value = recipe.name;
+  document.getElementById("rcNotes").value = recipe.notes || "";
+  renderAll();
+  const msg = recipe.base
+    ? "Loaded \u201c"+recipe.name+"\u201d — tweak any slider to make it yours."
+    : "Loaded \u201c"+recipe.name+"\u201d by "+(recipe.author||"a RubLab user")+" — doctor it, then share your version.";
+  showToast(msg);
+}
+
+async function submitCommunityRecipe(){
+  const nameInput = document.getElementById("communityNameInput");
+  const authorInput = document.getElementById("communityAuthorInput");
+  const name = nameInput.value.trim();
+  if(activeKeys().length===0){ showToast("Add at least one ingredient before sharing.","error"); return; }
+  if(!name){ showToast("Give your recipe a name before sharing.","error"); return; }
+  const record = {
+    id: "r_" + Date.now() + "_" + Math.random().toString(36).slice(2,7),
+    name,
+    base: false,
+    author: authorInput.value.trim() || "Anonymous",
+    notes: document.getElementById("rcNotes").value,
+    createdAt: Date.now(),
+    items: JSON.parse(JSON.stringify(blend))
+  };
+  const ok = await recipeStoreSet(RECIPE_PREFIX + record.id, JSON.stringify(record));
+  if(!ok){ showToast("Could not share recipe — storage unavailable.","error"); return; }
+  allRecipes.unshift(record);
+  renderCommunityRecipes();
+  nameInput.value = "";
+  authorInput.value = "";
+  showToast(hasCloudStorage ? "Shared \u201c"+name+"\u201d with everyone using this app." : "Saved \u201c"+name+"\u201d to this device's community list.");
+}
+
+async function deleteCommunityRecipeById(id){
+  const recipe = allRecipes.find(r => r.id === id);
+  if(!recipe || recipe.base) return;
+  await recipeStoreDelete(RECIPE_PREFIX + id);
+  allRecipes = allRecipes.filter(r => r.id !== id);
+  renderCommunityRecipes();
+  showToast("Removed \u201c"+recipe.name+"\u201d.");
+}
+
+function renderBaseRecipeBar(){
+  const bar = document.getElementById("baseRecipeBar");
+  if(!bar) return;
+  const bases = allRecipes.filter(r => r.base);
+  bar.innerHTML = "";
+  bases.forEach(recipe=>{
+    const btn = el("button","preset-btn", '<span class="preset-dot"></span>'+recipe.name);
+    btn.addEventListener("click", ()=> loadRecipeById(recipe.id));
+    bar.appendChild(btn);
+  });
+}
+
+function renderCommunityRecipes(){
+  const list = document.getElementById("communityList");
+  const hint = document.getElementById("communityModeHint");
+  if(hint) hint.textContent = hasCloudStorage ? "Visible to everyone using this app" : "Local-only — no shared storage detected in this environment";
+  if(!list) return;
+  const community = allRecipes.filter(r => !r.base);
+  list.innerHTML = "";
+  if(community.length===0){
+    list.appendChild(el("div","picker-empty","No community recipes yet. Be the first to share one above."));
+    return;
+  }
+  community.forEach(recipe=>{
+    const item = el("div","saved-item");
+    item.innerHTML =
+      '<div><div class="saved-name">'+recipe.name+'</div><div class="saved-meta">by '+(recipe.author||"Anonymous")+' · '+Object.keys(recipe.items).length+' ingredients · '+new Date(recipe.createdAt).toLocaleDateString()+'</div></div>'+
+      '<div class="saved-actions">'+
+        '<button class="btn btn-sm" data-load-recipe="'+recipe.id+'">Load &amp; Doctor</button>'+
+        '<button class="btn btn-sm btn-danger" data-del-recipe="'+recipe.id+'">Remove</button>'+
+      '</div>';
+    list.appendChild(item);
+  });
+}
+
+/* =========================================================
+   IMPORT / EXPORT
+========================================================= */
+function exportBlend(){
+  if(activeKeys().length===0){ showToast("Nothing to export yet.","error"); return; }
+  const data = {
+    name: document.getElementById("blendNameInput").value || "Untitled Blend",
+    items: blend,
+    notes: document.getElementById("rcNotes").value,
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (data.name.replace(/[^a-z0-9]+/gi,"_").toLowerCase() || "rublab_blend") + ".json";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  showToast("Exported blend as JSON.");
+}
+
+function importBlendFromFile(file){
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      const data = JSON.parse(e.target.result);
+      if(!data.items || typeof data.items !== "object") throw new Error("bad format");
+      const cleaned = {};
+      Object.keys(data.items).forEach(k=>{
+        if(INGREDIENTS[k] !== undefined){
+          cleaned[k] = Number(data.items[k]) || 0;
+        }
+      });
+      if(Object.keys(cleaned).length===0) throw new Error("no valid ingredients");
+      blend = cleaned;
+      document.getElementById("blendNameInput").value = data.name || "Imported Blend";
+      document.getElementById("rcNotes").value = data.notes || "";
+      renderAll();
+      showToast("Imported \u201c"+(data.name||"blend")+"\u201d.");
+    }catch(err){
+      showToast("Could not import — file isn't a valid RubLab blend.","error");
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* =========================================================
+   EVENT WIRING
+========================================================= */
+document.getElementById("activeList").addEventListener("input", function(e){
+  const t = e.target;
+  if(t.dataset.slider){
+    setIngredientPct(t.dataset.slider, t.value);
+  } else if(t.dataset.numinput){
+    setIngredientPct(t.dataset.numinput, t.value);
+  }
+});
+
+document.getElementById("activeList").addEventListener("click", function(e){
+  const t = e.target.closest("[data-remove]");
+  if(t) removeIngredient(t.dataset.remove);
+});
+
+document.getElementById("pickerList").addEventListener("click", function(e){
+  const t = e.target.closest("[data-add]");
+  if(t) addIngredient(t.dataset.add);
+});
+
+document.getElementById("ingredientSearch").addEventListener("input", function(e){
+  searchTerm = e.target.value;
+  renderPicker();
+});
+
+document.getElementById("autoBalanceBtn").addEventListener("click", autoBalance);
+document.getElementById("resetBtn").addEventListener("click", resetBlend);
+
+document.getElementById("shareBlendBtn").addEventListener("click", submitCommunityRecipe);
+document.getElementById("communityList").addEventListener("click", function(e){
+  const loadBtn = e.target.closest("[data-load-recipe]");
+  const delBtn = e.target.closest("[data-del-recipe]");
+  if(loadBtn) loadRecipeById(loadBtn.dataset.loadRecipe);
+  if(delBtn) deleteCommunityRecipeById(delBtn.dataset.delRecipe);
+});
+
+document.getElementById("saveBlendBtn").addEventListener("click", saveCurrentBlend);
+document.getElementById("savedList").addEventListener("click", function(e){
+  const loadBtn = e.target.closest("[data-load]");
+  const dupBtn = e.target.closest("[data-dup]");
+  const delBtn = e.target.closest("[data-del]");
+  if(loadBtn) loadBlendById(loadBtn.dataset.load);
+  if(dupBtn) duplicateBlendById(dupBtn.dataset.dup);
+  if(delBtn) deleteBlendById(delBtn.dataset.del);
+});
+
+document.getElementById("exportBtn").addEventListener("click", exportBlend);
+document.getElementById("importBtn").addEventListener("click", ()=> document.getElementById("importFile").click());
+document.getElementById("importFile").addEventListener("change", function(e){
+  if(e.target.files && e.target.files[0]) importBlendFromFile(e.target.files[0]);
+  e.target.value = "";
+});
+
+document.getElementById("customGrams").addEventListener("input", function(e){
+  customGrams = Number(e.target.value) || 1;
+  renderBatch(computeFlavorProfile());
+  renderRecipeCard(computeFlavorProfile(), renderMeats(computeFlavorProfile()));
+  persistCurrent();
+});
+
+document.getElementById("printBtn").addEventListener("click", function(){
+  window.print();
+});
+
+document.getElementById("blendNameInput").addEventListener("input", function(){
+  renderRecipeCard(computeFlavorProfile(), renderMeats(computeFlavorProfile()));
+  persistCurrent();
+});
+document.getElementById("rcNotes").addEventListener("input", persistCurrent);
+
+/* =========================================================
+   INIT
+========================================================= */
+async function init(){
+  loadSavedBlends();
+
+  await seedBaseRecipesIfNeeded();
+  await loadAllRecipes();
+  renderBaseRecipeBar();
+  renderCommunityRecipes();
+
+  const restored = loadCurrent();
+  if(!restored){
+    const starter = allRecipes.find(r => r.id === "base_starter") || SEED_BASE_RECIPES[0];
+    blend = JSON.parse(JSON.stringify(starter.items));
+    document.getElementById("blendNameInput").value = starter.name;
+  }
+  renderAll();
+}
+
+init();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "id": "base_starter",
+  "name": "Starter Blend",
+  "base": true,
+  "author": "RubLab",
+  "notes": "",
+  "createdAt": 0,
+  "items": {
+    "kosherSalt": 25,
+    "blackPepper": 25,
+    "garlicPowder": 25,
+    "cayennePepper": 10,
+    "parsley": 15
+  }
+}
