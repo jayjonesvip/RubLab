@@ -18,7 +18,8 @@ pitblend/
 |   |-- base_sweet_rib.json
 |   |-- base_spicy_chicken.json
 |   |-- base_carolina_bbq.json
-|   `-- base_salt_free_all_purpose.json
+|   |-- base_salt_free_all_purpose.json
+|   `-- base_salt_pepper_garlic.json
 `-- README.md
 ```
 
