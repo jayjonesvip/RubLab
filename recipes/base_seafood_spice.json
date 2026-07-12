@@ -1,0 +1,20 @@
+{
+  "id": "base_seafood_spice",
+  "name": "Seafood Spice",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Old Bay-style seafood spice converted from volume measurements to estimated weight percentages.",
+  "createdAt": 7,
+  "items": {
+    "celerySalt": 52.9,
+    "bayLeaves": 5,
+    "smokedPaprika": 17.7,
+    "blackPepper": 11.4,
+    "mustardPowder": 7.6,
+    "allspice": 1.9,
+    "cayennePepper": 1.9,
+    "cinnamon": 0.6,
+    "nutmeg": 0.6,
+    "ginger": 0.4
+  }
+}
