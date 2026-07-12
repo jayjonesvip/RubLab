@@ -1,4 +1,4 @@
-# RubLab
+# PitBlend
 
 A free, browser-based BBQ rub builder. Design custom dry rubs by ingredient
 percentage and get live flavor profile scoring, meat pairings, BBQ style
@@ -8,7 +8,7 @@ backend, no build step, no account required.
 ## Project structure
 
 ```text
-rublab/
+pitblend/
 |-- index.html          # the entire app (HTML, CSS, and JS in one file)
 |-- ingredients.json    # ingredient library, flavor scores, densities, affiliate URLs
 |-- recipes/            # base recipe library, as real JSON files
@@ -16,7 +16,8 @@ rublab/
 |   |-- base_starter.json
 |   |-- base_texas_brisket.json
 |   |-- base_sweet_rib.json
-|   `-- base_spicy_chicken.json
+|   |-- base_spicy_chicken.json
+|   `-- base_carolina_bbq.json
 `-- README.md
 ```
 
@@ -81,7 +82,7 @@ then visit `http://localhost:8000/`.
 
 Before deploying, update the placeholder URLs in `index.html`'s `<head>`
 (canonical link, Open Graph tags, Twitter Card tags, and the JSON-LD `url`
-field) from `https://rublab.app/` to your real domain, and add a 1200x630
+field) from `https://pitblend.app/` to your real domain, and add a 1200x630
 `og-image.png` for social link previews.
 
 ## Adding a new base recipe
@@ -93,7 +94,7 @@ Add a new file to `recipes/`, e.g. `base_carolina_mustard.json`:
   "id": "base_carolina_mustard",
   "name": "Carolina Mustard",
   "base": true,
-  "author": "RubLab",
+  "author": "PitBlend",
   "notes": "",
   "createdAt": 4,
   "items": {
