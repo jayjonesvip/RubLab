@@ -462,7 +462,16 @@ input[type="file"]{display:none;}
 }
 .recipe-name-input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-bottom-color:transparent;}
 .recipe-sub{font-size:.8rem;color:var(--text-faint);margin-bottom:14px;}
+.recipe-unit-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:4px 0 10px;}
+.recipe-unit-row span{font-size:.72rem;color:var(--text-faint);text-transform:uppercase;letter-spacing:.05em;}
+.recipe-unit-toggle{display:flex;gap:6px;}
+.recipe-unit-toggle button{
+  background:var(--bg-2);border:1px solid var(--border);color:var(--text-dim);
+  border-radius:var(--radius-sm);padding:6px 10px;font-size:.72rem;cursor:pointer;
+}
+.recipe-unit-toggle button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-glow);color:var(--accent-light);}
 .recipe-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px;}
+.recipe-table th{text-align:left;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-faint);padding:5px 4px;border-bottom:1px solid var(--border-soft);}
 .recipe-table td{padding:5px 4px;border-bottom:1px solid var(--border-soft);}
 .recipe-table td:last-child{text-align:right;}
 .recipe-affiliate-btn{padding:5px 10px;font-size:.68rem;text-decoration:none;display:inline-flex;}
@@ -519,7 +528,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   #recipeCardPrintArea{position:absolute;top:0;left:0;width:100%;background:#fff;color:#111;padding:20px;}
   #recipeCardPrintArea .recipe-card{border:none;background:#fff;}
   #recipeCardPrintArea .notes-field{border:1px solid #999;}
-  #recipeCardPrintArea .recipe-actions, #recipeCardPrintArea .recipe-affiliate-btn{display:none;}
+  #recipeCardPrintArea .recipe-actions, #recipeCardPrintArea .recipe-affiliate-btn, #recipeCardPrintArea .recipe-unit-row{display:none;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -674,6 +683,13 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
             <label for="blendNameInput" class="skip-link">Recipe name</label>
             <input type="text" class="recipe-name-input" id="blendNameInput" value="Untitled Blend" placeholder="Untitled Blend">
             <p class="recipe-sub" id="rcSub"></p>
+            <div class="recipe-unit-row" aria-label="Recipe card units">
+              <span>Ingredient amounts</span>
+              <div class="recipe-unit-toggle" id="recipeUnitToggle">
+                <button type="button" data-recipe-unit="grams" aria-pressed="true">Grams</button>
+                <button type="button" data-recipe-unit="volume" aria-pressed="false">Tbsp</button>
+              </div>
+            </div>
             <table class="recipe-table" id="rcTable"></table>
             <p class="summary-text" id="rcSummary"></p>
             <p class="recipe-sub" id="rcMeats"></p>
@@ -903,6 +919,7 @@ let blend = {};          // { ingredientKey: percent }
 let allRecipes = [];      // base + community recipes, loaded from the recipe store
 let currentBatchIndex = 0;
 let customGrams = 200;
+let recipeCardUnit = "grams";
 let searchTerm = "";
 let testimonialIndex = 0;
 let testimonialTimer = null;
@@ -1507,6 +1524,14 @@ function renderMeats(profile){
   return {scores, top3};
 }
 
+function formatApproxVolume(grams, density){
+  const tbsp = grams / density;
+  if(tbsp >= 1){
+    return "approx " + round1(tbsp) + " tbsp";
+  }
+  return "approx " + round1(tbsp * 3) + " tsp";
+}
+
 function renderBatch(profile){
   const controlsWrap = document.getElementById("batchControls");
   controlsWrap.innerHTML = "";
@@ -1534,14 +1559,7 @@ function renderBatch(profile){
     const ing = INGREDIENTS[key];
     const pct = Number(blend[key])||0;
     const grams = totalGrams * (pct/100);
-    const tbsp = grams / ing.density;
-    let volText;
-    if(tbsp >= 1){
-      volText = "≈ " + round1(tbsp) + " tbsp";
-    } else {
-      const tsp = tbsp*3;
-      volText = "≈ " + round1(tsp) + " tsp";
-    }
+    const volText = formatApproxVolume(grams, ing.density);
     const tr = document.createElement("tr");
     tr.innerHTML = "<td>"+ing.name+"</td><td>"+round1(grams)+" g</td><td>"+volText+"</td>";
     body.appendChild(tr);
@@ -1602,17 +1620,28 @@ function renderNutritionFacts(){
     '<p class="nutrition-note">Estimated from dry ingredient weights. Spice nutrition varies by brand and grind.</p>';
 }
 
+function renderRecipeUnitControls(){
+  document.querySelectorAll("[data-recipe-unit]").forEach(btn=>{
+    btn.setAttribute("aria-pressed", btn.dataset.recipeUnit === recipeCardUnit ? "true" : "false");
+  });
+}
+
 function renderRecipeCard(profile, meatData){
   const style = computeStyleMatch(profile);
   document.getElementById("rcSub").textContent = new Date().toLocaleDateString() + " · " + fmtPct(round1(totalPercent())) + "% total";
 
   const table = document.getElementById("rcTable");
-  table.innerHTML = "";
+  renderRecipeUnitControls();
+  table.innerHTML =
+    "<thead><tr><th>Ingredient</th><th>%</th><th>"+(recipeCardUnit === "grams" ? "Grams" : "Approx. Volume")+"</th><th></th></tr></thead>"+
+    "<tbody></tbody>";
+  const body = table.querySelector("tbody");
   activeKeys().forEach(key=>{
     const ing = INGREDIENTS[key];
     const pct = Number(blend[key])||0;
     const totalGrams = BATCH_SIZES[currentBatchIndex].grams !== null ? BATCH_SIZES[currentBatchIndex].grams : customGrams;
     const grams = totalGrams*(pct/100);
+    const amountText = recipeCardUnit === "grams" ? round1(grams)+" g" : formatApproxVolume(grams, ing.density);
     const addToCartUrl = safeAffiliateUrl(ing.affiliateAddToCartLink);
     const affiliateUrl = safeAffiliateUrl(ing.affiliateLink);
     const linkUrl = addToCartUrl || affiliateUrl;
@@ -1621,9 +1650,9 @@ function renderRecipeCard(profile, meatData){
     tr.innerHTML =
       "<td>"+escapeHtml(ing.name)+"</td>"+
       "<td>"+fmtPct(pct)+"%</td>"+
-      "<td>"+round1(grams)+" g</td>"+
+      "<td>"+amountText+"</td>"+
       "<td>"+(linkUrl ? '<a class="btn btn-sm btn-ember recipe-affiliate-btn" href="'+escapeHtml(linkUrl)+'" target="_blank" rel="noopener sponsored">'+linkLabel+"</a>" : "")+"</td>";
-    table.appendChild(tr);
+    body.appendChild(tr);
   });
 
   document.getElementById("rcSummary").textContent = generateSummary(profile);
@@ -1655,6 +1684,7 @@ function persistCurrent(){
   try{
     localStorage.setItem(STORAGE_KEY_CURRENT, JSON.stringify({
       blend, batchIndex: currentBatchIndex, customGrams,
+      recipeCardUnit,
       name: document.getElementById("blendNameInput").value,
       notes: document.getElementById("rcNotes").value
     }));
@@ -1670,6 +1700,7 @@ function loadCurrent(){
       blend = data.blend;
       currentBatchIndex = data.batchIndex || 0;
       customGrams = data.customGrams || 200;
+      recipeCardUnit = data.recipeCardUnit === "volume" ? "volume" : "grams";
       if(data.name) document.getElementById("blendNameInput").value = data.name;
       if(data.notes) document.getElementById("rcNotes").value = data.notes;
       return true;
@@ -1820,6 +1851,7 @@ function exportBlend(){
   const data = {
     name: document.getElementById("blendNameInput").value || "Untitled Blend",
     items: blend,
+    recipeCardUnit,
     notes: document.getElementById("rcNotes").value,
     exportedAt: new Date().toISOString()
   };
@@ -1849,6 +1881,7 @@ function importBlendFromFile(file){
       });
       if(Object.keys(cleaned).length===0) throw new Error("no valid ingredients");
       blend = cleaned;
+      recipeCardUnit = data.recipeCardUnit === "volume" ? "volume" : "grams";
       document.getElementById("blendNameInput").value = data.name || "Imported Blend";
       document.getElementById("rcNotes").value = data.notes || "";
       renderAll();
@@ -1908,6 +1941,14 @@ document.getElementById("importFile").addEventListener("change", function(e){
 document.getElementById("customGrams").addEventListener("input", function(e){
   customGrams = Number(e.target.value) || 1;
   renderBatch(computeFlavorProfile());
+  renderRecipeCard(computeFlavorProfile(), renderMeats(computeFlavorProfile()));
+  persistCurrent();
+});
+
+document.getElementById("recipeUnitToggle").addEventListener("click", function(e){
+  const btn = e.target.closest("[data-recipe-unit]");
+  if(!btn) return;
+  recipeCardUnit = btn.dataset.recipeUnit === "volume" ? "volume" : "grams";
   renderRecipeCard(computeFlavorProfile(), renderMeats(computeFlavorProfile()));
   persistCurrent();
 });
