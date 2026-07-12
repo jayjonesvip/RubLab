@@ -266,13 +266,7 @@ header.site-header{
 }
 @media (max-width:980px){ .main-grid{grid-template-columns:1fr;} }
 
-.bottom-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
-  margin-top:24px;
-}
-@media (max-width:820px){ .bottom-grid{grid-template-columns:1fr;} }
+.bottom-grid{margin-top:24px;}
 
 .card{
   background:var(--card);
@@ -425,7 +419,7 @@ header.site-header{
 .batch-table td{padding:8px;border-bottom:1px solid var(--border-soft);}
 .batch-note{font-size:.72rem;color:var(--text-faint);margin-top:10px;}
 
-/* ---------- Saved blends ---------- */
+/* ---------- Forms / utility rows ---------- */
 .save-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
 .save-row input[type="text"]{
   flex:1;min-width:180px;background:var(--bg-2);border:1px solid var(--border);color:var(--text);
@@ -445,11 +439,46 @@ input[type="file"]{display:none;}
 /* ---------- Recipe card ---------- */
 .recipe-card{border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:20px;background:var(--bg-2);}
 .recipe-card h3{font-size:1.4rem;margin-bottom:4px;}
+.recipe-name-input{
+  width:100%;
+  background:transparent;
+  border:0;
+  border-bottom:1px solid var(--border);
+  color:var(--text);
+  font-family:'Oswald',system-ui,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  font-size:1.4rem;
+  font-weight:600;
+  padding:0 0 6px;
+  margin-bottom:6px;
+}
+.recipe-name-input:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-bottom-color:transparent;}
 .recipe-sub{font-size:.8rem;color:var(--text-faint);margin-bottom:14px;}
 .recipe-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px;}
 .recipe-table td{padding:5px 4px;border-bottom:1px solid var(--border-soft);}
 .recipe-table td:last-child{text-align:right;}
 .recipe-affiliate-btn{padding:5px 10px;font-size:.68rem;text-decoration:none;display:inline-flex;}
+.nutrition-facts{
+  border:1px solid var(--border);
+  background:var(--card);
+  padding:12px;
+  margin:14px 0;
+  max-width:320px;
+}
+.nutrition-title{
+  font-family:'Oswald',system-ui,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+  font-size:1.05rem;
+  border-bottom:4px solid var(--text);
+  padding-bottom:4px;
+  margin-bottom:6px;
+}
+.nutrition-serving{font-size:.72rem;color:var(--text-faint);border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:4px;}
+.nutrition-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border-soft);padding:4px 0;font-size:.82rem;}
+.nutrition-row strong{color:var(--text);}
+.nutrition-note{font-size:.68rem;color:var(--text-faint);line-height:1.35;margin:8px 0 0;}
 .notes-field{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:10px;font-family:inherit;font-size:.85rem;min-height:70px;resize:vertical;}
 .recipe-actions{display:flex;justify-content:flex-end;margin-top:14px;}
 
@@ -540,6 +569,12 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           <button class="btn btn-sm" id="autoBalanceBtn" data-tip="Proportionally scale ingredients to 100%">Auto Balance</button>
         </div>
 
+        <div class="import-export" aria-label="Import or export blend JSON">
+          <button class="btn btn-sm" id="exportBtn">Export JSON</button>
+          <button class="btn btn-sm" id="importBtn">Import JSON</button>
+          <input type="file" id="importFile" accept="application/json">
+        </div>
+
         <div class="active-list" id="activeList"></div>
 
         <div style="margin-top:18px;">
@@ -625,12 +660,14 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
         </div>
         <div id="recipeCardPrintArea">
           <div class="recipe-card" id="recipeCard">
-            <h3 id="rcName">Untitled Blend</h3>
+            <label for="blendNameInput" class="skip-link">Recipe name</label>
+            <input type="text" class="recipe-name-input" id="blendNameInput" value="Untitled Blend" placeholder="Untitled Blend">
             <p class="recipe-sub" id="rcSub"></p>
             <table class="recipe-table" id="rcTable"></table>
             <p class="summary-text" id="rcSummary"></p>
             <p class="recipe-sub" id="rcMeats"></p>
             <p class="recipe-sub" id="rcStyle"></p>
+            <div class="nutrition-facts" id="rcNutrition" aria-label="Estimated nutrition facts"></div>
             <label for="rcNotes" style="font-size:.78rem;color:var(--text-faint);display:block;margin-bottom:6px;">Notes</label>
             <textarea class="notes-field" id="rcNotes" placeholder="Cook notes, wood pairing, rest time…"></textarea>
           </div>
@@ -645,23 +682,6 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   </div>
 
   <div class="bottom-grid">
-    <section class="card" aria-labelledby="savedHeading">
-      <div class="card-head">
-        <h2 id="savedHeading">Saved Blends</h2>
-        <span class="hint">Private — stored only on this device</span>
-      </div>
-      <div class="save-row">
-        <input type="text" id="blendNameInput" placeholder="Name this blend…">
-        <button class="btn btn-primary" id="saveBlendBtn">Save Blend</button>
-      </div>
-      <div class="saved-list" id="savedList"></div>
-      <div class="import-export">
-        <button class="btn btn-sm" id="exportBtn">Export JSON</button>
-        <button class="btn btn-sm" id="importBtn">Import JSON</button>
-        <input type="file" id="importFile" accept="application/json">
-      </div>
-    </section>
-
     <section class="card" aria-labelledby="communityHeading">
       <div class="card-head">
         <h2 id="communityHeading">Community Recipes</h2>
@@ -854,11 +874,18 @@ const BATCH_SIZES = [
   {label:"Custom", grams:null}
 ];
 
+const NUTRITION_FACTORS = {
+  kosherSalt: {sodiumMgPerG:387},
+  msg: {sodiumMgPerG:123},
+  brownSugar: {calPerG:4, carbPerG:1, sugarPerG:1},
+  whiteSugar: {calPerG:4, carbPerG:1, sugarPerG:1}
+};
+const DEFAULT_SPICE_NUTRITION = {calPerG:3, carbPerG:.55, sugarPerG:.06, sodiumMgPerG:4};
+
 /* =========================================================
    STATE
 ========================================================= */
 let blend = {};          // { ingredientKey: percent }
-let savedBlends = [];     // private, per-device — loaded from localStorage
 let allRecipes = [];      // base + community recipes, loaded from the recipe store
 let currentBatchIndex = 0;
 let customGrams = 200;
@@ -866,9 +893,8 @@ let searchTerm = "";
 let testimonialIndex = 0;
 let testimonialTimer = null;
 
-// Keep the original RubLab storage keys so existing users keep saved blends after the PitBlend rebrand.
+// Keep the original RubLab storage key so existing users keep their current blend after the PitBlend rebrand.
 const STORAGE_KEY_CURRENT = "rublab_current_blend_v1";
-const STORAGE_KEY_SAVED = "rublab_saved_blends_v1";
 const STORAGE_KEY_LOCAL_RECIPES = "rublab_local_recipe_store_v1"; // fallback recipe folder when no shared storage is available
 const RECIPE_PREFIX = "recipe:";
 
@@ -1503,11 +1529,62 @@ function renderBatch(profile){
   });
 }
 
+function computeNutritionFacts(){
+  const keys = activeKeys();
+  if(keys.length === 0) return null;
+  const totalPct = totalPercent();
+  const tbspVolume = keys.reduce((sum,key)=>{
+    const ing = INGREDIENTS[key];
+    const pct = Number(blend[key]) || 0;
+    return sum + (pct / ing.density);
+  }, 0);
+  if(totalPct <= 0 || tbspVolume <= 0) return null;
+
+  const gramsPerTbsp = totalPct / tbspVolume;
+  const servingGrams = gramsPerTbsp / 3;
+  const batchGrams = BATCH_SIZES[currentBatchIndex].grams !== null ? BATCH_SIZES[currentBatchIndex].grams : customGrams;
+  const nutrition = {calories:0, sodiumMg:0, carbsG:0, sugarsG:0};
+
+  keys.forEach(key=>{
+    const share = (Number(blend[key]) || 0) / totalPct;
+    const grams = servingGrams * share;
+    const factor = NUTRITION_FACTORS[key] || DEFAULT_SPICE_NUTRITION;
+    nutrition.calories += grams * (factor.calPerG || 0);
+    nutrition.sodiumMg += grams * (factor.sodiumMgPerG || 0);
+    nutrition.carbsG += grams * (factor.carbPerG || 0);
+    nutrition.sugarsG += grams * (factor.sugarPerG || 0);
+  });
+
+  return {
+    servingGrams,
+    servingsPerBatch: batchGrams / servingGrams,
+    calories: Math.round(nutrition.calories),
+    sodiumMg: Math.round(nutrition.sodiumMg),
+    carbsG: round1(nutrition.carbsG),
+    sugarsG: round1(nutrition.sugarsG)
+  };
+}
+
+function renderNutritionFacts(){
+  const wrap = document.getElementById("rcNutrition");
+  if(!wrap) return;
+  const facts = computeNutritionFacts();
+  if(!facts){
+    wrap.innerHTML = '<div class="nutrition-title">Nutrition Facts</div><p class="nutrition-note">Add ingredients to estimate nutrition.</p>';
+    return;
+  }
+  wrap.innerHTML =
+    '<div class="nutrition-title">Nutrition Facts</div>'+
+    '<div class="nutrition-serving">Serving size 1 tsp ('+round1(facts.servingGrams)+' g) - about '+Math.max(1, Math.round(facts.servingsPerBatch))+' servings per batch</div>'+
+    '<div class="nutrition-row"><strong>Calories</strong><span>'+facts.calories+'</span></div>'+
+    '<div class="nutrition-row"><strong>Sodium</strong><span>'+facts.sodiumMg+' mg</span></div>'+
+    '<div class="nutrition-row"><strong>Total Carbs</strong><span>'+facts.carbsG+' g</span></div>'+
+    '<div class="nutrition-row"><strong>Total Sugars</strong><span>'+facts.sugarsG+' g</span></div>'+
+    '<p class="nutrition-note">Estimated from dry ingredient weights. Spice nutrition varies by brand and grind.</p>';
+}
+
 function renderRecipeCard(profile, meatData){
   const style = computeStyleMatch(profile);
-  const nameInput = document.getElementById("blendNameInput");
-  const name = (nameInput.value || "").trim() || "Untitled Blend";
-  document.getElementById("rcName").textContent = name;
   document.getElementById("rcSub").textContent = new Date().toLocaleDateString() + " · " + fmtPct(round1(totalPercent())) + "% total";
 
   const table = document.getElementById("rcTable");
@@ -1534,6 +1611,7 @@ function renderRecipeCard(profile, meatData){
   const topNames = meatData.top3.map(m=>MEAT_LABELS[m]).join(", ");
   document.getElementById("rcMeats").textContent = "Best paired with: " + (topNames || "—");
   document.getElementById("rcStyle").textContent = "Style: " + style.label + " — " + style.explain;
+  renderNutritionFacts();
 }
 
 function renderAll(){
@@ -1548,7 +1626,6 @@ function renderAll(){
   const meatData = renderMeats(profile);
   renderBatch(profile);
   renderRecipeCard(profile, meatData);
-  renderSavedList();
   persistCurrent();
 }
 
@@ -1580,81 +1657,6 @@ function loadCurrent(){
     }
   }catch(e){ /* ignore corrupt storage */ }
   return false;
-}
-
-function loadSavedBlends(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY_SAVED);
-    savedBlends = raw ? JSON.parse(raw) : [];
-  }catch(e){ savedBlends = []; }
-}
-
-function persistSavedBlends(){
-  try{ localStorage.setItem(STORAGE_KEY_SAVED, JSON.stringify(savedBlends)); }
-  catch(e){ showToast("Could not save — browser storage may be full.","error"); }
-}
-
-/* =========================================================
-   SAVED BLENDS UI
-========================================================= */
-function renderSavedList(){
-  const list = document.getElementById("savedList");
-  list.innerHTML = "";
-  if(savedBlends.length===0){
-    list.appendChild(el("div","picker-empty","No saved blends yet. Name your blend above and click Save."));
-    return;
-  }
-  savedBlends.forEach(sb=>{
-    const item = el("div","saved-item");
-    item.innerHTML =
-      '<div><div class="saved-name">'+sb.name+'</div><div class="saved-meta">'+Object.keys(sb.items).length+' ingredients · saved '+new Date(sb.createdAt).toLocaleDateString()+'</div></div>'+
-      '<div class="saved-actions">'+
-        '<button class="btn btn-sm" data-load="'+sb.id+'">Load</button>'+
-        '<button class="btn btn-sm" data-dup="'+sb.id+'">Duplicate</button>'+
-        '<button class="btn btn-sm btn-danger" data-del="'+sb.id+'">Delete</button>'+
-      '</div>';
-    list.appendChild(item);
-  });
-}
-
-function saveCurrentBlend(){
-  const nameInput = document.getElementById("blendNameInput");
-  const name = nameInput.value.trim();
-  if(!name){ showToast("Give your blend a name before saving.","error"); return; }
-  if(activeKeys().length===0){ showToast("Add at least one ingredient first.","error"); return; }
-  const record = { id: "b_"+Date.now(), name, items: JSON.parse(JSON.stringify(blend)), createdAt: Date.now(), notes: document.getElementById("rcNotes").value };
-  savedBlends.unshift(record);
-  persistSavedBlends();
-  renderSavedList();
-  showToast("Saved \u201c"+name+"\u201d.");
-}
-
-function loadBlendById(id){
-  const sb = savedBlends.find(b=>b.id===id);
-  if(!sb) return;
-  blend = JSON.parse(JSON.stringify(sb.items));
-  document.getElementById("blendNameInput").value = sb.name;
-  document.getElementById("rcNotes").value = sb.notes || "";
-  renderAll();
-  showToast("Loaded \u201c"+sb.name+"\u201d.");
-}
-
-function duplicateBlendById(id){
-  const sb = savedBlends.find(b=>b.id===id);
-  if(!sb) return;
-  const copy = { id:"b_"+Date.now(), name: sb.name+" (copy)", items: JSON.parse(JSON.stringify(sb.items)), createdAt: Date.now(), notes: sb.notes||"" };
-  savedBlends.unshift(copy);
-  persistSavedBlends();
-  renderSavedList();
-  showToast("Duplicated \u201c"+sb.name+"\u201d.");
-}
-
-function deleteBlendById(id){
-  const sb = savedBlends.find(b=>b.id===id);
-  savedBlends = savedBlends.filter(b=>b.id!==id);
-  persistSavedBlends();
-  renderSavedList();
-  if(sb) showToast("Deleted \u201c"+sb.name+"\u201d.");
 }
 
 /* =========================================================
@@ -1877,16 +1879,6 @@ document.getElementById("communityList").addEventListener("click", function(e){
   if(delBtn) deleteCommunityRecipeById(delBtn.dataset.delRecipe);
 });
 
-document.getElementById("saveBlendBtn").addEventListener("click", saveCurrentBlend);
-document.getElementById("savedList").addEventListener("click", function(e){
-  const loadBtn = e.target.closest("[data-load]");
-  const dupBtn = e.target.closest("[data-dup]");
-  const delBtn = e.target.closest("[data-del]");
-  if(loadBtn) loadBlendById(loadBtn.dataset.load);
-  if(dupBtn) duplicateBlendById(dupBtn.dataset.dup);
-  if(delBtn) deleteBlendById(delBtn.dataset.del);
-});
-
 document.getElementById("exportBtn").addEventListener("click", exportBlend);
 document.getElementById("importBtn").addEventListener("click", ()=> document.getElementById("importFile").click());
 document.getElementById("importFile").addEventListener("change", function(e){
@@ -1917,7 +1909,6 @@ document.getElementById("rcNotes").addEventListener("input", persistCurrent);
 async function init(){
   await loadIngredients();
   initTestimonials();
-  loadSavedBlends();
 
   await seedBaseRecipesIfNeeded();
   await loadAllRecipes();
