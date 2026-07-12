@@ -1,0 +1,19 @@
+{
+  "id": "base_salt_free_all_purpose",
+  "name": "Salt-Free All-Purpose",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Salt-free garlic, pepper, and herb base converted from tablespoon measurements to estimated weight percentages.",
+  "createdAt": 5,
+  "items": {
+    "garlicPowder": 41.6,
+    "onionPowder": 24.6,
+    "blackPepper": 9.2,
+    "basil": 4.6,
+    "parsley": 3.1,
+    "thyme": 4.6,
+    "marjoram": 4.6,
+    "driedSavory": 4.6,
+    "cayennePepper": 3.1
+  }
+}

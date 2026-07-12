@@ -314,6 +314,27 @@
       "color": 1
     }
   },
+  "basil": {
+    "name": "Dried Basil",
+    "category": "Herb",
+    "desc": "Sweet, leafy herb note with gentle green aroma.",
+    "density": 3,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 8,
+      "earthy": 1,
+      "bark": 0,
+      "color": 1
+    }
+  },
   "thyme": {
     "name": "Thyme",
     "category": "Herb",
@@ -330,6 +351,48 @@
       "smoke": 0,
       "savory": 2,
       "herb": 8,
+      "earthy": 2,
+      "bark": 0,
+      "color": 1
+    }
+  },
+  "marjoram": {
+    "name": "Dried Marjoram",
+    "category": "Herb",
+    "desc": "Soft oregano-like herb with a sweeter floral edge.",
+    "density": 3,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 8,
+      "earthy": 2,
+      "bark": 0,
+      "color": 1
+    }
+  },
+  "driedSavory": {
+    "name": "Dried Savory",
+    "category": "Herb / Savory",
+    "desc": "Peppery, thyme-like herb that adds a salt-free savory lift.",
+    "density": 3,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 1,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 4,
+      "herb": 7,
       "earthy": 2,
       "bark": 0,
       "color": 1
