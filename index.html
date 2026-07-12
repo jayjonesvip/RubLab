@@ -5,33 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- ===================== Primary SEO ===================== -->
-<title>RubLab — Free BBQ Rub Builder & Flavor Profile Calculator</title>
+<title>PitBlend — Free BBQ Rub Builder & Flavor Profile Calculator</title>
 <meta name="description" content="Build custom BBQ rubs online for free. Dial in ingredient percentages and instantly see heat, salt, sweetness, bark & smoke scores, meat pairings, BBQ style match, batch weights, and a printable recipe card. No signup required.">
 <meta name="keywords" content="bbq rub builder, custom bbq rub recipe, dry rub calculator, spice rub calculator, bbq rub flavor profile, homemade bbq rub recipe, rib rub recipe, brisket rub calculator, pork rub recipe, seasoning blend calculator, rub recipe generator">
-<meta name="author" content="RubLab">
+<meta name="author" content="PitBlend">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#1a1a1a">
 <!-- Update to your live domain once deployed -->
-<link rel="canonical" href="https://rublab.app/">
+<link rel="canonical" href="https://pitblend.app/">
 
 <!-- ===================== Open Graph / Facebook ===================== -->
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="RubLab">
-<meta property="og:title" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+<meta property="og:site_name" content="PitBlend">
+<meta property="og:title" content="PitBlend — Free BBQ Rub Builder & Flavor Profile Calculator">
 <meta property="og:description" content="Design custom BBQ rubs with live flavor, heat, and bark scoring. Get meat pairings, a BBQ style match, batch weights, and a printable recipe card — free, no signup.">
-<meta property="og:url" content="https://rublab.app/">
+<meta property="og:url" content="https://pitblend.app/">
 <meta property="og:locale" content="en_US">
 <!-- Add a 1200x630 social preview image at this path when you deploy -->
-<meta property="og:image" content="https://rublab.app/og-image.png">
+<meta property="og:image" content="https://pitblend.app/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+<meta property="og:image:alt" content="PitBlend — Free BBQ Rub Builder & Flavor Profile Calculator">
 
 <!-- ===================== Twitter Card ===================== -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="RubLab — Free BBQ Rub Builder & Flavor Profile Calculator">
+<meta name="twitter:title" content="PitBlend — Free BBQ Rub Builder & Flavor Profile Calculator">
 <meta name="twitter:description" content="Design custom BBQ rubs with live flavor, heat, and bark scoring. Meat pairings, BBQ style match, batch weights, and a printable recipe card — free, no signup.">
-<meta name="twitter:image" content="https://rublab.app/og-image.png">
+<meta name="twitter:image" content="https://pitblend.app/og-image.png">
 
 <!-- ===================== Favicon (inline, no external file needed) ===================== -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231a1a1a'/%3E%3Crect x='22' y='22' width='56' height='56' fill='%23d95e16'/%3E%3C/svg%3E">
@@ -41,8 +41,8 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "RubLab",
-  "url": "https://rublab.app/",
+  "name": "PitBlend",
+  "url": "https://pitblend.app/",
   "description": "Free browser-based BBQ rub builder. Design custom dry rubs by ingredient percentage and get live flavor profile scoring, meat pairings, BBQ style matching, batch weight calculations, and a printable recipe card.",
   "applicationCategory": "LifestyleApplication",
   "operatingSystem": "Any (web browser)",
@@ -497,7 +497,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
 <header class="site-header">
   <div class="header-inner">
     <div class="logo-block">
-      <h1 class="logo"><span class="mark" aria-hidden="true"></span><span class="rub">Rub</span><span class="lab">Lab</span></h1>
+      <h1 class="logo"><span class="mark" aria-hidden="true"></span><span class="rub">Pit</span><span class="lab">Blend</span></h1>
       <p class="tagline">Build your perfect BBQ rub.</p>
       <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
     </div>
@@ -678,7 +678,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   </div>
 </main>
 
-<footer class="site-footer">RubLab — experiment with confidence before you mix. All calculations run locally in your browser; nothing leaves your device.</footer>
+<footer class="site-footer">PitBlend — experiment with confidence before you mix. All calculations run locally in your browser; nothing leaves your device.</footer>
 
 <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
@@ -809,15 +809,15 @@ async function loadIngredients(){
    what a user's submitted recipe looks like (see submitCommunityRecipe) —
    the only difference is base:true. */
 const SEED_BASE_RECIPES = [
-  { id:"base_starter",       name:"Starter Blend", base:true, author:"RubLab", notes:"", createdAt:0,
+  { id:"base_starter",       name:"Starter Blend", base:true, author:"PitBlend", notes:"", createdAt:0,
     items:{ kosherSalt:25, blackPepper:25, garlicPowder:25, cayennePepper:10, parsley:15 } },
-  { id:"base_texas_brisket", name:"Texas Brisket", base:true, author:"RubLab", notes:"", createdAt:1,
+  { id:"base_texas_brisket", name:"Texas Brisket", base:true, author:"PitBlend", notes:"", createdAt:1,
     items:{ kosherSalt:30, blackPepper:40, garlicPowder:15, onionPowder:10, cayennePepper:5 } },
-  { id:"base_sweet_rib",     name:"Sweet Rib Rub", base:true, author:"RubLab", notes:"", createdAt:2,
+  { id:"base_sweet_rib",     name:"Sweet Rib Rub", base:true, author:"PitBlend", notes:"", createdAt:2,
     items:{ brownSugar:30, paprika:25, smokedPaprika:10, kosherSalt:15, garlicPowder:10, chiliPowder:5, blackPepper:5 } },
-  { id:"base_spicy_chicken", name:"Spicy Chicken", base:true, author:"RubLab", notes:"", createdAt:3,
+  { id:"base_spicy_chicken", name:"Spicy Chicken", base:true, author:"PitBlend", notes:"", createdAt:3,
     items:{ kosherSalt:18, garlicPowder:20, onionPowder:10, paprika:18, cayennePepper:14, chiliPowder:12, blackPepper:5, oregano:3 } },
-  { id:"base_carolina_bbq",  name:"Carolina BBQ Rub", base:true, author:"RubLab", notes:"Classic Carolina-style rub converted from volume measurements to estimated weight percentages.", createdAt:4,
+  { id:"base_carolina_bbq",  name:"Carolina BBQ Rub", base:true, author:"PitBlend", notes:"Classic Carolina-style rub converted from volume measurements to estimated weight percentages.", createdAt:4,
     items:{ paprika:18.4, kosherSalt:19.7, whiteSugar:15.8, brownSugar:15.8, cumin:7.9, chiliPowder:10.5, blackPepper:7.9, cayennePepper:4 } }
 ];
 
@@ -866,6 +866,7 @@ let searchTerm = "";
 let testimonialIndex = 0;
 let testimonialTimer = null;
 
+// Keep the original RubLab storage keys so existing users keep saved blends after the PitBlend rebrand.
 const STORAGE_KEY_CURRENT = "rublab_current_blend_v1";
 const STORAGE_KEY_SAVED = "rublab_saved_blends_v1";
 const STORAGE_KEY_LOCAL_RECIPES = "rublab_local_recipe_store_v1"; // fallback recipe folder when no shared storage is available
@@ -1718,7 +1719,7 @@ function loadRecipeById(id){
   renderAll();
   const msg = recipe.base
     ? "Loaded \u201c"+recipe.name+"\u201d — tweak any slider to make it yours."
-    : "Loaded \u201c"+recipe.name+"\u201d by "+(recipe.author||"a RubLab user")+" — doctor it, then share your version.";
+    : "Loaded \u201c"+recipe.name+"\u201d by "+(recipe.author||"a PitBlend user")+" — doctor it, then share your version.";
   showToast(msg);
 }
 
@@ -1805,7 +1806,7 @@ function exportBlend(){
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = (data.name.replace(/[^a-z0-9]+/gi,"_").toLowerCase() || "rublab_blend") + ".json";
+  a.download = (data.name.replace(/[^a-z0-9]+/gi,"_").toLowerCase() || "pitblend_blend") + ".json";
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -1832,7 +1833,7 @@ function importBlendFromFile(file){
       renderAll();
       showToast("Imported \u201c"+(data.name||"blend")+"\u201d.");
     }catch(err){
-      showToast("Could not import — file isn't a valid RubLab blend.","error");
+      showToast("Could not import — file isn't a valid PitBlend blend.","error");
     }
   };
   reader.readAsText(file);
