@@ -140,6 +140,67 @@ header.site-header{
 .subdesc{font-size:.92rem;color:var(--text-faint);max-width:520px;}
 .header-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
+/* ---------- Testimonials ---------- */
+.testimonials{
+  max-width:1320px;
+  margin:0 auto;
+  padding:18px 24px 0;
+}
+.testimonial-carousel{
+  position:relative;
+  overflow:hidden;
+  border-top:1px solid var(--border-soft);
+  border-bottom:1px solid var(--border-soft);
+  background:var(--bg);
+}
+.testimonial-track{
+  display:flex;
+  transition:transform .45s ease;
+}
+.testimonial-slide{
+  flex:0 0 100%;
+  min-width:100%;
+  padding:16px 48px 16px 0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+}
+.testimonial-quote{
+  margin:0;
+  color:var(--text);
+  font-size:.98rem;
+  font-weight:600;
+}
+.testimonial-name{
+  color:var(--text-faint);
+  font-size:.76rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  white-space:nowrap;
+}
+.testimonial-dots{
+  position:absolute;
+  right:0;
+  top:50%;
+  transform:translateY(-50%);
+  display:flex;
+  gap:6px;
+}
+.testimonial-dot{
+  width:7px;
+  height:7px;
+  border:0;
+  padding:0;
+  background:var(--border);
+  cursor:pointer;
+}
+.testimonial-dot[aria-current="true"]{background:var(--accent);}
+@media (max-width:720px){
+  .testimonial-slide{padding-right:0;align-items:flex-start;flex-direction:column;gap:6px;}
+  .testimonial-dots{position:static;transform:none;padding-bottom:12px;}
+}
+
 /* ---------- Buttons ---------- */
 .btn{
   border:1px solid var(--border);
@@ -446,6 +507,13 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   </div>
 </header>
 
+<section class="testimonials" aria-label="Customer testimonials">
+  <div class="testimonial-carousel">
+    <div class="testimonial-track" id="testimonialTrack" aria-live="polite"></div>
+    <div class="testimonial-dots" id="testimonialDots" aria-label="Choose testimonial"></div>
+  </div>
+</section>
+
 <div class="presets">
   <span class="label">Base recipes — load one, then tweak every slider:</span>
   <div id="baseRecipeBar" class="preset-bar-inner" style="display:contents;"></div>
@@ -681,6 +749,18 @@ const SEED_INGREDIENTS = {
 const FLAVOR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb","earthy","bark","color"];
 const DIM_LABELS = {salt:"Salt",sweet:"Sweet",heat:"Heat",pepper:"Pepper",garlic:"Garlic",smoke:"Smoke",savory:"Savory",herb:"Herb",earthy:"Earthy",bark:"Bark",color:"Color"};
 const RADAR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb"];
+const TESTIMONIALS = [
+  {quote:"Finally, a rub calculator that thinks in percentages.", name:"Dana M."},
+  {quote:"My brisket rub stopped being guesswork.", name:"Chris R."},
+  {quote:"The bark score helped me fix a flat rib rub.", name:"Avery T."},
+  {quote:"I use it before every competition practice cook.", name:"Marcus L."},
+  {quote:"Fast enough to tweak while the smoker heats up.", name:"Nina P."},
+  {quote:"The meat pairing notes saved my chicken blend.", name:"Joel S."},
+  {quote:"Simple, practical, and not packed with fluff.", name:"Priya K."},
+  {quote:"Batch weights made scaling jars painless.", name:"Sam H."},
+  {quote:"It helped me back off the salt before dry brining.", name:"Ben C."},
+  {quote:"The flavor profile makes recipe testing repeatable.", name:"Tessa W."}
+];
 
 function normalizeIngredientLibrary(source){
   const normalized = {};
@@ -781,6 +861,8 @@ let allRecipes = [];      // base + community recipes, loaded from the recipe st
 let currentBatchIndex = 0;
 let customGrams = 200;
 let searchTerm = "";
+let testimonialIndex = 0;
+let testimonialTimer = null;
 
 const STORAGE_KEY_CURRENT = "rublab_current_blend_v1";
 const STORAGE_KEY_SAVED = "rublab_saved_blends_v1";
@@ -949,6 +1031,14 @@ function totalPercent(){
   return activeKeys().reduce((sum,k)=> sum + (Number(blend[k])||0), 0);
 }
 
+function weightedIngredientPercent(dim){
+  return activeKeys().reduce((sum,k)=>{
+    const ing = INGREDIENTS[k];
+    const pct = Number(blend[k]) || 0;
+    return sum + pct * ((ing.flavor[dim] || 0) / 10);
+  }, 0);
+}
+
 /* =========================================================
    CALCULATIONS
 ========================================================= */
@@ -1022,34 +1112,49 @@ function computeStyleMatch(profile){
 
 function generateSummary(profile){
   if(totalPercent() <= 0) return "Add ingredients to generate a flavor summary.";
+  const total = totalPercent();
+  const saltPct = weightedIngredientPercent("salt");
+  const sugarPct = weightedIngredientPercent("sweet");
+  const heatPct = weightedIngredientPercent("heat");
+  const pepperPct = weightedIngredientPercent("pepper");
+  const garlicPct = weightedIngredientPercent("garlic");
+  const barkPct = weightedIngredientPercent("bark");
+  const savoryPct = weightedIngredientPercent("savory");
+  const herbPct = weightedIngredientPercent("herb");
+  const smokePct = weightedIngredientPercent("smoke");
+  const earthyPct = weightedIngredientPercent("earthy");
   const notes = [];
-  if(profile.salt >= 7) notes.push("bold and salty");
-  else if(profile.salt >= 4) notes.push("well-salted");
-  if(profile.garlic >= 6) notes.push("garlic-forward");
-  if(profile.pepper >= 6) notes.push("peppery");
-  if(profile.heat >= 7) notes.push("distinctly spicy");
-  else if(profile.heat >= 4) notes.push("with noticeable heat");
-  if(profile.sweet >= 6) notes.push("richly sweet");
-  else if(profile.sweet >= 3) notes.push("lightly sweet");
-  if(profile.smoke >= 5) notes.push("smoky");
-  if(profile.herb >= 6) notes.push("herbaceous");
-  if(profile.earthy >= 6) notes.push("earthy");
+  if(saltPct >= 28) notes.push("salt-heavy");
+  else if(saltPct >= 16) notes.push("well-salted");
+  else if(saltPct <= 6) notes.push("low-salt");
+  if(garlicPct >= 18) notes.push("garlic-forward");
+  if(pepperPct >= 18) notes.push("peppery");
+  if(heatPct >= 18) notes.push("hot");
+  else if(heatPct >= 9) notes.push("with noticeable heat");
+  if(sugarPct >= 24) notes.push("richly sweet");
+  else if(sugarPct >= 10) notes.push("lightly sweet");
+  if(smokePct >= 12) notes.push("smoky");
+  if(herbPct >= 15) notes.push("herbaceous");
+  if(earthyPct >= 14) notes.push("earthy");
 
   let opening = notes.length ? notes.slice(0,4).join(", ") : "mild and balanced";
   opening = opening.charAt(0).toUpperCase() + opening.slice(1) + ".";
 
-  const crustBits = [];
-  if(profile.bark >= 6) crustBits.push("a deep, caramelized crust");
-  else if(profile.bark >= 3) crustBits.push("a moderate bark");
-  else crustBits.push("a light, thin crust");
+  let barkText = "Expect a light crust";
+  if(barkPct >= 30) barkText = "Expect a strong bark";
+  else if(barkPct >= 18) barkText = "Expect a moderate bark";
 
-  if(profile.savory >= 6) crustBits.push("strong savory depth");
-  if(profile.heat >= 6) crustBits.push("real heat that carries through");
-  else if(profile.heat >= 3) crustBits.push("a gentle warmth");
-  if(profile.pepper >= 6) crustBits.push("strong black pepper flavor");
+  let useText = "It should work as an all-purpose rub.";
+  if(sugarPct >= 18 && barkPct >= 20) useText = "Best for low-and-slow cooks where sugar can build color without scorching.";
+  else if(pepperPct >= 18 && saltPct >= 12) useText = "Best on beef, especially brisket, ribs, burgers, or steak.";
+  else if(herbPct >= 12 && heatPct <= 10) useText = "Best on chicken, turkey, seafood, or vegetables.";
+  else if(heatPct >= 14) useText = "Use a lighter hand on poultry and lean cuts so the heat does not dominate.";
 
-  const second = "This blend should produce " + crustBits.join(", with ") + ".";
-  return opening + " " + second;
+  const totalText = Math.abs(total - 100) < 0.05
+    ? ""
+    : " Balance to 100% before mixing so the scores match the final batch.";
+
+  return opening + " " + barkText + " with " + (savoryPct >= 24 ? "good savory depth" : "a lighter savory base") + ". " + useText + totalText;
 }
 
 function generateFeedback(profile){
@@ -1057,15 +1162,33 @@ function generateFeedback(profile){
   const suggestions = [];
   const total = totalPercent();
   if(total <= 0) return {warnings, suggestions};
+  const saltPct = weightedIngredientPercent("salt");
+  const sugarPct = weightedIngredientPercent("sweet");
+  const heatPct = weightedIngredientPercent("heat");
+  const barkPct = weightedIngredientPercent("bark");
+  const colorPct = weightedIngredientPercent("color");
+  const savoryPct = weightedIngredientPercent("savory");
+  const herbPct = weightedIngredientPercent("herb");
+  const smokePct = weightedIngredientPercent("smoke");
 
-  if(profile.salt >= 8) warnings.push("This blend may be overly salty.");
-  if(profile.heat >= 7) warnings.push("Heat is likely to overpower poultry.");
-  if(profile.sweet >= 7) warnings.push("The sugar level may burn during high-temperature grilling.");
-  if(profile.bark <= 3) warnings.push("This blend has limited bark-building ingredients.");
-  if(profile.sweet <= 0.3) suggestions.push("This blend contains no sweetness — consider brown or white sugar for balance.");
-  if(profile.color <= 3) suggestions.push("Consider adding paprika for deeper color.");
-  if(profile.garlic >= 6 && profile.salt >= 6) suggestions.push("Strong garlic and salt levels make this better suited for beef.");
-  if(profile.salt >= 6) suggestions.push("Reduce salt before using this as an overnight dry brine.");
+  if(total < 95) warnings.push("The blend totals " + fmtPct(round1(total)) + "%. Scale it to 100% before mixing, or the batch weights will come out light.");
+  if(total > 105) warnings.push("The blend totals " + fmtPct(round1(total)) + "%. Auto Balance before mixing so each ingredient stays in proportion.");
+
+  if(saltPct >= 28) warnings.push("Salt is very high for an all-purpose rub. Use it more like a dry brine, or cut the salt before applying heavily.");
+  else if(saltPct >= 20) suggestions.push("Salt is assertive. Apply lightly on small cuts and avoid long dry brines unless that is intentional.");
+
+  if(heatPct >= 18) warnings.push("Heat is aggressive. It can work for wings or bold beef, but it may overpower poultry, pork loin, or vegetables.");
+  else if(heatPct >= 10) suggestions.push("Heat is noticeable. Pair with enough salt, sugar, or savory depth so it does not taste one-dimensional.");
+
+  if(sugarPct >= 30) warnings.push("Sugar is high. Keep this away from direct high heat until late in the cook to avoid scorching.");
+  else if(sugarPct >= 18) suggestions.push("Sugar should help bark and browning, but watch flare-ups over direct heat.");
+
+  const needsBarkAndColor = barkPct < 18 && colorPct < 18 && sugarPct < 10;
+  if(needsBarkAndColor) suggestions.push("For stronger bark and color, add brown sugar plus paprika, smoked paprika, chipotle powder, coffee, or cocoa.");
+  else if(barkPct < 18 && sugarPct < 10 && smokePct < 8) suggestions.push("For stronger bark, add brown sugar, smoked paprika, chipotle powder, coffee, or cocoa.");
+  else if(colorPct < 18) suggestions.push("For a deeper red finish, add paprika, smoked paprika, chili powder, or a small amount of turmeric.");
+  if(savoryPct < 15) suggestions.push("For more backbone, add garlic powder, onion powder, chili powder, celery seed, or a little MSG.");
+  if(herbPct < 8 && profile.garlic >= 4) suggestions.push("A small herb note like oregano, thyme, or parsley can round out the garlic.");
 
   // dominant ingredient / visual dominance check
   let topKey = null, topPct = 0;
@@ -1075,24 +1198,80 @@ function generateFeedback(profile){
   });
   if(topKey && topPct >= 30){
     const ing = INGREDIENTS[topKey];
-    if(ing.flavor.herb >= 6){
-      warnings.push("The " + ing.name.toLowerCase() + " percentage may dominate the appearance.");
-    }
+    if(ing.flavor.herb >= 6) warnings.push(ing.name + " is a large share of the blend and may dominate the look and aroma.");
+    else if(ing.flavor.heat >= 6) warnings.push(ing.name + " is a large share of the blend and may make the heat feel unbalanced.");
+    else if(ing.flavor.sweet >= 8) warnings.push(ing.name + " is a large share of the blend; use lower heat to prevent burning.");
   }
 
-  if(profile.smoke <= 1 && profile.bark <= 3){
-    suggestions.push("Add smoked paprika or chipotle powder for a deeper smoke character.");
-  }
-  if(profile.herb <= 1){
-    suggestions.push("A pinch of oregano or thyme can round out the aromatics.");
+  if(!needsBarkAndColor && smokePct < 6 && profile.earthy < 4) suggestions.push("For more pit-smoke character without changing heat much, add smoked paprika.");
+  if(saltPct < 8 && sugarPct > 15) suggestions.push("Sweetness is leading the profile. Add a little salt or savory spice so it does not read flat.");
+
+  if(warnings.length === 0 && Math.abs(total - 100) < 0.05 && saltPct >= 8 && saltPct <= 20 && sugarPct <= 25){
+    suggestions.push("This is a usable balance. Fine-tune based on the cook: more sugar for ribs, more pepper for beef, more herbs for poultry.");
   }
 
-  return {warnings, suggestions};
+  return {warnings: warnings.slice(0,4), suggestions: suggestions.slice(0,4)};
 }
 
 /* =========================================================
    RENDERING
 ========================================================= */
+function renderTestimonials(){
+  const track = document.getElementById("testimonialTrack");
+  const dots = document.getElementById("testimonialDots");
+  if(!track || !dots) return;
+  track.innerHTML = "";
+  dots.innerHTML = "";
+  TESTIMONIALS.forEach((item, idx)=>{
+    const slide = el("div","testimonial-slide");
+    slide.innerHTML =
+      '<p class="testimonial-quote">"' + escapeHtml(item.quote) + '"</p>'+
+      '<span class="testimonial-name">' + escapeHtml(item.name) + '</span>';
+    track.appendChild(slide);
+
+    const dot = el("button","testimonial-dot","");
+    dot.type = "button";
+    dot.setAttribute("aria-label", "Show testimonial " + (idx + 1));
+    dot.setAttribute("aria-current", idx === testimonialIndex ? "true" : "false");
+    dot.addEventListener("click", ()=>{
+      testimonialIndex = idx;
+      updateTestimonialCarousel();
+      restartTestimonialTimer();
+    });
+    dots.appendChild(dot);
+  });
+  updateTestimonialCarousel();
+}
+
+function updateTestimonialCarousel(){
+  const track = document.getElementById("testimonialTrack");
+  const dots = document.getElementById("testimonialDots");
+  if(!track || !dots) return;
+  track.style.transform = "translateX(-" + (testimonialIndex * 100) + "%)";
+  Array.from(dots.children).forEach((dot, idx)=>{
+    dot.setAttribute("aria-current", idx === testimonialIndex ? "true" : "false");
+  });
+}
+
+function restartTestimonialTimer(){
+  if(testimonialTimer) clearInterval(testimonialTimer);
+  testimonialTimer = setInterval(()=>{
+    testimonialIndex = (testimonialIndex + 1) % TESTIMONIALS.length;
+    updateTestimonialCarousel();
+  }, 4500);
+}
+
+function initTestimonials(){
+  const carousel = document.querySelector(".testimonial-carousel");
+  renderTestimonials();
+  restartTestimonialTimer();
+  if(!carousel) return;
+  carousel.addEventListener("mouseenter", ()=> clearInterval(testimonialTimer));
+  carousel.addEventListener("mouseleave", restartTestimonialTimer);
+  carousel.addEventListener("focusin", ()=> clearInterval(testimonialTimer));
+  carousel.addEventListener("focusout", restartTestimonialTimer);
+}
+
 function renderTotal(){
   const total = round1(totalPercent());
   const wrap = document.getElementById("totalIndicator");
@@ -1227,8 +1406,8 @@ function renderFeedback(profile){
   const {warnings, suggestions} = generateFeedback(profile);
   const wList = document.getElementById("warningsList");
   const sList = document.getElementById("suggestionsList");
-  wList.innerHTML = warnings.length ? warnings.map(w=>'<li>⚠ '+w+'</li>').join("") : '<li class="feedback-empty">No warnings — this blend looks solid.</li>';
-  sList.innerHTML = suggestions.length ? suggestions.map(s=>'<li>💡 '+s+'</li>').join("") : '<li class="feedback-empty">No additional suggestions.</li>';
+  wList.innerHTML = warnings.length ? warnings.map(w=>'<li><strong>Watch:</strong> '+escapeHtml(w)+'</li>').join("") : '<li class="feedback-empty">No warnings - this blend looks solid.</li>';
+  sList.innerHTML = suggestions.length ? suggestions.map(s=>'<li><strong>Try:</strong> '+escapeHtml(s)+'</li>').join("") : '<li class="feedback-empty">No additional suggestions.</li>';
 }
 
 function renderMeats(profile){
@@ -1703,6 +1882,7 @@ document.getElementById("rcNotes").addEventListener("input", persistCurrent);
 ========================================================= */
 async function init(){
   await loadIngredients();
+  initTestimonials();
   loadSavedBlends();
 
   await seedBaseRecipesIfNeeded();
