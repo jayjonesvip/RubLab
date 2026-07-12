@@ -599,7 +599,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 31 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search 35 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -745,6 +745,8 @@ const SEED_INGREDIENTS = {
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
   seaSalt:        { name:"Sea Salt",         category:"Base / Salt",   desc:"Clean mineral salinity with a slightly firmer bite than kosher salt.", density:18,
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
+  celerySalt:     { name:"Celery Salt",      category:"Base / Salt",   desc:"Salty celery backbone with a classic seafood-boil aroma.", density:14,
+    flavor:{salt:9,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:6,herb:2,earthy:2,bark:1,color:0} },
   blackPepper:    { name:"Black Pepper",     category:"Pepper",        desc:"Sharp, woody bite with mild background heat.", density:6,
     flavor:{salt:0,sweet:0,heat:3,pepper:10,garlic:0,smoke:0,savory:2,herb:0,earthy:2,bark:3,color:2} },
   garlicPowder:   { name:"Garlic Powder",    category:"Aromatic",      desc:"Concentrated savory, roasted garlic depth.", density:9,
@@ -787,6 +789,8 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:0,bark:0,color:2} },
   rosemary:       { name:"Rosemary",         category:"Herb",          desc:"Piney, resinous, assertive herb.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:2,bark:0,color:0} },
+  bayLeaves:      { name:"Ground Bay Leaves",category:"Herb / Savory", desc:"Woodsy, herbal bay note that anchors seafood and boil-style blends.", density:2,
+    flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:0,savory:4,herb:8,earthy:4,bark:0,color:1} },
   celerySeed:     { name:"Celery Seed",      category:"Savory",        desc:"Bitter-savory, classic BBQ-rub backbone.", density:6,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:5,herb:2,earthy:3,bark:1,color:0} },
   groundCoffee:   { name:"Ground Coffee",    category:"Roast / Earthy",desc:"Bitter, roasted depth that deepens bark.", density:6,
@@ -795,6 +799,10 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:2,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:0,earthy:6,bark:5,color:6} },
   cinnamon:       { name:"Cinnamon",         category:"Warm Spice",    desc:"Sweet-warm baking spice; used sparingly.", density:8,
     flavor:{salt:0,sweet:4,heat:0,pepper:0,garlic:0,smoke:0,savory:0,herb:0,earthy:3,bark:3,color:2} },
+  allspice:       { name:"Allspice",         category:"Warm Spice",    desc:"Clove-like warmth with peppery, sweet-earthy depth.", density:6,
+    flavor:{salt:0,sweet:2,heat:1,pepper:2,garlic:0,smoke:0,savory:2,herb:0,earthy:5,bark:2,color:2} },
+  nutmeg:         { name:"Nutmeg",           category:"Warm Spice",    desc:"Sweet, woody warmth used in small amounts to round seafood spice.", density:7,
+    flavor:{salt:0,sweet:3,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:0,earthy:4,bark:2,color:1} },
   ginger:         { name:"Ginger",           category:"Warm Spice",    desc:"Bright, peppery warmth with a citrus edge.", density:5,
     flavor:{salt:0,sweet:2,heat:3,pepper:0,garlic:0,smoke:0,savory:2,herb:1,earthy:3,bark:1,color:1} },
   turmeric:       { name:"Turmeric",         category:"Color / Earthy",desc:"Earthy bitterness and a bold golden color.", density:7,
@@ -882,7 +890,9 @@ const SEED_BASE_RECIPES = [
   { id:"base_salt_free_all_purpose", name:"Salt-Free All-Purpose", base:true, author:"PitBlend", notes:"Salt-free garlic, pepper, and herb base converted from tablespoon measurements to estimated weight percentages.", createdAt:5,
     items:{ garlicPowder:41.6, onionPowder:24.6, blackPepper:9.2, basil:4.6, parsley:3.1, thyme:4.6, marjoram:4.6, driedSavory:4.6, cayennePepper:3.1 } },
   { id:"base_salt_pepper_garlic", name:"Salt Pepper Garlic", base:true, author:"PitBlend", notes:"Classic SPG all-purpose base built from sea salt, black pepper, and dehydrated garlic.", createdAt:6,
-    items:{ seaSalt:33.4, blackPepper:33.3, dehydratedGarlic:33.3 } }
+    items:{ seaSalt:33.4, blackPepper:33.3, dehydratedGarlic:33.3 } },
+  { id:"base_seafood_spice", name:"Seafood Spice", base:true, author:"PitBlend", notes:"Old Bay-style seafood spice converted from volume measurements to estimated weight percentages.", createdAt:7,
+    items:{ celerySalt:52.9, bayLeaves:5, smokedPaprika:17.7, blackPepper:11.4, mustardPowder:7.6, allspice:1.9, cayennePepper:1.9, cinnamon:.6, nutmeg:.6, ginger:.4 } }
 ];
 
 const MEAT_WEIGHTS = {
@@ -920,6 +930,8 @@ const BATCH_SIZES = [
 
 const NUTRITION_FACTORS = {
   kosherSalt: {sodiumMgPerG:387},
+  seaSalt: {sodiumMgPerG:389},
+  celerySalt: {sodiumMgPerG:320},
   msg: {sodiumMgPerG:123},
   brownSugar: {calPerG:4, carbPerG:1, sugarPerG:1},
   whiteSugar: {calPerG:4, carbPerG:1, sugarPerG:1}
@@ -1163,6 +1175,9 @@ function computeStyleMatch(profile){
   const colorPct = weightedIngredientPercent("color");
   const smokePct = weightedIngredientPercent("smoke");
   const paprikaPct = (Number(blend.paprika)||0) + (Number(blend.smokedPaprika)||0);
+  const celerySaltPct = Number(blend.celerySalt)||0;
+  const bayLeafPct = Number(blend.bayLeaves)||0;
+  const warmSpicePct = (Number(blend.allspice)||0) + (Number(blend.cinnamon)||0) + (Number(blend.nutmeg)||0) + (Number(blend.ginger)||0);
   const cuminPct = Number(blend.cumin)||0;
   const roastPct = (Number(blend.groundCoffee)||0) + (Number(blend.cocoaPowder)||0) + (Number(blend.turmeric)||0) + (Number(blend.cinnamon)||0) + (Number(blend.ginger)||0);
 
@@ -1172,6 +1187,10 @@ function computeStyleMatch(profile){
 
   if(saltPct < 5 && garlicPct >= 25 && herbPct >= 12 && pepperPct >= 5 && sugarPct < 5){
     return {key:"allPurpose", label:"All-Purpose", explain:"Salt-free garlic, pepper, and herb backbone — an everyday seasoning base for chicken, vegetables, pork, or beef when you want to control salt separately."};
+  }
+
+  if(celerySaltPct >= 25 && bayLeafPct >= 2 && paprikaPct >= 10 && mustardPct >= 4 && warmSpicePct >= 1){
+    return {key:"seafood", label:"Seafood", explain:"Celery salt, bay, paprika, mustard, and warm spice backbone — an Old Bay-style seasoning for shrimp, fish, crab, fries, and vegetables."};
   }
 
   const carolinaSignature = mustardPct >= 8 || (paprikaPct >= 15 && cuminPct >= 5 && sugarPct >= 25 && heatPct >= 8);
