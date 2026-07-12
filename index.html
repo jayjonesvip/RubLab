@@ -418,6 +418,13 @@ header.site-header{
 .batch-table th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-faint);padding:6px 8px;border-bottom:1px solid var(--border-soft);}
 .batch-table td{padding:8px;border-bottom:1px solid var(--border-soft);}
 .batch-note{font-size:.72rem;color:var(--text-faint);margin-top:10px;}
+.batch-bottle-cta{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-top:14px;padding:12px;border:1px solid var(--border-soft);border-radius:var(--radius-sm);
+  background:rgba(217,94,22,.08);
+}
+.batch-bottle-cta span{font-size:.82rem;color:var(--text-dim);}
+.batch-bottle-cta .btn{text-decoration:none;white-space:nowrap;}
 
 /* ---------- Forms / utility rows ---------- */
 .save-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
@@ -583,7 +590,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 25 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search 26 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -604,6 +611,10 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           <tbody id="batchBody"></tbody>
         </table>
         <p class="batch-note">Volume measurements are estimates — actual scoop size varies by ingredient density, brand, and grind. Weigh on a scale for best accuracy.</p>
+        <div class="batch-bottle-cta">
+          <span>Ready to package this batch?</span>
+          <a class="btn btn-sm btn-ember" href="https://amzn.to/4f6kIKc" target="_blank" rel="noopener sponsored">Bottle This Recipe</a>
+        </div>
       </section>
 
     </div>
@@ -763,7 +774,10 @@ const SEED_INGREDIENTS = {
   turmeric:       { name:"Turmeric",         category:"Color / Earthy",desc:"Earthy bitterness and a bold golden color.", density:7,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:0,earthy:5,bark:1,color:8} },
   msg:            { name:"MSG",              category:"Umami",         desc:"Pure savoriness; amplifies everything around it.", density:6,
-    flavor:{salt:2,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:10,herb:0,earthy:0,bark:0,color:0} }
+    flavor:{salt:2,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:10,herb:0,earthy:0,bark:0,color:0} },
+  rpf:            { name:"Red Pepper Flakes",category:"Heat / Texture",desc:"Coarse dried chile flakes with visible red color and slow-building heat.", density:3,
+    affiliateLink:"https://amzn.to/4fam2vp", affiliateAddToCartLink:null,
+    flavor:{salt:0,sweet:1,heat:7,pepper:1,garlic:0,smoke:0,savory:1,herb:0,earthy:2,bark:1,color:4} }
 };
 
 const FLAVOR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb","earthy","bark","color"];
@@ -1183,6 +1197,7 @@ function generateSummary(profile){
   const herbPct = weightedIngredientPercent("herb");
   const smokePct = weightedIngredientPercent("smoke");
   const earthyPct = weightedIngredientPercent("earthy");
+  const redPepperFlakePct = Number(blend.rpf) || 0;
   const notes = [];
   if(saltPct >= 28) notes.push("salt-heavy");
   else if(saltPct >= 16) notes.push("well-salted");
@@ -1194,6 +1209,7 @@ function generateSummary(profile){
   if(sugarPct >= 24) notes.push("richly sweet");
   else if(sugarPct >= 10) notes.push("lightly sweet");
   if(smokePct >= 12) notes.push("smoky");
+  if(redPepperFlakePct >= 8) notes.push("chile-flake texture");
   if(herbPct >= 15) notes.push("herbaceous");
   if(earthyPct >= 14) notes.push("earthy");
 
@@ -1208,6 +1224,7 @@ function generateSummary(profile){
   if(sugarPct >= 18 && barkPct >= 20) useText = "Best for low-and-slow cooks where sugar can build color without scorching.";
   else if(pepperPct >= 18 && saltPct >= 12) useText = "Best on beef, especially brisket, ribs, burgers, or steak.";
   else if(herbPct >= 12 && heatPct <= 10) useText = "Best on chicken, turkey, seafood, or vegetables.";
+  else if(redPepperFlakePct >= 10) useText = "Best when you want visible chile flakes and a slow-building heat.";
   else if(heatPct >= 14) useText = "Use a lighter hand on poultry and lean cuts so the heat does not dominate.";
 
   const totalText = Math.abs(total - 100) < 0.05
@@ -1230,6 +1247,7 @@ function generateFeedback(profile){
   const savoryPct = weightedIngredientPercent("savory");
   const herbPct = weightedIngredientPercent("herb");
   const smokePct = weightedIngredientPercent("smoke");
+  const redPepperFlakePct = Number(blend.rpf) || 0;
 
   if(total < 95) warnings.push("The blend totals " + fmtPct(round1(total)) + "%. Scale it to 100% before mixing, or the batch weights will come out light.");
   if(total > 105) warnings.push("The blend totals " + fmtPct(round1(total)) + "%. Auto Balance before mixing so each ingredient stays in proportion.");
@@ -1239,6 +1257,7 @@ function generateFeedback(profile){
 
   if(heatPct >= 18) warnings.push("Heat is aggressive. It can work for wings or bold beef, but it may overpower poultry, pork loin, or vegetables.");
   else if(heatPct >= 10) suggestions.push("Heat is noticeable. Pair with enough salt, sugar, or savory depth so it does not taste one-dimensional.");
+  if(redPepperFlakePct >= 12) suggestions.push("Red pepper flakes add visible texture and uneven bursts of heat. Grind them finer if you want smoother coverage.");
 
   if(sugarPct >= 30) warnings.push("Sugar is high. Keep this away from direct high heat until late in the cook to avoid scorching.");
   else if(sugarPct >= 18) suggestions.push("Sugar should help bark and browning, but watch flare-ups over direct heat.");

@@ -523,26 +523,26 @@
       "bark": 0,
       "color": 0
     }
-    ,
+  },
   "rpf": {
     "name": "Red Pepper Flakes",
-    "category": "Heat",
-    "desc": "A dried, coarsely ground condiment made from a blend of chili peppers. ",
-    "density": 6,
+    "category": "Heat / Texture",
+    "desc": "Coarse dried chile flakes with visible red color and slow-building heat.",
+    "density": 3,
     "affiliateLink": "https://amzn.to/4fam2vp",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
-      "sweet": 0,
-      "heat": 10,
-      "pepper": 0,
+      "sweet": 1,
+      "heat": 7,
+      "pepper": 1,
       "garlic": 0,
       "smoke": 0,
-      "savory": 0,
+      "savory": 1,
       "herb": 0,
-      "earthy": 0,
-      "bark": 0,
-      "color": 1
+      "earthy": 2,
+      "bark": 1,
+      "color": 4
     }
   }
 }
