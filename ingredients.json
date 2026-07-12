@@ -20,6 +20,27 @@
       "color": 0
     }
   },
+  "seaSalt": {
+    "name": "Sea Salt",
+    "category": "Base / Salt",
+    "desc": "Clean mineral salinity with a slightly firmer bite than kosher salt.",
+    "density": 18,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 10,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 3,
+      "herb": 0,
+      "earthy": 0,
+      "bark": 2,
+      "color": 0
+    }
+  },
   "blackPepper": {
     "name": "Black Pepper",
     "category": "Pepper",
@@ -47,6 +68,27 @@
     "desc": "Concentrated savory, roasted garlic depth.",
     "density": 9,
     "affiliateLink": "https://amzn.to/3RyP9AS",
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 10,
+      "smoke": 0,
+      "savory": 6,
+      "herb": 1,
+      "earthy": 1,
+      "bark": 1,
+      "color": 1
+    }
+  },
+  "dehydratedGarlic": {
+    "name": "Dehydrated Garlic",
+    "category": "Aromatic",
+    "desc": "Coarser garlic pieces with a punchy allium pop and visible texture.",
+    "density": 4,
+    "affiliateLink": null,
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,

@@ -1,0 +1,13 @@
+{
+  "id": "base_salt_pepper_garlic",
+  "name": "Salt Pepper Garlic",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Classic SPG all-purpose base built from sea salt, black pepper, and dehydrated garlic.",
+  "createdAt": 6,
+  "items": {
+    "seaSalt": 33.4,
+    "blackPepper": 33.3,
+    "dehydratedGarlic": 33.3
+  }
+}

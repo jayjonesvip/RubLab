@@ -599,7 +599,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 29 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search 31 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -743,9 +743,13 @@ const SEED_INGREDIENTS = {
   kosherSalt:     { name:"Kosher Salt",      category:"Base / Salt",   desc:"Pure salty backbone; sharpens every other flavor.", density:15,
     affiliateLink:"https://example.com/test-kosher-salt", affiliateAddToCartLink:null,
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
+  seaSalt:        { name:"Sea Salt",         category:"Base / Salt",   desc:"Clean mineral salinity with a slightly firmer bite than kosher salt.", density:18,
+    flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
   blackPepper:    { name:"Black Pepper",     category:"Pepper",        desc:"Sharp, woody bite with mild background heat.", density:6,
     flavor:{salt:0,sweet:0,heat:3,pepper:10,garlic:0,smoke:0,savory:2,herb:0,earthy:2,bark:3,color:2} },
   garlicPowder:   { name:"Garlic Powder",    category:"Aromatic",      desc:"Concentrated savory, roasted garlic depth.", density:9,
+    flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:10,smoke:0,savory:6,herb:1,earthy:1,bark:1,color:1} },
+  dehydratedGarlic:{ name:"Dehydrated Garlic", category:"Aromatic",    desc:"Coarser garlic pieces with a punchy allium pop and visible texture.", density:4,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:10,smoke:0,savory:6,herb:1,earthy:1,bark:1,color:1} },
   onionPowder:    { name:"Onion Powder",     category:"Aromatic",      desc:"Sweet, savory allium base note.", density:8,
     flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:3,smoke:0,savory:6,herb:0,earthy:1,bark:1,color:1} },
@@ -876,7 +880,9 @@ const SEED_BASE_RECIPES = [
   { id:"base_carolina_bbq",  name:"Carolina BBQ Rub", base:true, author:"PitBlend", notes:"Classic Carolina-style rub converted from volume measurements to estimated weight percentages.", createdAt:4,
     items:{ paprika:18.4, kosherSalt:19.7, whiteSugar:15.8, brownSugar:15.8, cumin:7.9, chiliPowder:10.5, blackPepper:7.9, cayennePepper:4 } },
   { id:"base_salt_free_all_purpose", name:"Salt-Free All-Purpose", base:true, author:"PitBlend", notes:"Salt-free garlic, pepper, and herb base converted from tablespoon measurements to estimated weight percentages.", createdAt:5,
-    items:{ garlicPowder:41.6, onionPowder:24.6, blackPepper:9.2, basil:4.6, parsley:3.1, thyme:4.6, marjoram:4.6, driedSavory:4.6, cayennePepper:3.1 } }
+    items:{ garlicPowder:41.6, onionPowder:24.6, blackPepper:9.2, basil:4.6, parsley:3.1, thyme:4.6, marjoram:4.6, driedSavory:4.6, cayennePepper:3.1 } },
+  { id:"base_salt_pepper_garlic", name:"Salt Pepper Garlic", base:true, author:"PitBlend", notes:"Classic SPG all-purpose base built from sea salt, black pepper, and dehydrated garlic.", createdAt:6,
+    items:{ seaSalt:33.4, blackPepper:33.3, dehydratedGarlic:33.3 } }
 ];
 
 const MEAT_WEIGHTS = {
