@@ -6,13 +6,13 @@
   "notes": "",
   "createdAt": 3,
   "items": {
-    "kosherSalt": 15,
+    "kosherSalt": 18,
     "garlicPowder": 20,
     "onionPowder": 10,
-    "paprika": 15,
-    "cayennePepper": 15,
-    "oregano": 10,
-    "thyme": 10,
-    "blackPepper": 5
+    "paprika": 18,
+    "cayennePepper": 14,
+    "chiliPowder": 12,
+    "blackPepper": 5,
+    "oregano": 3
   }
 }

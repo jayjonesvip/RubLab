@@ -814,9 +814,11 @@ const SEED_BASE_RECIPES = [
   { id:"base_texas_brisket", name:"Texas Brisket", base:true, author:"RubLab", notes:"", createdAt:1,
     items:{ kosherSalt:30, blackPepper:40, garlicPowder:15, onionPowder:10, cayennePepper:5 } },
   { id:"base_sweet_rib",     name:"Sweet Rib Rub", base:true, author:"RubLab", notes:"", createdAt:2,
-    items:{ brownSugar:35, paprika:20, kosherSalt:15, garlicPowder:10, chiliPowder:10, blackPepper:10 } },
+    items:{ brownSugar:30, paprika:25, smokedPaprika:10, kosherSalt:15, garlicPowder:10, chiliPowder:5, blackPepper:5 } },
   { id:"base_spicy_chicken", name:"Spicy Chicken", base:true, author:"RubLab", notes:"", createdAt:3,
-    items:{ kosherSalt:15, garlicPowder:20, onionPowder:10, paprika:15, cayennePepper:15, oregano:10, thyme:10, blackPepper:5 } }
+    items:{ kosherSalt:18, garlicPowder:20, onionPowder:10, paprika:18, cayennePepper:14, chiliPowder:12, blackPepper:5, oregano:3 } },
+  { id:"base_carolina_bbq",  name:"Carolina BBQ Rub", base:true, author:"RubLab", notes:"Classic Carolina-style rub converted from volume measurements to estimated weight percentages.", createdAt:4,
+    items:{ paprika:18.4, kosherSalt:19.7, whiteSugar:15.8, brownSugar:15.8, cumin:7.9, chiliPowder:10.5, blackPepper:7.9, cayennePepper:4 } }
 ];
 
 const MEAT_WEIGHTS = {
@@ -1082,16 +1084,29 @@ function computeStyleMatch(profile){
   const pepperPct = weightedIngredientPercent("pepper");
   const garlicPct = weightedIngredientPercent("garlic");
   const sugarPct = weightedIngredientPercent("sweet");
+  const heatPct = weightedIngredientPercent("heat");
   const herbPct = weightedIngredientPercent("herb");
   const colorPct = weightedIngredientPercent("color");
+  const smokePct = weightedIngredientPercent("smoke");
+  const paprikaPct = (Number(blend.paprika)||0) + (Number(blend.smokedPaprika)||0);
+  const cuminPct = Number(blend.cumin)||0;
   const roastPct = (Number(blend.groundCoffee)||0) + (Number(blend.cocoaPowder)||0) + (Number(blend.turmeric)||0) + (Number(blend.cinnamon)||0) + (Number(blend.ginger)||0);
 
   if(totalPercent() <= 0){
     return {key:"allPurpose", label:"All-Purpose", explain:"Add ingredients to see a style match."};
   }
 
-  if(mustardPct >= 8){
+  const carolinaSignature = mustardPct >= 8 || (paprikaPct >= 15 && cuminPct >= 5 && sugarPct >= 25 && heatPct >= 8);
+  if(carolinaSignature){
     return {key:"carolina", label:"Carolina", explain: STYLE_CENTROIDS.carolina.explain};
+  }
+
+  if(sugarPct >= 28 && colorPct >= 24 && smokePct >= 8 && heatPct < 12){
+    return {key:"memphis", label:"Memphis", explain: STYLE_CENTROIDS.memphis.explain};
+  }
+
+  if(heatPct >= 18 && garlicPct >= 18 && saltPct >= 12 && sugarPct < 10){
+    return {key:"cajun", label:"Cajun", explain: STYLE_CENTROIDS.cajun.explain};
   }
 
   if(saltPct >= 12 && pepperPct >= 12 && garlicPct >= 10 && sugarPct < 10 && mustardPct < 5){
@@ -1103,7 +1118,7 @@ function computeStyleMatch(profile){
 
   let best = null, bestDist = Infinity;
   Object.keys(STYLE_CENTROIDS).forEach(key=>{
-    if(key === "carolina" && mustardPct < 5) return;
+    if(key === "carolina" && !carolinaSignature) return;
     const vec = STYLE_CENTROIDS[key].vec;
     let dist = 0;
     FLAVOR_DIMS.forEach(d=>{
