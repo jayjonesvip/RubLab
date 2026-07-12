@@ -1075,8 +1075,15 @@ function computeMeatScores(profile){
 }
 
 function computeStyleMatch(profile){
-  // direct signature override: mustard powder heavy -> Carolina
+  // Direct signature overrides keep simple, familiar rub styles from being
+  // mislabeled by the generic nearest-centroid match.
   const mustardPct = Number(blend.mustardPowder)||0;
+  const saltPct = weightedIngredientPercent("salt");
+  const pepperPct = weightedIngredientPercent("pepper");
+  const garlicPct = weightedIngredientPercent("garlic");
+  const sugarPct = weightedIngredientPercent("sweet");
+  const herbPct = weightedIngredientPercent("herb");
+  const colorPct = weightedIngredientPercent("color");
   const roastPct = (Number(blend.groundCoffee)||0) + (Number(blend.cocoaPowder)||0) + (Number(blend.turmeric)||0) + (Number(blend.cinnamon)||0) + (Number(blend.ginger)||0);
 
   if(totalPercent() <= 0){
@@ -1087,8 +1094,16 @@ function computeStyleMatch(profile){
     return {key:"carolina", label:"Carolina", explain: STYLE_CENTROIDS.carolina.explain};
   }
 
+  if(saltPct >= 12 && pepperPct >= 12 && garlicPct >= 10 && sugarPct < 10 && mustardPct < 5){
+    if(pepperPct >= 24 && pepperPct > saltPct * 1.15 && pepperPct > garlicPct * 1.5){
+      return {key:"texas", label:"Texas", explain: STYLE_CENTROIDS.texas.explain};
+    }
+    return {key:"allPurpose", label:"All-Purpose", explain:"Classic salt, pepper, and garlic backbone with minimal sweetness — a flexible everyday rub for beef, pork, chicken, or vegetables."};
+  }
+
   let best = null, bestDist = Infinity;
   Object.keys(STYLE_CENTROIDS).forEach(key=>{
+    if(key === "carolina" && mustardPct < 5) return;
     const vec = STYLE_CENTROIDS[key].vec;
     let dist = 0;
     FLAVOR_DIMS.forEach(d=>{
@@ -1101,6 +1116,9 @@ function computeStyleMatch(profile){
 
   if(roastPct >= 15 && bestDist > 4.5){
     return {key:"experimental", label:"Experimental", explain:"Roasted, earthy ingredients like coffee, cocoa, or warm baking spices push this outside classic BBQ regions."};
+  }
+  if(best === "allPurpose" && sugarPct < 10 && colorPct < 18 && herbPct < 10){
+    return {key:"allPurpose", label:"All-Purpose", explain:"Simple savory backbone with low sweetness and low color — a flexible base rub that can lean beef, pork, poultry, or vegetables depending on the cook."};
   }
   if(bestDist > 7){
     return {key:"experimental", label:"Experimental", explain:"This combination doesn't cleanly match a classic regional style — a genuinely original blend."};
