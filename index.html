@@ -387,6 +387,8 @@ input[type="file"]{display:none;}
 .recipe-sub{font-size:.8rem;color:var(--text-faint);margin-bottom:14px;}
 .recipe-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:14px;}
 .recipe-table td{padding:5px 4px;border-bottom:1px solid var(--border-soft);}
+.recipe-table td:last-child{text-align:right;}
+.recipe-affiliate-btn{padding:5px 10px;font-size:.68rem;text-decoration:none;display:inline-flex;}
 .notes-field{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:var(--radius-sm);padding:10px;font-family:inherit;font-size:.85rem;min-height:70px;resize:vertical;}
 .recipe-actions{display:flex;justify-content:flex-end;margin-top:14px;}
 
@@ -420,7 +422,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   #recipeCardPrintArea{position:absolute;top:0;left:0;width:100%;background:#fff;color:#111;padding:20px;}
   #recipeCardPrintArea .recipe-card{border:none;background:#fff;}
   #recipeCardPrintArea .notes-field{border:1px solid #999;}
-  #recipeCardPrintArea .recipe-actions{display:none;}
+  #recipeCardPrintArea .recipe-actions, #recipeCardPrintArea .recipe-affiliate-btn{display:none;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -621,8 +623,10 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
    Flavor values are 0–10 "at 100% weight share" intensities.
    Final blend scores are percentage-weighted averages of these.
 ========================================================= */
-const INGREDIENTS = {
+let INGREDIENTS = {};
+const SEED_INGREDIENTS = {
   kosherSalt:     { name:"Kosher Salt",      category:"Base / Salt",   desc:"Pure salty backbone; sharpens every other flavor.", density:15,
+    affiliateLink:"https://example.com/test-kosher-salt", affiliateAddToCartLink:null,
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
   blackPepper:    { name:"Black Pepper",     category:"Pepper",        desc:"Sharp, woody bite with mild background heat.", density:6,
     flavor:{salt:0,sweet:0,heat:3,pepper:10,garlic:0,smoke:0,savory:2,herb:0,earthy:2,bark:3,color:2} },
@@ -677,6 +681,45 @@ const INGREDIENTS = {
 const FLAVOR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb","earthy","bark","color"];
 const DIM_LABELS = {salt:"Salt",sweet:"Sweet",heat:"Heat",pepper:"Pepper",garlic:"Garlic",smoke:"Smoke",savory:"Savory",herb:"Herb",earthy:"Earthy",bark:"Bark",color:"Color"};
 const RADAR_DIMS = ["salt","sweet","heat","pepper","garlic","smoke","savory","herb"];
+
+function normalizeIngredientLibrary(source){
+  const normalized = {};
+  Object.keys(source || {}).forEach(key=>{
+    const ing = source[key];
+    if(!ing || !ing.name || !ing.flavor) return;
+    normalized[key] = {
+      name: ing.name,
+      category: ing.category || "Ingredient",
+      desc: ing.desc || "",
+      density: Number(ing.density) || 1,
+      affiliateLink: ing.affiliateLink || null,
+      affiliateAddToCartLink: ing.affiliateAddToCartLink || null,
+      flavor: {}
+    };
+    FLAVOR_DIMS.forEach(dim=>{
+      normalized[key].flavor[dim] = Number(ing.flavor[dim]) || 0;
+    });
+  });
+  return normalized;
+}
+
+async function fetchIngredientFile(){
+  if(typeof fetch !== "function") return null;
+  try{
+    const res = await fetch("ingredients.json");
+    if(!res.ok) return null;
+    const parsed = await res.json();
+    return parsed && typeof parsed === "object" ? parsed : null;
+  }catch(e){
+    return null;
+  }
+}
+
+async function loadIngredients(){
+  const fileIngredients = await fetchIngredientFile();
+  const loaded = normalizeIngredientLibrary(fileIngredients || SEED_INGREDIENTS);
+  INGREDIENTS = Object.keys(loaded).length ? loaded : normalizeIngredientLibrary(SEED_INGREDIENTS);
+}
 
 /* Offline fallback seed data — used only when /recipes/*.json can't be
    fetched (opened via file://, or running inside a sandboxed Artifact).
@@ -877,6 +920,18 @@ function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function round1(v){ return Math.round(v*10)/10; }
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
 function fmtPct(v){ return (Math.round(v*10)/10).toString().replace(/\.0$/,""); }
+function escapeHtml(value){
+  return String(value).replace(/[&<>"']/g, ch => ({'&':"&amp;",'<':"&lt;",'>':"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
+}
+function safeAffiliateUrl(value){
+  if(!value) return null;
+  try{
+    const url = new URL(value, window.location.href);
+    return /^https?:$/.test(url.protocol) ? url.href : null;
+  }catch(e){
+    return null;
+  }
+}
 
 function showToast(message, type){
   const container = document.getElementById("toastContainer");
@@ -1249,8 +1304,16 @@ function renderRecipeCard(profile, meatData){
     const pct = Number(blend[key])||0;
     const totalGrams = BATCH_SIZES[currentBatchIndex].grams !== null ? BATCH_SIZES[currentBatchIndex].grams : customGrams;
     const grams = totalGrams*(pct/100);
+    const addToCartUrl = safeAffiliateUrl(ing.affiliateAddToCartLink);
+    const affiliateUrl = safeAffiliateUrl(ing.affiliateLink);
+    const linkUrl = addToCartUrl || affiliateUrl;
+    const linkLabel = addToCartUrl ? "Add to Cart" : "Buy";
     const tr = document.createElement("tr");
-    tr.innerHTML = "<td>"+ing.name+"</td><td>"+fmtPct(pct)+"%</td><td>"+round1(grams)+" g</td>";
+    tr.innerHTML =
+      "<td>"+escapeHtml(ing.name)+"</td>"+
+      "<td>"+fmtPct(pct)+"%</td>"+
+      "<td>"+round1(grams)+" g</td>"+
+      "<td>"+(linkUrl ? '<a class="btn btn-sm btn-ember recipe-affiliate-btn" href="'+escapeHtml(linkUrl)+'" target="_blank" rel="noopener sponsored">'+linkLabel+"</a>" : "")+"</td>";
     table.appendChild(tr);
   });
 
@@ -1639,6 +1702,7 @@ document.getElementById("rcNotes").addEventListener("input", persistCurrent);
    INIT
 ========================================================= */
 async function init(){
+  await loadIngredients();
   loadSavedBlends();
 
   await seedBaseRecipesIfNeeded();
