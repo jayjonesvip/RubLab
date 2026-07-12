@@ -1,0 +1,18 @@
+{
+  "id": "base_carolina_bbq",
+  "name": "Carolina BBQ Rub",
+  "base": true,
+  "author": "RubLab",
+  "notes": "Classic Carolina-style rub converted from volume measurements to estimated weight percentages.",
+  "createdAt": 4,
+  "items": {
+    "paprika": 18.4,
+    "kosherSalt": 19.7,
+    "whiteSugar": 15.8,
+    "brownSugar": 15.8,
+    "cumin": 7.9,
+    "chiliPowder": 10.5,
+    "blackPepper": 7.9,
+    "cayennePepper": 4
+  }
+}

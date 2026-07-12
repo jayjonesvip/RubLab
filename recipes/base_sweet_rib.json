@@ -6,11 +6,12 @@
   "notes": "",
   "createdAt": 2,
   "items": {
-    "brownSugar": 35,
-    "paprika": 20,
+    "brownSugar": 30,
+    "paprika": 25,
+    "smokedPaprika": 10,
     "kosherSalt": 15,
     "garlicPowder": 10,
-    "chiliPowder": 10,
-    "blackPepper": 10
+    "chiliPowder": 5,
+    "blackPepper": 5
   }
 }
