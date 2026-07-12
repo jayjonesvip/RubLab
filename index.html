@@ -599,7 +599,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 26 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search 29 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -771,8 +771,14 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:2,earthy:4,bark:1,color:1} },
   oregano:        { name:"Oregano",          category:"Herb",          desc:"Peppery, slightly bitter dried herb.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:1,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
+  basil:          { name:"Dried Basil",      category:"Herb",          desc:"Sweet, leafy herb note with gentle green aroma.", density:3,
+    flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:8,earthy:1,bark:0,color:1} },
   thyme:          { name:"Thyme",            category:"Herb",          desc:"Earthy, minty-woody herb note.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
+  marjoram:       { name:"Dried Marjoram",   category:"Herb",          desc:"Soft oregano-like herb with a sweeter floral edge.", density:3,
+    flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
+  driedSavory:    { name:"Dried Savory",     category:"Herb / Savory", desc:"Peppery, thyme-like herb that adds a salt-free savory lift.", density:3,
+    flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:0,savory:4,herb:7,earthy:2,bark:0,color:1} },
   parsley:        { name:"Parsley",          category:"Herb",          desc:"Fresh, mild green herb — mostly visual pop.", density:2,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:0,bark:0,color:2} },
   rosemary:       { name:"Rosemary",         category:"Herb",          desc:"Piney, resinous, assertive herb.", density:3,
@@ -868,7 +874,9 @@ const SEED_BASE_RECIPES = [
   { id:"base_spicy_chicken", name:"Spicy Chicken", base:true, author:"PitBlend", notes:"", createdAt:3,
     items:{ kosherSalt:18, garlicPowder:20, onionPowder:10, paprika:18, cayennePepper:14, chiliPowder:12, blackPepper:5, oregano:3 } },
   { id:"base_carolina_bbq",  name:"Carolina BBQ Rub", base:true, author:"PitBlend", notes:"Classic Carolina-style rub converted from volume measurements to estimated weight percentages.", createdAt:4,
-    items:{ paprika:18.4, kosherSalt:19.7, whiteSugar:15.8, brownSugar:15.8, cumin:7.9, chiliPowder:10.5, blackPepper:7.9, cayennePepper:4 } }
+    items:{ paprika:18.4, kosherSalt:19.7, whiteSugar:15.8, brownSugar:15.8, cumin:7.9, chiliPowder:10.5, blackPepper:7.9, cayennePepper:4 } },
+  { id:"base_salt_free_all_purpose", name:"Salt-Free All-Purpose", base:true, author:"PitBlend", notes:"Salt-free garlic, pepper, and herb base converted from tablespoon measurements to estimated weight percentages.", createdAt:5,
+    items:{ garlicPowder:41.6, onionPowder:24.6, blackPepper:9.2, basil:4.6, parsley:3.1, thyme:4.6, marjoram:4.6, driedSavory:4.6, cayennePepper:3.1 } }
 ];
 
 const MEAT_WEIGHTS = {
@@ -1060,6 +1068,8 @@ async function loadAllRecipes(){
 ========================================================= */
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function round1(v){ return Math.round(v*10)/10; }
+function roundToQuarter(v){ return Math.round(v*4)/4; }
+function formatQuarterValue(v){ return Number.isInteger(v) ? String(v) : String(v).replace(/0$/,""); }
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
 function fmtPct(v){ return (Math.round(v*10)/10).toString().replace(/\.0$/,""); }
 function escapeHtml(value){
@@ -1152,6 +1162,10 @@ function computeStyleMatch(profile){
 
   if(totalPercent() <= 0){
     return {key:"allPurpose", label:"All-Purpose", explain:"Add ingredients to see a style match."};
+  }
+
+  if(saltPct < 5 && garlicPct >= 25 && herbPct >= 12 && pepperPct >= 5 && sugarPct < 5){
+    return {key:"allPurpose", label:"All-Purpose", explain:"Salt-free garlic, pepper, and herb backbone — an everyday seasoning base for chicken, vegetables, pork, or beef when you want to control salt separately."};
   }
 
   const carolinaSignature = mustardPct >= 8 || (paprikaPct >= 15 && cuminPct >= 5 && sugarPct >= 25 && heatPct >= 8);
@@ -1527,9 +1541,9 @@ function renderMeats(profile){
 function formatApproxVolume(grams, density){
   const tbsp = grams / density;
   if(tbsp >= 1){
-    return "approx " + round1(tbsp) + " tbsp";
+    return "~ " + formatQuarterValue(roundToQuarter(tbsp)) + " tbsp";
   }
-  return "approx " + round1(tbsp * 3) + " tsp";
+  return "~ " + formatQuarterValue(roundToQuarter(tbsp * 3)) + " tsp";
 }
 
 function renderBatch(profile){
