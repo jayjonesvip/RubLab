@@ -121,11 +121,12 @@ header.site-header{
   border-bottom:1px solid var(--border-soft);
   background:var(--bg-2);
 }
-.header-inner{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px;}
-.logo-block{display:flex;flex-direction:column;gap:10px;max-width:640px;}
+.header-inner{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:28px;}
+.logo-block{display:flex;align-items:center;gap:28px;max-width:940px;min-width:0;}
 .logo{
   margin:0;
   display:block;
+  flex:0 0 auto;
 }
 .logo img{
   display:block;
@@ -141,8 +142,9 @@ header.site-header{
   white-space:nowrap;
   border:0;
 }
+.header-copy{display:flex;flex-direction:column;gap:10px;max-width:440px;min-width:280px;}
 .tagline{font-size:1.05rem;color:var(--text-dim);font-weight:500;}
-.subdesc{font-size:.92rem;color:var(--text-faint);max-width:520px;}
+.subdesc{font-size:.92rem;color:var(--text-faint);max-width:440px;}
 .header-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
 /* ---------- Testimonials ---------- */
@@ -165,7 +167,7 @@ header.site-header{
 .testimonial-slide{
   flex:0 0 100%;
   min-width:100%;
-  padding:16px 48px 16px 0;
+  padding:16px 148px 16px 0;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -202,6 +204,9 @@ header.site-header{
 }
 .testimonial-dot[aria-current="true"]{background:var(--accent);}
 @media (max-width:720px){
+  .header-inner{align-items:flex-start;}
+  .logo-block{align-items:flex-start;flex-direction:column;gap:12px;}
+  .header-copy{max-width:520px;min-width:0;}
   .testimonial-slide{padding-right:0;align-items:flex-start;flex-direction:column;gap:6px;}
   .testimonial-dots{position:static;transform:none;padding-bottom:12px;}
 }
@@ -551,8 +556,10 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
         <span class="sr-only">PitBlend</span>
         <img src="assets/pitblend-logo-badge.png" alt="" aria-hidden="true">
       </h1>
-      <p class="tagline">Build your perfect BBQ rub.</p>
-      <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
+      <div class="header-copy">
+        <p class="tagline">Build your perfect BBQ rub.</p>
+        <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
+      </div>
     </div>
     <div class="header-actions">
       <button class="btn btn-danger" id="resetBtn" data-tip="Clear the blend back to empty">Reset Blend</button>
