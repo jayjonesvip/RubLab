@@ -121,8 +121,8 @@ header.site-header{
   border-bottom:1px solid var(--border-soft);
   background:var(--bg-2);
 }
-.header-inner{max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:28px;}
-.logo-block{display:flex;align-items:center;gap:28px;max-width:940px;min-width:0;}
+.header-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:auto minmax(320px, 1fr) auto;align-items:center;gap:36px;}
+.logo-block{min-width:0;}
 .logo{
   margin:0;
   display:block;
@@ -142,9 +142,9 @@ header.site-header{
   white-space:nowrap;
   border:0;
 }
-.header-copy{display:flex;flex-direction:column;gap:10px;max-width:440px;min-width:280px;}
+.header-copy{display:flex;flex-direction:column;gap:10px;max-width:520px;min-width:0;}
 .tagline{font-size:1.05rem;color:var(--text-dim);font-weight:500;}
-.subdesc{font-size:.92rem;color:var(--text-faint);max-width:440px;}
+.subdesc{font-size:.92rem;color:var(--text-faint);max-width:520px;}
 .header-actions{display:flex;gap:10px;flex-wrap:wrap;}
 
 /* ---------- Testimonials ---------- */
@@ -161,23 +161,25 @@ header.site-header{
   background:var(--bg);
 }
 .testimonial-track{
-  display:flex;
-  transition:transform .45s ease;
+  display:block;
 }
 .testimonial-slide{
-  flex:0 0 100%;
-  min-width:100%;
+  display:none;
   padding:16px 148px 16px 0;
-  display:flex;
+  grid-template-columns:minmax(0, 1fr) auto;
   align-items:center;
-  justify-content:space-between;
-  gap:18px;
+  gap:28px;
+}
+.testimonial-slide.is-active{
+  display:grid;
 }
 .testimonial-quote{
   margin:0;
   color:var(--text);
   font-size:.98rem;
   font-weight:600;
+  min-width:0;
+  overflow-wrap:anywhere;
 }
 .testimonial-name{
   color:var(--text-faint);
@@ -204,9 +206,9 @@ header.site-header{
 }
 .testimonial-dot[aria-current="true"]{background:var(--accent);}
 @media (max-width:720px){
-  .header-inner{align-items:flex-start;}
-  .logo-block{align-items:flex-start;flex-direction:column;gap:12px;}
+  .header-inner{display:flex;align-items:flex-start;flex-direction:column;gap:12px;}
   .header-copy{max-width:520px;min-width:0;}
+  .testimonial-slide.is-active{display:flex;}
   .testimonial-slide{padding-right:0;align-items:flex-start;flex-direction:column;gap:6px;}
   .testimonial-dots{position:static;transform:none;padding-bottom:12px;}
 }
@@ -556,10 +558,10 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
         <span class="sr-only">PitBlend</span>
         <img src="assets/pitblend-logo-badge.png" alt="" aria-hidden="true">
       </h1>
-      <div class="header-copy">
-        <p class="tagline">Build your perfect BBQ rub.</p>
-        <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
-      </div>
+    </div>
+    <div class="header-copy">
+      <p class="tagline">Build your perfect BBQ rub.</p>
+      <p class="subdesc">Dial in every ingredient by weight percentage and see the flavor, heat, bark, and meat pairings update instantly — before you touch a mixing bowl.</p>
     </div>
     <div class="header-actions">
       <button class="btn btn-danger" id="resetBtn" data-tip="Clear the blend back to empty">Reset Blend</button>
@@ -1374,6 +1376,8 @@ function renderTestimonials(){
   dots.innerHTML = "";
   TESTIMONIALS.forEach((item, idx)=>{
     const slide = el("div","testimonial-slide");
+    if(idx === testimonialIndex) slide.classList.add("is-active");
+    slide.setAttribute("aria-hidden", idx === testimonialIndex ? "false" : "true");
     slide.innerHTML =
       '<p class="testimonial-quote">"' + escapeHtml(item.quote) + '"</p>'+
       '<span class="testimonial-name">' + escapeHtml(item.name) + '</span>';
@@ -1397,7 +1401,11 @@ function updateTestimonialCarousel(){
   const track = document.getElementById("testimonialTrack");
   const dots = document.getElementById("testimonialDots");
   if(!track || !dots) return;
-  track.style.transform = "translateX(-" + (testimonialIndex * 100) + "%)";
+  Array.from(track.children).forEach((slide, idx)=>{
+    const isActive = idx === testimonialIndex;
+    slide.classList.toggle("is-active", isActive);
+    slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+  });
   Array.from(dots.children).forEach((dot, idx)=>{
     dot.setAttribute("aria-current", idx === testimonialIndex ? "true" : "false");
   });
