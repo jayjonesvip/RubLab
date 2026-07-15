@@ -214,7 +214,7 @@
     "category": "Extreme Heat",
     "desc": "Extremely hot chile powder with fruity heat; measure carefully.",
     "density": 6,
-    "affiliateLink": null,
+    "affiliateLink": "https://amzn.to/4ppAR26",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
@@ -382,7 +382,7 @@
     "category": "Citrus",
     "desc": "Bright lemon aroma and tart citrus lift for poultry, seafood, and vegetables.",
     "density": 5,
-    "affiliateLink": null,
+    "affiliateLink": "https://amzn.to/4poV9c0",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
@@ -508,7 +508,7 @@
     "category": "Herb",
     "desc": "Fresh grassy herb note with a classic Greek and seafood lean.",
     "density": 2,
-    "affiliateLink": null,
+    "affiliateLink": "https://amzn.to/4wKf47Q",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
@@ -613,7 +613,28 @@
     "category": "Sweet Spice",
     "desc": "Sweet anise-like seed with Italian sausage and Mediterranean seasoning character.",
     "density": 5,
-    "affiliateLink": null,
+    "affiliateLink": "https://amzn.to/4ysv2oM",
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 4,
+      "heat": 0,
+      "pepper": 1,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 2,
+      "earthy": 3,
+      "bark": 1,
+      "color": 1
+    }
+  },
+   "groundFennel": {
+    "name": "Ground Fennel",
+    "category": "Sweet Spice",
+    "desc": "Sweet anise-like seed with Italian sausage and Mediterranean seasoning character.",
+    "density": 5,
+    "affiliateLink": "https://amzn.to/4heVAn2",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
@@ -739,7 +760,7 @@
     "category": "Warm Spice",
     "desc": "Citrusy, floral warm spice that can brighten savory blends in tiny amounts.",
     "density": 5,
-    "affiliateLink": null,
+    "affiliateLink": "https://amzn.to/3RciMrI",
     "affiliateAddToCartLink": null,
     "flavor": {
       "salt": 0,
