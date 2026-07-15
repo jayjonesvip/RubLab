@@ -1,0 +1,16 @@
+name: Validate generated pages
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  generated-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/generate-ingredient-pages.js
+      - run: git diff --exit-code
