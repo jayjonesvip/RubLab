@@ -1,0 +1,17 @@
+{
+  "id": "base_zaatar_spice_blend",
+  "name": "Za'atar Spice Blend",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Fragrant Middle Eastern herb, sesame, and sumac blend converted from volume measurements to estimated whole-number weight percentages.",
+  "createdAt": 13,
+  "items": {
+    "sesameSeeds": 48,
+    "thyme": 16,
+    "groundSumac": 16,
+    "oregano": 8,
+    "seaSalt": 8,
+    "cumin": 2,
+    "lemonPeelPowder": 2
+  }
+}

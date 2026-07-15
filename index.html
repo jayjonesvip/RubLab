@@ -656,7 +656,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 41 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search ingredients (e.g. paprika, cumin, sugar)..." autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -845,6 +845,8 @@ const SEED_INGREDIENTS = {
   driedSavory:    { name:"Dried Savory",     category:"Herb / Savory", desc:"Peppery, thyme-like herb that adds a salt-free savory lift.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:0,savory:4,herb:7,earthy:2,bark:0,color:1} },
   dill: {name:"Dried Dill",category:"Herb",desc:"Fresh grassy herb note with a classic Greek and seafood lean.",density:2,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:9,earthy:1,bark:0,color:1}},
+  sesameSeeds: {name:"Sesame Seeds",category:"Seed / Nutty",desc:"Nutty, toasty seed flavor with visible texture and classic za'atar character.",density:9,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:4,herb:0,earthy:5,bark:1,color:2}},
+  groundSumac: {name:"Ground Sumac",category:"Tangy Spice",desc:"Tart, lemony Middle Eastern spice that adds tang without extra salt.",density:6,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:1,earthy:3,bark:0,color:5}},
   parsley:        { name:"Parsley",          category:"Herb",          desc:"Fresh, mild green herb — mostly visual pop.", density:2,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:0,bark:0,color:2} },
   rosemary:       { name:"Rosemary",         category:"Herb",          desc:"Piney, resinous, assertive herb.", density:3,
@@ -963,7 +965,9 @@ const SEED_BASE_RECIPES = [
   { id:"base_italian_seasoning", name:"Italian Seasoning", base:true, author:"PitBlend", notes:"Classic herb-forward Italian seasoning converted from gram measurements.", createdAt:10,
     items:{ basil:30, oregano:30, parsley:15, thyme:12, rosemary:10, garlicPowder:3 } },
   { id:"base_greek_seasoning", name:"Greek Seasoning", base:true, author:"PitBlend", notes:"Greek-style herb and allium seasoning converted from volume measurements to estimated weight percentages.", createdAt:11,
-    items:{ garlicPowder:27.9, onionPowder:24.8, oregano:14, kosherSalt:11.6, basil:9.3, blackPepper:9.3, dill:3.1 } }
+    items:{ garlicPowder:27.9, onionPowder:24.8, oregano:14, kosherSalt:11.6, basil:9.3, blackPepper:9.3, dill:3.1 } },
+  { id:"base_zaatar_spice_blend", name:"Za'atar Spice Blend", base:true, author:"PitBlend", notes:"Fragrant Middle Eastern herb, sesame, and sumac blend converted from volume measurements to estimated whole-number weight percentages.", createdAt:13,
+    items:{ sesameSeeds:48, thyme:16, groundSumac:16, oregano:8, seaSalt:8, cumin:2, lemonPeelPowder:2 } }
 ];
 
 const MEAT_WEIGHTS = {

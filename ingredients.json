@@ -545,6 +545,48 @@
       "color": 1
     }
   },
+  "sesameSeeds": {
+    "name": "Sesame Seeds",
+    "category": "Seed / Nutty",
+    "desc": "Nutty, toasty seed flavor with visible texture and classic za'atar character.",
+    "density": 9,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 4,
+      "herb": 0,
+      "earthy": 5,
+      "bark": 1,
+      "color": 2
+    }
+  },
+  "groundSumac": {
+    "name": "Ground Sumac",
+    "category": "Tangy Spice",
+    "desc": "Tart, lemony Middle Eastern spice that adds tang without extra salt.",
+    "density": 6,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 1,
+      "earthy": 3,
+      "bark": 0,
+      "color": 5
+    }
+  },
   "bayLeaves": {
     "name": "Ground Bay Leaves",
     "category": "Herb / Savory",
