@@ -629,7 +629,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
           </div>
           <div class="search-row">
             <label for="ingredientSearch" class="skip-link">Search ingredients</label>
-            <input type="text" id="ingredientSearch" placeholder="Search 35 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
+            <input type="text" id="ingredientSearch" placeholder="Search 41 ingredients (e.g. paprika, cumin, sugar)…" autocomplete="off">
           </div>
           <div class="ingredient-picker-list" id="pickerList"></div>
         </div>
@@ -791,6 +791,7 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:1,heat:1,pepper:0,garlic:0,smoke:8,savory:2,herb:0,earthy:3,bark:4,color:7} },
   cayennePepper:  { name:"Cayenne Pepper",   category:"Heat",          desc:"Sharp, straightforward capsaicin heat.", density:6,
     flavor:{salt:0,sweet:0,heat:10,pepper:2,garlic:0,smoke:0,savory:1,herb:0,earthy:1,bark:2,color:3} },
+  carolinaReaperPowder: {name:"Carolina Reaper Powder",category:"Extreme Heat",desc:"Extremely hot chile powder with fruity heat; measure carefully.",density:6,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:1,heat:10,pepper:2,garlic:0,smoke:0,savory:1,herb:0,earthy:2,bark:2,color:4}},
   chiliPowder:    { name:"Chili Powder",     category:"Heat / Color",  desc:"Blended warmth with earthy, dusty color.", density:8,
     flavor:{salt:1,sweet:2,heat:5,pepper:1,garlic:2,smoke:2,savory:3,herb:1,earthy:3,bark:3,color:5} },
   chipotlePowder: { name:"Chipotle Powder",  category:"Heat / Smoke",  desc:"Smoky, dried-chile heat with lingering depth.", density:7,
@@ -805,6 +806,7 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:0,heat:1,pepper:0,garlic:0,smoke:1,savory:3,herb:1,earthy:7,bark:2,color:2} },
   coriander:      { name:"Coriander",        category:"Citrusy Spice", desc:"Light citrus-floral note that lifts a blend.", density:5,
     flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:2,earthy:4,bark:1,color:1} },
+  lemonPeelPowder: {name:"Lemon Peel Powder",category:"Citrus",desc:"Bright lemon aroma and tart citrus lift for poultry, seafood, and vegetables.",density:5,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:1,earthy:1,bark:0,color:3}},
   oregano:        { name:"Oregano",          category:"Herb",          desc:"Peppery, slightly bitter dried herb.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:1,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
   basil:          { name:"Dried Basil",      category:"Herb",          desc:"Sweet, leafy herb note with gentle green aroma.", density:3,
@@ -815,6 +817,7 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:8,earthy:2,bark:0,color:1} },
   driedSavory:    { name:"Dried Savory",     category:"Herb / Savory", desc:"Peppery, thyme-like herb that adds a salt-free savory lift.", density:3,
     flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:0,savory:4,herb:7,earthy:2,bark:0,color:1} },
+  dill: {name:"Dried Dill",category:"Herb",desc:"Fresh grassy herb note with a classic Greek and seafood lean.",density:2,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:9,earthy:1,bark:0,color:1}},
   parsley:        { name:"Parsley",          category:"Herb",          desc:"Fresh, mild green herb — mostly visual pop.", density:2,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:9,earthy:0,bark:0,color:2} },
   rosemary:       { name:"Rosemary",         category:"Herb",          desc:"Piney, resinous, assertive herb.", density:3,
@@ -823,6 +826,7 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:0,savory:4,herb:8,earthy:4,bark:0,color:1} },
   celerySeed:     { name:"Celery Seed",      category:"Savory",        desc:"Bitter-savory, classic BBQ-rub backbone.", density:6,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:5,herb:2,earthy:3,bark:1,color:0} },
+  fennel: {name:"Fennel Seed",category:"Sweet Spice",desc:"Sweet anise-like seed with Italian sausage and Mediterranean seasoning character.",density:5,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:4,heat:0,pepper:1,garlic:0,smoke:0,savory:2,herb:2,earthy:3,bark:1,color:1}},
   groundCoffee:   { name:"Ground Coffee",    category:"Roast / Earthy",desc:"Bitter, roasted depth that deepens bark.", density:6,
     flavor:{salt:0,sweet:0,heat:0,pepper:1,garlic:0,smoke:2,savory:3,herb:0,earthy:9,bark:7,color:6} },
   cocoaPowder:    { name:"Cocoa Powder",     category:"Roast / Earthy",desc:"Dark, bittersweet, mole-adjacent depth.", density:5,
@@ -833,10 +837,12 @@ const SEED_INGREDIENTS = {
     flavor:{salt:0,sweet:2,heat:1,pepper:2,garlic:0,smoke:0,savory:2,herb:0,earthy:5,bark:2,color:2} },
   nutmeg:         { name:"Nutmeg",           category:"Warm Spice",    desc:"Sweet, woody warmth used in small amounts to round seafood spice.", density:7,
     flavor:{salt:0,sweet:3,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:0,earthy:4,bark:2,color:1} },
+  cardamom: {name:"Cardamom",category:"Warm Spice",desc:"Citrusy, floral warm spice that can brighten savory blends in tiny amounts.",density:5,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:3,heat:1,pepper:1,garlic:0,smoke:0,savory:1,herb:1,earthy:4,bark:1,color:1}},
   ginger:         { name:"Ginger",           category:"Warm Spice",    desc:"Bright, peppery warmth with a citrus edge.", density:5,
     flavor:{salt:0,sweet:2,heat:3,pepper:0,garlic:0,smoke:0,savory:2,herb:1,earthy:3,bark:1,color:1} },
   turmeric:       { name:"Turmeric",         category:"Color / Earthy",desc:"Earthy bitterness and a bold golden color.", density:7,
     flavor:{salt:0,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:1,herb:0,earthy:5,bark:1,color:8} },
+  saffron: {name:"Saffron",category:"Floral Spice",desc:"Potent floral-earthy aroma with deep golden color; use sparingly.",density:1,affiliateLink:null,affiliateAddToCartLink:null,flavor:{salt:0,sweet:1,heat:0,pepper:0,garlic:0,smoke:0,savory:2,herb:2,earthy:2,bark:0,color:9}},
   msg:            { name:"MSG",              category:"Umami",         desc:"Pure savoriness; amplifies everything around it.", density:6,
     flavor:{salt:2,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:10,herb:0,earthy:0,bark:0,color:0} },
   rpf:            { name:"Red Pepper Flakes",category:"Heat / Texture",desc:"Coarse dried chile flakes with visible red color and slow-building heat.", density:3,
@@ -922,7 +928,15 @@ const SEED_BASE_RECIPES = [
   { id:"base_salt_pepper_garlic", name:"Salt Pepper Garlic", base:true, author:"PitBlend", notes:"Classic SPG all-purpose base built from sea salt, black pepper, and dehydrated garlic.", createdAt:6,
     items:{ seaSalt:33.4, blackPepper:33.3, dehydratedGarlic:33.3 } },
   { id:"base_seafood_spice", name:"Seafood Spice", base:true, author:"PitBlend", notes:"Old Bay-style seafood spice converted from volume measurements to estimated weight percentages.", createdAt:7,
-    items:{ celerySalt:52.9, bayLeaves:5, smokedPaprika:17.7, blackPepper:11.4, mustardPowder:7.6, allspice:1.9, cayennePepper:1.9, cinnamon:.6, nutmeg:.6, ginger:.4 } }
+    items:{ celerySalt:52.9, bayLeaves:5, smokedPaprika:17.7, blackPepper:11.4, mustardPowder:7.6, allspice:1.9, cayennePepper:1.9, cinnamon:.6, nutmeg:.6, ginger:.4 } },
+  { id:"base_slap_ya_mama_salt_free", name:"Slap Ya Mama Salt-Free", base:true, author:"PitBlend", notes:"Salt-free Cajun-style seasoning converted from volume measurements to estimated weight percentages.", createdAt:8,
+    items:{ garlicPowder:31.7, onionPowder:28.3, paprika:24.7, blackPepper:5.3, oregano:1.8, thyme:1.8, rpf:1.8, cayennePepper:1.8, cumin:1.8, smokedPaprika:1 } },
+  { id:"base_lemon_pepper_seasoning", name:"Lemon Pepper Seasoning", base:true, author:"PitBlend", notes:"Lemon pepper seasoning converted from gram measurements.", createdAt:9,
+    items:{ lemonPeelPowder:40, blackPepper:30, kosherSalt:20, garlicPowder:6, onionPowder:4 } },
+  { id:"base_italian_seasoning", name:"Italian Seasoning", base:true, author:"PitBlend", notes:"Classic herb-forward Italian seasoning converted from gram measurements.", createdAt:10,
+    items:{ basil:30, oregano:30, parsley:15, thyme:12, rosemary:10, garlicPowder:3 } },
+  { id:"base_greek_seasoning", name:"Greek Seasoning", base:true, author:"PitBlend", notes:"Greek-style herb and allium seasoning converted from volume measurements to estimated weight percentages.", createdAt:11,
+    items:{ garlicPowder:27.9, onionPowder:24.8, oregano:14, kosherSalt:11.6, basil:9.3, blackPepper:9.3, dill:3.1 } }
 ];
 
 const MEAT_WEIGHTS = {
