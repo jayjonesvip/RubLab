@@ -1,0 +1,19 @@
+{
+  "id": "base_pizza_seasoning",
+  "name": "Pizza Seasoning",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Classic pizzeria-style herb and allium seasoning converted from volume measurements to estimated weight percentages.",
+  "createdAt": 12,
+  "items": {
+    "oregano": 16.7,
+    "basil": 8.3,
+    "garlicPowder": 25,
+    "onionPowder": 22.2,
+    "thyme": 2.8,
+    "rosemary": 2.8,
+    "rpf": 2.8,
+    "seaSalt": 16.7,
+    "blackPepper": 2.7
+  }
+}
