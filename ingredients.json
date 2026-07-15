@@ -83,6 +83,27 @@
       "color": 2
     }
   },
+    "blackPeppercorns": {
+    "name": "Whole Black Peppercorns",
+    "category": "Pepper",
+    "desc": "Sharp, woody bite with mild background heat.",
+    "density": 6,
+    "affiliateLink": "https://amzn.to/3ThzhDl",
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 0,
+      "heat": 3,
+      "pepper": 10,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 0,
+      "earthy": 2,
+      "bark": 3,
+      "color": 2
+    }
+  },
   "garlicPowder": {
     "name": "Garlic Powder",
     "category": "Aromatic",
