@@ -385,7 +385,26 @@ header.site-header{
 }
 .ing-remove:hover{color:var(--bad);background:rgba(232,80,63,.12);}
 .ing-controls{display:flex;align-items:center;gap:14px;}
-.ing-controls input[type="range"]{flex:1;accent-color:var(--accent);height:6px;}
+.ing-controls input[type="range"]{
+  -webkit-appearance:none;appearance:none;
+  flex:1;accent-color:var(--accent);height:28px;cursor:pointer;
+  background:transparent;
+}
+.ing-controls input[type="range"]::-webkit-slider-runnable-track{
+  height:8px;border-radius:999px;background:rgba(255,255,255,.12);
+}
+.ing-controls input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;
+  margin-top:-6px;border-radius:50%;background:var(--accent);
+  border:2px solid #23140c;box-shadow:0 0 0 2px rgba(240,90,40,.22);
+}
+.ing-controls input[type="range"]::-moz-range-track{
+  height:8px;border-radius:999px;background:rgba(255,255,255,.12);
+}
+.ing-controls input[type="range"]::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;background:var(--accent);
+  border:2px solid #23140c;box-shadow:0 0 0 2px rgba(240,90,40,.22);
+}
 .ing-num{
   width:78px;background:var(--card);border:1px solid var(--border);color:var(--text);
   padding:7px 8px;border-radius:var(--radius-sm);font-size:.9rem;text-align:right;font-weight:600;
@@ -1138,6 +1157,10 @@ async function loadAllRecipes(){
 ========================================================= */
 function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
 function round1(v){ return Math.round(v*10)/10; }
+function roundWhole(v){ return Math.round(Number(v) || 0); }
+function clampWholePct(value){
+  return clamp(roundWhole(value), 0, 100);
+}
 function roundToQuarter(v){ return Math.round(v*4)/4; }
 function formatQuarterValue(v){ return Number.isInteger(v) ? String(v) : String(v).replace(/0$/,""); }
 function el(tag, cls, html){ const e=document.createElement(tag); if(cls) e.className=cls; if(html!==undefined) e.innerHTML=html; return e; }
@@ -1178,6 +1201,24 @@ function showToast(message, type){
 }
 
 function activeKeys(){ return Object.keys(blend).filter(k => blend[k] !== undefined); }
+
+function normalizeBlendPercentages(source, balanceTo100){
+  const normalized = {};
+  Object.keys(source || {}).forEach(key=>{
+    if(!INGREDIENTS[key]) return;
+    normalized[key] = clampWholePct(source[key]);
+  });
+  const keys = Object.keys(normalized);
+  if(balanceTo100 && keys.length){
+    const total = keys.reduce((sum,key)=> sum + normalized[key], 0);
+    const drift = 100 - total;
+    if(drift !== 0){
+      const adjustKey = keys.reduce((best,key)=> normalized[key] > normalized[best] ? key : best, keys[0]);
+      normalized[adjustKey] = clamp(normalized[adjustKey] + drift, 0, 100);
+    }
+  }
+  return normalized;
+}
 
 function totalPercent(){
   return activeKeys().reduce((sum,k)=> sum + (Number(blend[k])||0), 0);
@@ -1516,8 +1557,8 @@ function renderActiveList(){
       '</div>'+
       '<div class="ing-controls">'+
         '<label class="skip-link" for="range_'+key+'">'+ing.name+' percentage</label>'+
-        '<input type="range" id="range_'+key+'" min="0" max="100" step="0.5" value="'+pct+'" data-slider="'+key+'">'+
-        '<input type="number" class="ing-num" id="num_'+key+'" min="0" max="100" step="0.5" value="'+pct+'" data-numinput="'+key+'" aria-label="'+ing.name+' percentage value">'+
+        '<input type="range" id="range_'+key+'" min="0" max="100" step="1" value="'+pct+'" data-slider="'+key+'">'+
+        '<input type="number" class="ing-num" id="num_'+key+'" min="0" max="100" step="1" value="'+pct+'" data-numinput="'+key+'" aria-label="'+ing.name+' percentage value">'+
         '<span class="ing-pct-sign">%</span>'+
       '</div>';
     container.appendChild(row);
@@ -1774,10 +1815,8 @@ function renderRecipeCard(profile, meatData){
   renderNutritionFacts();
 }
 
-function renderAll(){
+function renderBlendOutputs(){
   renderTotal();
-  renderActiveList();
-  renderPicker();
   const profile = computeFlavorProfile();
   renderRadar(profile);
   renderBars(profile);
@@ -1787,6 +1826,12 @@ function renderAll(){
   renderBatch(profile);
   renderRecipeCard(profile, meatData);
   persistCurrent();
+}
+
+function renderAll(){
+  renderActiveList();
+  renderPicker();
+  renderBlendOutputs();
 }
 
 /* =========================================================
@@ -1809,7 +1854,7 @@ function loadCurrent(){
     if(!raw) return false;
     const data = JSON.parse(raw);
     if(data && data.blend && Object.keys(data.blend).length){
-      blend = data.blend;
+      blend = normalizeBlendPercentages(data.blend, false);
       currentBatchIndex = data.batchIndex || 0;
       customGrams = data.customGrams || 200;
       recipeCardUnit = data.recipeCardUnit === "volume" ? "volume" : "grams";
@@ -1840,8 +1885,12 @@ function setIngredientPct(key, value){
   let v = Number(value);
   if(isNaN(v) || v < 0) v = 0;
   if(v > 100) v = 100;
-  blend[key] = Math.round(v*10)/10;
-  renderAll();
+  blend[key] = clampWholePct(v);
+  const slider = document.getElementById("range_"+key);
+  const num = document.getElementById("num_"+key);
+  if(slider) slider.value = blend[key];
+  if(num) num.value = blend[key];
+  renderBlendOutputs();
 }
 
 function autoBalance(){
@@ -1849,17 +1898,19 @@ function autoBalance(){
   if(keys.length===0){ showToast("Add ingredients before auto-balancing.","error"); return; }
   const total = totalPercent();
   if(total <= 0){
-    const even = round1(100/keys.length);
-    keys.forEach((k,i)=> blend[k] = i===keys.length-1 ? round1(100 - even*(keys.length-1)) : even);
+    const base = Math.floor(100/keys.length);
+    const remainder = 100 - base*keys.length;
+    keys.forEach((k,i)=> blend[k] = base + (i < remainder ? 1 : 0));
   } else {
     keys.forEach(k=>{
-      blend[k] = round1((Number(blend[k])||0) / total * 100);
+      blend[k] = clampWholePct((Number(blend[k])||0) / total * 100);
     });
     // correct rounding drift on the last item
     const newTotal = keys.reduce((s,k)=> s+blend[k],0);
-    const drift = round1(100-newTotal);
-    if(Math.abs(drift) >= 0.05){
-      blend[keys[keys.length-1]] = round1(blend[keys[keys.length-1]] + drift);
+    const drift = 100-newTotal;
+    if(drift !== 0){
+      const adjustKey = keys.reduce((best,key)=> blend[key] > blend[best] ? key : best, keys[0]);
+      blend[adjustKey] = clamp(blend[adjustKey] + drift, 0, 100);
     }
   }
   renderAll();
@@ -1877,7 +1928,7 @@ function resetBlend(){
 function loadRecipeById(id){
   const recipe = allRecipes.find(r => r.id === id);
   if(!recipe) return;
-  blend = JSON.parse(JSON.stringify(recipe.items));
+  blend = normalizeBlendPercentages(recipe.items, true);
   document.getElementById("blendNameInput").value = recipe.name;
   document.getElementById("rcNotes").value = recipe.notes || "";
   renderAll();
@@ -1988,11 +2039,11 @@ function importBlendFromFile(file){
       const cleaned = {};
       Object.keys(data.items).forEach(k=>{
         if(INGREDIENTS[k] !== undefined){
-          cleaned[k] = Number(data.items[k]) || 0;
+          cleaned[k] = data.items[k];
         }
       });
       if(Object.keys(cleaned).length===0) throw new Error("no valid ingredients");
-      blend = cleaned;
+      blend = normalizeBlendPercentages(cleaned, true);
       recipeCardUnit = data.recipeCardUnit === "volume" ? "volume" : "grams";
       document.getElementById("blendNameInput").value = data.name || "Imported Blend";
       document.getElementById("rcNotes").value = data.notes || "";
