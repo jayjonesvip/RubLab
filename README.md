@@ -11,6 +11,7 @@ backend, no build step, no account required.
 pitblend/
 |-- index.html          # the entire app (HTML, CSS, and JS in one file)
 |-- ingredients.json    # ingredient library, flavor scores, densities, affiliate URLs
+|-- ingredients/        # generated SEO pages for each ingredient
 |-- recipes/            # base recipe library, as real JSON files
 |   |-- index.json      # list of recipe files for the app to fetch
 |   |-- base_starter.json
@@ -24,7 +25,11 @@ pitblend/
 |   |-- base_slap_ya_mama_salt_free.json
 |   |-- base_lemon_pepper_seasoning.json
 |   |-- base_italian_seasoning.json
-|   `-- base_greek_seasoning.json
+|   |-- base_greek_seasoning.json
+|   `-- base_pizza_seasoning.json
+|-- scripts/
+|   `-- generate-ingredient-pages.js
+|-- sitemap.xml
 `-- README.md
 ```
 
@@ -50,6 +55,23 @@ that ingredient. `affiliateAddToCartLink` is preferred and renders as
 
 If fetch is not available, the app falls back to the embedded ingredient seed
 inside `index.html` so opening the file directly still works.
+
+## Generating ingredient SEO pages
+
+`ingredients.json` is also the source for static ingredient pages at clean
+URLs such as `/ingredients/black-pepper/`. These pages include each
+ingredient's category, description, flavor profile, product link, and base
+recipes that use it. The generator also updates `sitemap.xml`.
+
+After adding or changing ingredients, run:
+
+```bash
+node scripts/generate-ingredient-pages.js
+```
+
+Then commit the updated `ingredients/` pages and `sitemap.xml`. This keeps
+GitHub Pages fully static while avoiding hand-written HTML for each
+ingredient.
 
 ## How the recipe loading works
 
