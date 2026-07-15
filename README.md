@@ -20,7 +20,11 @@ pitblend/
 |   |-- base_carolina_bbq.json
 |   |-- base_salt_free_all_purpose.json
 |   |-- base_salt_pepper_garlic.json
-|   `-- base_seafood_spice.json
+|   |-- base_seafood_spice.json
+|   |-- base_slap_ya_mama_salt_free.json
+|   |-- base_lemon_pepper_seasoning.json
+|   |-- base_italian_seasoning.json
+|   `-- base_greek_seasoning.json
 `-- README.md
 ```
 

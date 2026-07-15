@@ -209,6 +209,27 @@
       "color": 3
     }
   },
+  "carolinaReaperPowder": {
+    "name": "Carolina Reaper Powder",
+    "category": "Extreme Heat",
+    "desc": "Extremely hot chile powder with fruity heat; measure carefully.",
+    "density": 6,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 10,
+      "pepper": 2,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 1,
+      "herb": 0,
+      "earthy": 2,
+      "bark": 2,
+      "color": 4
+    }
+  },
   "chiliPowder": {
     "name": "Chili Powder",
     "category": "Heat / Color",
@@ -356,6 +377,27 @@
       "color": 1
     }
   },
+  "lemonPeelPowder": {
+    "name": "Lemon Peel Powder",
+    "category": "Citrus",
+    "desc": "Bright lemon aroma and tart citrus lift for poultry, seafood, and vegetables.",
+    "density": 5,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 1,
+      "herb": 1,
+      "earthy": 1,
+      "bark": 0,
+      "color": 3
+    }
+  },
   "oregano": {
     "name": "Oregano",
     "category": "Herb",
@@ -461,6 +503,27 @@
       "color": 1
     }
   },
+  "dill": {
+    "name": "Dried Dill",
+    "category": "Herb",
+    "desc": "Fresh grassy herb note with a classic Greek and seafood lean.",
+    "density": 2,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 9,
+      "earthy": 1,
+      "bark": 0,
+      "color": 1
+    }
+  },
   "bayLeaves": {
     "name": "Ground Bay Leaves",
     "category": "Herb / Savory",
@@ -543,6 +606,27 @@
       "earthy": 3,
       "bark": 1,
       "color": 0
+    }
+  },
+  "fennel": {
+    "name": "Fennel Seed",
+    "category": "Sweet Spice",
+    "desc": "Sweet anise-like seed with Italian sausage and Mediterranean seasoning character.",
+    "density": 5,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 4,
+      "heat": 0,
+      "pepper": 1,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 2,
+      "earthy": 3,
+      "bark": 1,
+      "color": 1
     }
   },
   "groundCoffee": {
@@ -650,6 +734,27 @@
       "color": 1
     }
   },
+  "cardamom": {
+    "name": "Cardamom",
+    "category": "Warm Spice",
+    "desc": "Citrusy, floral warm spice that can brighten savory blends in tiny amounts.",
+    "density": 5,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 3,
+      "heat": 1,
+      "pepper": 1,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 1,
+      "herb": 1,
+      "earthy": 4,
+      "bark": 1,
+      "color": 1
+    }
+  },
   "ginger": {
     "name": "Ginger",
     "category": "Warm Spice",
@@ -690,6 +795,27 @@
       "earthy": 5,
       "bark": 1,
       "color": 8
+    }
+  },
+  "saffron": {
+    "name": "Saffron",
+    "category": "Floral Spice",
+    "desc": "Potent floral-earthy aroma with deep golden color; use sparingly.",
+    "density": 1,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 1,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 2,
+      "herb": 2,
+      "earthy": 2,
+      "bark": 0,
+      "color": 9
     }
   },
   "msg": {

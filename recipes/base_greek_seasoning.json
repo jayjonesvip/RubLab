@@ -1,0 +1,17 @@
+{
+  "id": "base_greek_seasoning",
+  "name": "Greek Seasoning",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Greek-style herb and allium seasoning converted from volume measurements to estimated weight percentages.",
+  "createdAt": 11,
+  "items": {
+    "oregano": 14,
+    "basil": 9.3,
+    "dill": 3.1,
+    "onionPowder": 24.8,
+    "garlicPowder": 27.9,
+    "kosherSalt": 11.6,
+    "blackPepper": 9.3
+  }
+}

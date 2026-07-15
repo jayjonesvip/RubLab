@@ -1,0 +1,16 @@
+{
+  "id": "base_italian_seasoning",
+  "name": "Italian Seasoning",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Classic herb-forward Italian seasoning converted from gram measurements.",
+  "createdAt": 10,
+  "items": {
+    "basil": 30,
+    "oregano": 30,
+    "parsley": 15,
+    "thyme": 12,
+    "rosemary": 10,
+    "garlicPowder": 3
+  }
+}

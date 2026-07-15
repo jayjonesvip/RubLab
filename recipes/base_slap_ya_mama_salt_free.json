@@ -1,0 +1,20 @@
+{
+  "id": "base_slap_ya_mama_salt_free",
+  "name": "Slap Ya Mama Salt-Free",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Salt-free Cajun-style seasoning converted from volume measurements to estimated weight percentages.",
+  "createdAt": 8,
+  "items": {
+    "garlicPowder": 31.7,
+    "onionPowder": 28.3,
+    "paprika": 24.7,
+    "blackPepper": 5.3,
+    "oregano": 1.8,
+    "thyme": 1.8,
+    "rpf": 1.8,
+    "cayennePepper": 1.8,
+    "cumin": 1.8,
+    "smokedPaprika": 1
+  }
+}

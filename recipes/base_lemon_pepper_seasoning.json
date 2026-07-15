@@ -1,0 +1,15 @@
+{
+  "id": "base_lemon_pepper_seasoning",
+  "name": "Lemon Pepper Seasoning",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Lemon pepper seasoning converted from gram measurements.",
+  "createdAt": 9,
+  "items": {
+    "lemonPeelPowder": 40,
+    "blackPepper": 30,
+    "kosherSalt": 20,
+    "garlicPowder": 6,
+    "onionPowder": 4
+  }
+}
