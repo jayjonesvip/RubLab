@@ -545,6 +545,27 @@
       "color": 1
     }
   },
+  "groundSage": {
+    "name": "Ground Sage",
+    "category": "Herb",
+    "desc": "Earthy, piney, slightly peppery herb with classic poultry seasoning character.",
+    "density": 2,
+    "affiliateLink": null,
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 0,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 1,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 3,
+      "herb": 9,
+      "earthy": 4,
+      "bark": 0,
+      "color": 1
+    }
+  },
   "sesameSeeds": {
     "name": "Sesame Seeds",
     "category": "Seed / Nutty",

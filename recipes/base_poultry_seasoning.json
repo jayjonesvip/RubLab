@@ -1,0 +1,16 @@
+{
+  "id": "base_poultry_seasoning",
+  "name": "Poultry Seasoning",
+  "base": true,
+  "author": "PitBlend",
+  "notes": "Classic sage-forward poultry seasoning converted from teaspoon measurements to estimated whole-number weight percentages.",
+  "createdAt": 14,
+  "items": {
+    "thyme": 22,
+    "groundSage": 20,
+    "nutmeg": 17,
+    "marjoram": 15,
+    "blackPepper": 15,
+    "rosemary": 11
+  }
+}
