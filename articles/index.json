@@ -10,5 +10,17 @@
     "title": "How Do You Know Which Seasonings Go Together?",
     "changefreq": "monthly",
     "priority": "0.6"
+  },
+  {
+    "path": "/articles/how-long-should-dry-rub-sit-on-brisket-before-smoking/",
+    "title": "How Long Should You Let Dry Rub Sit on Brisket Before Smoking?",
+    "changefreq": "monthly",
+    "priority": "0.6"
+  },
+  {
+    "path": "/articles/should-you-use-a-binder-for-dry-rub/",
+    "title": "Should You Use a Binder for Dry Rub?",
+    "changefreq": "monthly",
+    "priority": "0.6"
   }
 ]
