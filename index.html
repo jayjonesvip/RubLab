@@ -280,6 +280,23 @@ header.site-header{
 }
 .preset-btn:hover{border-color:var(--accent);background:var(--card-2);}
 .preset-dot{width:7px;height:7px;background:var(--accent);}
+.article-callout{
+  max-width:1320px;margin:14px auto 0;padding:0 24px;
+}
+.article-callout-inner{
+  border:1px solid var(--border-soft);
+  background:var(--card);
+  border-radius:var(--radius-sm);
+  padding:16px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.article-callout h2{
+  font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px;
+}
+.article-callout p{color:var(--text-muted);margin:0;font-size:.92rem;}
+@media (max-width:720px){
+  .article-callout-inner{align-items:flex-start;flex-direction:column;}
+}
 
 /* ---------- Main grid ---------- */
 .main-grid{
@@ -622,6 +639,16 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
   <span class="label">Base recipes — load one, then tweak every slider:</span>
   <div id="baseRecipeBar" class="preset-bar-inner" style="display:contents;"></div>
 </div>
+
+<section class="article-callout" aria-labelledby="articleCalloutHeading">
+  <div class="article-callout-inner">
+    <div>
+      <h2 id="articleCalloutHeading">Spice Basics</h2>
+      <p>Start with five reliable spices before building a bigger seasoning cabinet.</p>
+    </div>
+    <a class="btn btn-ember" href="/articles/what-are-the-5-basic-spices-every-home-cook-needs/">Read Guide</a>
+  </div>
+</section>
 
 <main class="wrap" id="builder">
   <div class="main-grid">
