@@ -5,6 +5,7 @@ const SITE_URL = "https://pitblend.com";
 const ROOT = path.resolve(__dirname, "..");
 const INGREDIENTS_PATH = path.join(ROOT, "ingredients.json");
 const RECIPES_INDEX_PATH = path.join(ROOT, "recipes", "index.json");
+const ARTICLES_INDEX_PATH = path.join(ROOT, "articles", "index.json");
 const INGREDIENTS_DIR = path.join(ROOT, "ingredients");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 
@@ -71,6 +72,25 @@ function loadRecipes() {
       }
     })
     .filter(recipe => recipe && recipe.name && recipe.items);
+}
+
+function loadArticles() {
+  if (!fs.existsSync(ARTICLES_INDEX_PATH)) return [];
+  const entries = readJson(ARTICLES_INDEX_PATH);
+  if (!Array.isArray(entries)) return [];
+
+  return entries
+    .map(entry => {
+      if (typeof entry === "string") return { path: entry };
+      if (entry && typeof entry === "object") return entry;
+      return null;
+    })
+    .filter(entry => entry && typeof entry.path === "string" && entry.path.startsWith("/"))
+    .map(entry => ({
+      path: entry.path.endsWith("/") ? entry.path : `${entry.path}/`,
+      changefreq: entry.changefreq || "monthly",
+      priority: entry.priority || "0.6"
+    }));
 }
 
 function buildSlugMap(ingredients) {
@@ -229,13 +249,21 @@ function ingredientIndexPage(ingredients, slugMap) {
   });
 }
 
-function writeSitemap(slugMap) {
+function writeSitemap(slugMap, articles) {
   const ingredientUrls = Object.values(slugMap)
     .sort()
     .map(slug => `  <url>
     <loc>${SITE_URL}/ingredients/${slug}/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>`)
+    .join("\n");
+
+  const articleUrls = articles
+    .map(article => `  <url>
+    <loc>${SITE_URL}${article.path}</loc>
+    <changefreq>${article.changefreq}</changefreq>
+    <priority>${article.priority}</priority>
   </url>`)
     .join("\n");
 
@@ -252,6 +280,7 @@ function writeSitemap(slugMap) {
     <priority>0.8</priority>
   </url>
 ${ingredientUrls}
+${articleUrls ? "\n" + articleUrls : ""}
 </urlset>
 `;
   fs.writeFileSync(SITEMAP_PATH, sitemap, "utf8");
@@ -260,6 +289,7 @@ ${ingredientUrls}
 function main() {
   const ingredients = readJson(INGREDIENTS_PATH);
   const recipes = loadRecipes();
+  const articles = loadArticles();
   const slugMap = buildSlugMap(ingredients);
 
   fs.mkdirSync(INGREDIENTS_DIR, { recursive: true });
@@ -273,7 +303,7 @@ function main() {
     fs.writeFileSync(path.join(dir, "index.html"), ingredientPage(key, ingredient, slug, recipesUsingIngredient), "utf8");
   });
 
-  writeSitemap(slugMap);
+  writeSitemap(slugMap, articles);
   console.log(`Generated ${Object.keys(ingredients).length} ingredient pages and sitemap.xml`);
 }
 
