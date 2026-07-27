@@ -288,14 +288,27 @@ header.site-header{
   background:var(--card);
   border-radius:var(--radius-sm);
   padding:16px 18px;
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:18px;
 }
 .article-callout h2{
   font-size:.78rem;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);margin-bottom:4px;
 }
 .article-callout p{color:var(--text-muted);margin:0;font-size:.92rem;}
+.article-links{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;}
+.article-guide{
+  display:inline-flex;align-items:center;
+  border:1px solid var(--border);
+  background:var(--card-2);
+  color:var(--text);
+  text-decoration:none;
+  border-radius:var(--radius-sm);
+  padding:9px 12px;
+  font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+}
+.article-guide:hover{border-color:var(--accent);color:var(--accent);}
 @media (max-width:720px){
   .article-callout-inner{align-items:flex-start;flex-direction:column;}
+  .article-links{justify-content:flex-start;}
 }
 
 /* ---------- Main grid ---------- */
@@ -643,10 +656,13 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
 <section class="article-callout" aria-labelledby="articleCalloutHeading">
   <div class="article-callout-inner">
     <div>
-      <h2 id="articleCalloutHeading">Spice Basics</h2>
-      <p>Start with five reliable spices before building a bigger seasoning cabinet.</p>
+      <h2 id="articleCalloutHeading">Seasoning Guides</h2>
+      <p>Practical spice basics for building better blends before you start moving sliders.</p>
     </div>
-    <a class="btn btn-ember" href="/articles/what-are-the-5-basic-spices-every-home-cook-needs/">Read Guide</a>
+    <div class="article-links">
+      <a class="article-guide" href="/articles/what-are-the-5-basic-spices-every-home-cook-needs/">5 Basic Spices</a>
+      <a class="article-guide" href="/articles/how-do-you-know-which-seasonings-go-together/">Seasoning Pairings</a>
+    </div>
   </div>
 </section>
 
