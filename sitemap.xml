@@ -251,4 +251,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://pitblend.com/articles/how-long-should-dry-rub-sit-on-brisket-before-smoking/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pitblend.com/articles/should-you-use-a-binder-for-dry-rub/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
