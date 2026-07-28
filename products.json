@@ -1,0 +1,50 @@
+[
+  {
+    "id": "pit-boss-150-pellet-grill-smoker",
+    "slug": "pit-boss-150-wood-pellet-grill-smoker",
+    "title": "Pit Boss 150 Wood Pellet Grill and Smoker",
+    "category": "Smokers",
+    "categories": [
+      "Smokers",
+      "Pellet Grills",
+      "Portable Grills"
+    ],
+    "productType": "Portable Pellet Grill",
+    "description": "Portable pellet grill and smoker with a compact cooking surface for tailgating, camping, travel, and smaller backyard cooks.",
+    "affiliateUrl": "https://amzn.to/3RC5q87",
+    "imageUrl": null,
+    "imageAlt": null,
+    "brand": "Pit Boss",
+    "features": [
+      "Portable pellet grill format for smaller spaces and travel.",
+      "Useful for testing rubs, smoking smaller cuts, and cooking for a small group.",
+      "Add a product image URL later to replace the generated placeholder."
+    ],
+    "changefreq": "monthly",
+    "priority": "0.5"
+  },
+  {
+    "id": "amazon-bbq-gear-pick-b0ddpp6ch2",
+    "slug": "amazon-bbq-gear-pick-b0ddpp6ch2",
+    "title": "Amazon BBQ Gear Pick",
+    "category": "Grill Gear",
+    "categories": [
+      "Grill Gear",
+      "BBQ Accessories"
+    ],
+    "productType": "Outdoor Cooking Gear",
+    "description": "Recommended BBQ and outdoor cooking product for grill setup, smoker prep, and seasoning work.",
+    "affiliateUrl": "https://amzn.to/44SfvB8",
+    "imageUrl": null,
+    "imageAlt": null,
+    "brand": null,
+    "asin": "B0DDPP6CH2",
+    "features": [
+      "Useful candidate for the PitBlend gear library.",
+      "Affiliate short link resolves to Amazon ASIN B0DDPP6CH2.",
+      "Update title, category, description, brand, and image once exact product details are confirmed."
+    ],
+    "changefreq": "monthly",
+    "priority": "0.5"
+  }
+]
