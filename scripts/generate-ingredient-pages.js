@@ -6,7 +6,9 @@ const ROOT = path.resolve(__dirname, "..");
 const INGREDIENTS_PATH = path.join(ROOT, "ingredients.json");
 const RECIPES_INDEX_PATH = path.join(ROOT, "recipes", "index.json");
 const ARTICLES_INDEX_PATH = path.join(ROOT, "articles", "index.json");
+const PRODUCTS_PATH = path.join(ROOT, "products.json");
 const INGREDIENTS_DIR = path.join(ROOT, "ingredients");
+const PRODUCTS_DIR = path.join(ROOT, "products");
 const SITEMAP_PATH = path.join(ROOT, "sitemap.xml");
 
 const FLAVOR_LABELS = {
@@ -93,6 +95,31 @@ function loadArticles() {
     }));
 }
 
+function loadProducts() {
+  if (!fs.existsSync(PRODUCTS_PATH)) return [];
+  const entries = readJson(PRODUCTS_PATH);
+  if (!Array.isArray(entries)) return [];
+
+  return entries
+    .filter(product => product && product.title && product.affiliateUrl)
+    .map(product => {
+      const categories = Array.isArray(product.categories) && product.categories.length
+        ? product.categories
+        : [product.category || "Grill Gear"];
+      return {
+        ...product,
+        slug: product.slug || slugify(product.title),
+        categories,
+        category: categories[0],
+        description: product.description || "Recommended outdoor cooking gear for BBQ and seasoning prep.",
+        imageUrl: product.imageUrl || null,
+        changefreq: product.changefreq || "monthly",
+        priority: product.priority || "0.5"
+      };
+    })
+    .filter(product => product.slug);
+}
+
 function buildSlugMap(ingredients) {
   const used = new Set();
   const map = {};
@@ -168,6 +195,9 @@ h1{font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,4rem);line-height:.98;ma
 .ingredient-link{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
 .ingredient-link strong{display:block;margin-bottom:3px}
 .ingredient-link span{color:var(--muted);font-size:.86rem}
+.product-media{min-height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.product-media img{display:block;max-width:100%;height:auto;border-radius:8px}
+.product-placeholder{width:100%;min-height:220px;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:800;background:var(--panel2)}
 </style>
 </head>
 <body>
@@ -249,7 +279,67 @@ function ingredientIndexPage(ingredients, slugMap) {
   });
 }
 
-function writeSitemap(slugMap, articles) {
+function productPage(product) {
+  const image = product.imageUrl
+    ? `<img src="${escapeAttr(product.imageUrl)}" alt="${escapeAttr(product.imageAlt || product.title)}">`
+    : `<div class="product-placeholder">Image pending</div>`;
+  const features = Array.isArray(product.features) && product.features.length
+    ? `<ul>${product.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join("\n")}</ul>`
+    : `<p class="muted">More product notes can be added in products.json.</p>`;
+  const body = `<main class="wrap">
+  <p class="eyebrow">${escapeHtml(product.category)}</p>
+  <h1>${escapeHtml(product.title)}</h1>
+  <p class="lead">${escapeHtml(sentence(product.description))}</p>
+  <div class="grid">
+    <section class="card product-media">
+      ${image}
+    </section>
+    <aside class="card">
+      <h2>Product Details</h2>
+      <div class="meta">
+        <div><span class="label">Category</span>${escapeHtml(product.category)}</div>
+        <div><span class="label">Type</span>${escapeHtml(product.productType || "Gear")}</div>
+      </div>
+      <div class="recipes">${product.categories.map(category => `<span class="pill">${escapeHtml(category)}</span>`).join("\n")}</div>
+      <a class="btn" href="${escapeAttr(product.affiliateUrl)}" target="_blank" rel="noopener sponsored nofollow">View Product</a>
+      <p class="disclosure">Product links may be affiliate links.</p>
+    </aside>
+    <section class="card">
+      <h2>Why It Is Listed</h2>
+      ${features}
+    </section>
+  </div>
+</main>`;
+
+  return pageShell({
+    title: `${product.title} | PitBlend Gear Picks`,
+    description: `${product.title}. ${sentence(product.description)} Browse PitBlend BBQ, grilling, smoker, and seasoning gear picks.`,
+    canonicalPath: `/products/${product.slug}/`,
+    body
+  });
+}
+
+function productIndexPage(products) {
+  const links = products
+    .sort((a, b) => a.title.localeCompare(b.title))
+    .map(product => `<a class="ingredient-link" href="/products/${product.slug}/"><strong>${escapeHtml(product.title)}</strong><span>${escapeHtml(product.category)} - ${escapeHtml(product.description)}</span></a>`)
+    .join("\n");
+  const body = `<main class="wrap">
+  <p class="eyebrow">Gear Picks</p>
+  <h1>BBQ and Grilling Product Picks</h1>
+  <p class="lead">Browse PitBlend product picks for grills, smokers, pellets, brushes, jars, and outdoor cooking gear. Product pages are generated from products.json.</p>
+  <section class="list">${links}</section>
+</main>`;
+
+  return pageShell({
+    title: "BBQ and Grilling Product Picks | PitBlend",
+    description: "Browse PitBlend product picks for grills, smokers, pellets, brushes, jars, and outdoor cooking gear with affiliate product links.",
+    canonicalPath: "/products/",
+    body
+  });
+}
+
+function writeSitemap(slugMap, articles, products) {
   const ingredientUrls = Object.values(slugMap)
     .sort()
     .map(slug => `  <url>
@@ -267,6 +357,20 @@ function writeSitemap(slugMap, articles) {
   </url>`)
     .join("\n");
 
+  const productIndexUrl = products.length ? `  <url>
+    <loc>${SITE_URL}/products/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>` : "";
+
+  const productUrls = products
+    .map(product => `  <url>
+    <loc>${SITE_URL}/products/${product.slug}/</loc>
+    <changefreq>${product.changefreq}</changefreq>
+    <priority>${product.priority}</priority>
+  </url>`)
+    .join("\n");
+
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
@@ -281,6 +385,8 @@ function writeSitemap(slugMap, articles) {
   </url>
 ${ingredientUrls}
 ${articleUrls ? "\n" + articleUrls : ""}
+${productIndexUrl ? "\n" + productIndexUrl : ""}
+${productUrls ? "\n" + productUrls : ""}
 </urlset>
 `;
   fs.writeFileSync(SITEMAP_PATH, sitemap, "utf8");
@@ -290,6 +396,7 @@ function main() {
   const ingredients = readJson(INGREDIENTS_PATH);
   const recipes = loadRecipes();
   const articles = loadArticles();
+  const products = loadProducts();
   const slugMap = buildSlugMap(ingredients);
 
   fs.mkdirSync(INGREDIENTS_DIR, { recursive: true });
@@ -303,8 +410,18 @@ function main() {
     fs.writeFileSync(path.join(dir, "index.html"), ingredientPage(key, ingredient, slug, recipesUsingIngredient), "utf8");
   });
 
-  writeSitemap(slugMap, articles);
-  console.log(`Generated ${Object.keys(ingredients).length} ingredient pages and sitemap.xml`);
+  if (products.length) {
+    fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
+    fs.writeFileSync(path.join(PRODUCTS_DIR, "index.html"), productIndexPage(products), "utf8");
+    products.forEach(product => {
+      const dir = path.join(PRODUCTS_DIR, product.slug);
+      fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(path.join(dir, "index.html"), productPage(product), "utf8");
+    });
+  }
+
+  writeSitemap(slugMap, articles, products);
+  console.log(`Generated ${Object.keys(ingredients).length} ingredient pages, ${products.length} product pages and sitemap.xml`);
 }
 
 main();
