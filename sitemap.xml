@@ -269,7 +269,17 @@
   </url>
 
   <url>
+    <loc>https://pitblend.com/products/amazon-bbq-gear-pick-b0ddpp6ch2/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://pitblend.com/products/pit-boss-150-wood-pellet-grill-smoker/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pitblend.com/products/spice-jars-for-seasoning-blends/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>

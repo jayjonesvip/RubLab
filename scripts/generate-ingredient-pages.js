@@ -29,6 +29,18 @@ function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
+function normalizeNewlines(value) {
+  return String(value).replace(/\r\n/g, "\n");
+}
+
+function writeFileIfChanged(filePath, content) {
+  if (fs.existsSync(filePath)) {
+    const current = fs.readFileSync(filePath, "utf8");
+    if (normalizeNewlines(current) === normalizeNewlines(content)) return;
+  }
+  fs.writeFileSync(filePath, content, "utf8");
+}
+
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({
     "&": "&amp;",
@@ -195,9 +207,6 @@ h1{font-family:Georgia,serif;font-size:clamp(2.1rem,5vw,4rem);line-height:.98;ma
 .ingredient-link{display:block;text-decoration:none;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
 .ingredient-link strong{display:block;margin-bottom:3px}
 .ingredient-link span{color:var(--muted);font-size:.86rem}
-.product-media{min-height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.product-media img{display:block;max-width:100%;height:auto;border-radius:8px}
-.product-placeholder{width:100%;min-height:220px;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:800;background:var(--panel2)}
 </style>
 </head>
 <body>
@@ -281,8 +290,8 @@ function ingredientIndexPage(ingredients, slugMap) {
 
 function productPage(product) {
   const image = product.imageUrl
-    ? `<img src="${escapeAttr(product.imageUrl)}" alt="${escapeAttr(product.imageAlt || product.title)}">`
-    : `<div class="product-placeholder">Image pending</div>`;
+    ? `<img src="${escapeAttr(product.imageUrl)}" alt="${escapeAttr(product.imageAlt || product.title)}" style="display:block;max-width:100%;height:auto;border-radius:8px">`
+    : `<div style="width:100%;min-height:220px;border:1px dashed var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--faint);text-transform:uppercase;letter-spacing:.08em;font-size:.78rem;font-weight:800;background:var(--panel2)">Image pending</div>`;
   const features = Array.isArray(product.features) && product.features.length
     ? `<ul>${product.features.map(feature => `<li>${escapeHtml(feature)}</li>`).join("\n")}</ul>`
     : `<p class="muted">More product notes can be added in products.json.</p>`;
@@ -291,7 +300,7 @@ function productPage(product) {
   <h1>${escapeHtml(product.title)}</h1>
   <p class="lead">${escapeHtml(sentence(product.description))}</p>
   <div class="grid">
-    <section class="card product-media">
+    <section class="card" style="min-height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden">
       ${image}
     </section>
     <aside class="card">
@@ -389,7 +398,7 @@ ${productIndexUrl ? "\n" + productIndexUrl : ""}
 ${productUrls ? "\n" + productUrls : ""}
 </urlset>
 `;
-  fs.writeFileSync(SITEMAP_PATH, sitemap, "utf8");
+  writeFileIfChanged(SITEMAP_PATH, sitemap);
 }
 
 function main() {
@@ -400,23 +409,23 @@ function main() {
   const slugMap = buildSlugMap(ingredients);
 
   fs.mkdirSync(INGREDIENTS_DIR, { recursive: true });
-  fs.writeFileSync(path.join(INGREDIENTS_DIR, "index.html"), ingredientIndexPage(ingredients, slugMap), "utf8");
+  writeFileIfChanged(path.join(INGREDIENTS_DIR, "index.html"), ingredientIndexPage(ingredients, slugMap));
 
   Object.entries(ingredients).forEach(([key, ingredient]) => {
     const slug = slugMap[key];
     const dir = path.join(INGREDIENTS_DIR, slug);
     const recipesUsingIngredient = recipes.filter(recipe => Object.prototype.hasOwnProperty.call(recipe.items, key));
     fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(path.join(dir, "index.html"), ingredientPage(key, ingredient, slug, recipesUsingIngredient), "utf8");
+    writeFileIfChanged(path.join(dir, "index.html"), ingredientPage(key, ingredient, slug, recipesUsingIngredient));
   });
 
   if (products.length) {
     fs.mkdirSync(PRODUCTS_DIR, { recursive: true });
-    fs.writeFileSync(path.join(PRODUCTS_DIR, "index.html"), productIndexPage(products), "utf8");
+    writeFileIfChanged(path.join(PRODUCTS_DIR, "index.html"), productIndexPage(products));
     products.forEach(product => {
       const dir = path.join(PRODUCTS_DIR, product.slug);
       fs.mkdirSync(dir, { recursive: true });
-      fs.writeFileSync(path.join(dir, "index.html"), productPage(product), "utf8");
+      writeFileIfChanged(path.join(dir, "index.html"), productPage(product));
     });
   }
 
