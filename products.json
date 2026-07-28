@@ -46,5 +46,29 @@
     ],
     "changefreq": "monthly",
     "priority": "0.5"
+  },
+  {
+    "id": "spice-jars-for-seasoning-blends",
+    "slug": "spice-jars-for-seasoning-blends",
+    "title": "Spice Jars for Seasoning Blends",
+    "category": "Storage",
+    "categories": [
+      "Storage",
+      "Spice Jars",
+      "Seasoning Prep"
+    ],
+    "productType": "Spice Jars",
+    "description": "Spice jars for bottling homemade rubs, seasoning blends, and test batches from the PitBlend batch calculator.",
+    "affiliateUrl": "https://amzn.to/4f6kIKc",
+    "imageUrl": null,
+    "imageAlt": null,
+    "brand": null,
+    "features": [
+      "Useful for bottling custom BBQ rubs and spice blends.",
+      "Good fit for batch calculator recipes sized for jars.",
+      "Keeps finished blends easier to label, store, and share."
+    ],
+    "changefreq": "monthly",
+    "priority": "0.5"
   }
 ]
