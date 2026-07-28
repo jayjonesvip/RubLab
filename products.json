@@ -70,5 +70,30 @@
     ],
     "changefreq": "monthly",
     "priority": "0.5"
+  },
+  {
+    "id": "weber-spirit-e-425-liquid-propane-gas-grill",
+    "slug": "weber-spirit-e-425-liquid-propane-gas-grill",
+    "title": "Weber Spirit E-425 Liquid Propane Gas Grill",
+    "category": "Grills",
+    "categories": [
+      "Grills",
+      "Gas Grills",
+      "Weber Grills"
+    ],
+    "productType": "Liquid Propane Gas Grill",
+    "description": "Four-burner Weber Spirit gas grill with sear zone for backyard grilling, weeknight cooks, and BBQ recipes that need steady direct heat.",
+    "affiliateUrl": "https://amzn.to/4bLylNW",
+    "imageUrl": "/assets/products/weber-spirit-e-425-gas-grill.jpg",
+    "imageAlt": "Weber Spirit E-425 liquid propane gas grill",
+    "brand": "Weber",
+    "asin": "B0DPH7CNRG",
+    "features": [
+      "Four-burner gas grill format for regular backyard cooking.",
+      "Sear zone setup is useful for steaks, burgers, chicken, pork chops, and vegetables.",
+      "Good grill pick for testing PitBlend rubs on quick weeknight cooks."
+    ],
+    "changefreq": "monthly",
+    "priority": "0.5"
   }
 ]
