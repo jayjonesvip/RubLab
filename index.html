@@ -664,6 +664,7 @@ footer.site-footer{text-align:center;color:var(--text-faint);font-size:.78rem;pa
       <a class="article-guide" href="/articles/how-do-you-know-which-seasonings-go-together/">Seasoning Pairings</a>
       <a class="article-guide" href="/articles/how-long-should-dry-rub-sit-on-brisket-before-smoking/">Brisket Rub Timing</a>
       <a class="article-guide" href="/articles/should-you-use-a-binder-for-dry-rub/">Rub Binders</a>
+      <a class="article-guide" href="/articles/celtic-sea-salt-in-water-myth-or-real/">Salt Water Myth</a>
       <a class="article-guide" href="/products/">Gear Picks</a>
     </div>
   </div>
@@ -850,6 +851,9 @@ const SEED_INGREDIENTS = {
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
   seaSalt:        { name:"Sea Salt",         category:"Base / Salt",   desc:"Clean mineral salinity with a slightly firmer bite than kosher salt.", density:18,
     flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:0,bark:2,color:0} },
+  celticSeaSalt:  { name:"Celtic Sea Salt",  category:"Base / Salt",   desc:"Coarse mineral sea salt with clean salinity and a subtle briny finish.", density:18,
+    affiliateLink:"https://amzn.to/4glgGPP", affiliateAddToCartLink:null,
+    flavor:{salt:10,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:3,herb:0,earthy:1,bark:2,color:0} },
   celerySalt:     { name:"Celery Salt",      category:"Base / Salt",   desc:"Salty celery backbone with a classic seafood-boil aroma.", density:14,
     flavor:{salt:9,sweet:0,heat:0,pepper:0,garlic:0,smoke:0,savory:6,herb:2,earthy:2,bark:1,color:0} },
   blackPepper:    { name:"Black Pepper",     category:"Pepper",        desc:"Sharp, woody bite with mild background heat.", density:6,
@@ -1057,6 +1061,7 @@ const BATCH_SIZES = [
 const NUTRITION_FACTORS = {
   kosherSalt: {sodiumMgPerG:387},
   seaSalt: {sodiumMgPerG:389},
+  celticSeaSalt: {sodiumMgPerG:389},
   celerySalt: {sodiumMgPerG:320},
   msg: {sodiumMgPerG:123},
   brownSugar: {calPerG:4, carbPerG:1, sugarPerG:1},
