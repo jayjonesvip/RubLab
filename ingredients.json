@@ -41,6 +41,27 @@
       "color": 0
     }
   },
+  "celticSeaSalt": {
+    "name": "Celtic Sea Salt",
+    "category": "Base / Salt",
+    "desc": "Coarse mineral sea salt with clean salinity and a subtle briny finish.",
+    "density": 18,
+    "affiliateLink": "https://amzn.to/4glgGPP",
+    "affiliateAddToCartLink": null,
+    "flavor": {
+      "salt": 10,
+      "sweet": 0,
+      "heat": 0,
+      "pepper": 0,
+      "garlic": 0,
+      "smoke": 0,
+      "savory": 3,
+      "herb": 0,
+      "earthy": 1,
+      "bark": 2,
+      "color": 0
+    }
+  },
   "celerySalt": {
     "name": "Celery Salt",
     "category": "Base / Salt",
